@@ -14,9 +14,10 @@ namespace DaburuTools
 		public class AnimateHandler : MonoBehaviour
 		{
 			// Static Fields
-			private static Animate[] sArrExpandContract;     // sArrExpandContract: All Animate.cs that is in this is going to run an update loop
-			private static Animate[] sArrIdle;               // sArrIdle: All Animate.cs that is in this is going to run in an update loop
-			private static Animate[] sArrIdleRotation;       // sArrIdleRotation: All Animate.cs that is in this is going to run in an update loop
+			private static AnimateHandler sInstance = null;	// sInstance: Singleton instance to ensure that there is only one AnimateHandler per scene
+			private static Animate[] sArrExpandContract;	// sArrExpandContract: All Animate.cs that is in this is going to run an update loop
+			private static Animate[] sArrIdle;				// sArrIdle: All Animate.cs that is in this is going to run in an update loop
+			private static Animate[] sArrIdleRotation;		// sArrIdleRotation: All Animate.cs that is in this is going to run in an update loop
 
 			// Ediatable Fields
 			[Header("Cache Size")]
@@ -31,14 +32,32 @@ namespace DaburuTools
 			// Awake(): Use this for initialization
 			void Awake() 
 			{
-				// Definition of expand-contract array
+				if (sInstance == null)
+				{
+					sInstance = this;
+					SetUp();
+				}
+				else
+				{
+					Debug.LogWarning("AnimateHandler.Awake(): More than one instance of DaburuTools_AnimateHandler prefab detected in scene hierarchy, consider removing duplicate prefab instances?");
+
+					// This will not trigger OnDestroy to set sIntance back to null,
+					// as it is still in Awake calls. OnDestroy is called only after
+					// an object has been enabled once (which happens after all Awake()
+					Destroy(this.gameObject);
+				}
+			}
+
+			// SetUp(): Setsup the AnimateHandler instance for use.
+			private void SetUp()
+			{
 				sArrExpandContract = new Animate[nExpandContractCache];
 				sArrIdle = new Animate[nIdleCache];
 				sArrIdleRotation = new Animate[nIdleRotationCache];
 			}
 
 			// Update(): is called once per frame
-			void Update () 
+			void Update() 
 			{
 				// for: Expand-Contract Checking Sequence
 				for (int i = 0; i < sArrExpandContract.Length; i++)
@@ -73,6 +92,12 @@ namespace DaburuTools
 							sArrIdleRotation[i] = null;
 					}
 				}
+			}
+
+			// OnDestroy(): is called when the gameobject is destroyed
+			void OnDestroy()
+			{
+				sInstance = null;
 			}
 
 

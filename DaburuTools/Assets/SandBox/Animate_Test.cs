@@ -13,7 +13,7 @@ public class Animate_Test : MonoBehaviour {
 		
 	void Start()
 	{
-//		mAnimate.ExpandContract(2.0f, 10, 2.0f, false, true, 0.0f);
+		mAnimate.ExpandContract(2.0f, 10, 2.0f, false, true, 0.0f);
 		mAnimate.Idle(2.5f, 5.0f);
 	}
 
