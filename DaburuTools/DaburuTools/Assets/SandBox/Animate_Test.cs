@@ -13,12 +13,11 @@ public class Animate_Test : MonoBehaviour {
 		
 	void Start()
 	{
-		mAnimate.ExpandContract(2.0f, 10, 2.0f);
+		mAnimate.ExpandContract(2.0f, 10, 2.0f, false, true, 0.0f);
 	}
 
 	void Update()
 	{
-		if (mAnimate.IsExpandContract == false)
-			mAnimate.ExpandContract(2.0f, 10, 2.0f);
+		
 	}
 }

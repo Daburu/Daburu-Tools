@@ -20,6 +20,7 @@ namespace DaburuTools
 			private float fExpandContract_Size = 0f;                // fExpandContract_Size: The biggest size the object can get when it expands
 			private Vector3 vExpandContract_InitialScale;           // vExpandContract_InitialScale: The initial scale of object
 			private bool bExpandContract_IsOverridable = true;      // bExpandContract_IsOverridable: Determies if the current animation can be overriden
+			private bool bExpandContract_IsLoopForever = false;		// bExpandContract_IsLoopForever: Determines if the  current animation is going to loop forever.
 
 			private float fIdle_Speed = 0f;                         // fIdle_Speed: The speed at which the object is idling
 			private float fIdle_Radius = 0f;                        // fIdle_Radius: The furthest distance at which the object can idle
@@ -76,7 +77,7 @@ namespace DaburuTools
 			/// <returns> Returns if the animation is executed </returns>
 			public bool ExpandContract(float _fTimer, int _nFrequency, float _fSize)
 			{
-				return ExpandContract(_fTimer, _nFrequency, _fSize, true, 0.0f);
+				return ExpandContract(_fTimer, _nFrequency, _fSize, true, false, 0.0f);
 			}
 
 			/// <summary>
@@ -86,9 +87,10 @@ namespace DaburuTools
 			/// <param name="_nFrequency"> The number of expansion and contraction it animates </param>
 			/// <param name="_fSize"> The maximum size of the expansion, relative to the initial scale of the object when this method is called </param>
 			/// <param name="_bIsOverridable"> Determines if this animation can be overriden by another function call </param>
+			/// <param name="_bIsLoopForever"> Determines if this animation is going to loop forever </param>
 			/// <param name="_fStartTime"> Use this function to start at a specific part of the animation. (0f = Start, 1f = End) </param>
 			/// <returns> Returns if the animation is executed </returns>
-			public bool ExpandContract(float _fTimer, int _nFrequency, float _fSize, bool _bIsOverridable, float _fStartTime)
+			public bool ExpandContract(float _fTimer, int _nFrequency, float _fSize, bool _bIsOverridable, bool _bIsLoopForever, float _fStartTime)
 			{
 				// if: The animation is overridable
 				if (bExpandContract_IsOverridable)
@@ -110,7 +112,7 @@ namespace DaburuTools
 					fExpandContract_Size = _fSize - 1f;
 					fExpandContract_CurrentTimer = _fStartTime * fExpandContract_Timer;
 					bExpandContract_IsOverridable = _bIsOverridable;
-
+					bExpandContract_IsLoopForever = _bIsLoopForever;
 
 					bIsExpandContract = true;
 					return true;
@@ -147,6 +149,7 @@ namespace DaburuTools
 				{
 					fExpandContract_CurrentTimer = fExpandContract_Timer;
 				}
+				bExpandContract_IsLoopForever = false;
 
 				return true;
 			}
@@ -157,6 +160,8 @@ namespace DaburuTools
 			{
 				// Update current time
 				fExpandContract_CurrentTimer += _fDeltaTime;
+				if (bExpandContract_IsLoopForever)
+					fExpandContract_CurrentTimer -= fExpandContract_Timer;
 
 				if (fExpandContract_CurrentTimer < fExpandContract_Timer)
 				{
@@ -178,12 +183,15 @@ namespace DaburuTools
 					fExpandContract_Size = 0f;
 					fExpandContract_CurrentTimer = 0f;
 					bExpandContract_IsOverridable = true;
+					bExpandContract_IsLoopForever = false;
 
 					bIsExpandContract = false;
 					return false;
 				}
 			}
 			#endregion
+
+
 
 			#region Idle Animation
 			/// <summary>
@@ -317,6 +325,8 @@ namespace DaburuTools
 				return true;
 			}
 			#endregion
+
+
 
 			#region Idle-Rotation Animation
 			/// <summary>

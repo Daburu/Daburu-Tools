@@ -14,9 +14,9 @@ namespace DaburuTools
 		public class AnimateHandler : MonoBehaviour
 		{
 			// Static Fields
-			private static Animate[] s_arrayExpandContract;     // s_arrayExpandContract: All Animate.cs that is in this is going to run an update loop
-			private static Animate[] s_arrayIdle;               // s_arrayIdle: All Animate.cs that is in this is going to run in an update loop
-			private static Animate[] s_arrayIdleRotation;       // s_arrayIdleRotation: All Animate.cs that is in this is going to run in an update loop
+			private static Animate[] sArrExpandContract;     // sArrExpandContract: All Animate.cs that is in this is going to run an update loop
+			private static Animate[] sArrIdle;               // sArrIdle: All Animate.cs that is in this is going to run in an update loop
+			private static Animate[] sArrIdleRotation;       // sArrIdleRotation: All Animate.cs that is in this is going to run in an update loop
 
 			// Ediatable Fields
 			[Header("Cache Size")]
@@ -32,92 +32,94 @@ namespace DaburuTools
 			void Awake() 
 			{
 				// Definition of expand-contract array
-				s_arrayExpandContract = new Animate[nExpandContractCache];
-				s_arrayIdle = new Animate[nIdleCache];
-				s_arrayIdleRotation = new Animate[nIdleRotationCache];
+				sArrExpandContract = new Animate[nExpandContractCache];
+				sArrIdle = new Animate[nIdleCache];
+				sArrIdleRotation = new Animate[nIdleRotationCache];
 			}
 
 			// Update(): is called once per frame
 			void Update () 
 			{
 				// for: Expand-Contract Checking Sequence
-				for (int i = 0; i < s_arrayExpandContract.Length; i++)
+				for (int i = 0; i < sArrExpandContract.Length; i++)
 				{
-					if (s_arrayExpandContract[i] != null)
+					if (sArrExpandContract[i] != null)
 					{
 						// if: The current Animate.cs no longer needs to run
-						if (!s_arrayExpandContract[i].__upEC(Time.deltaTime))
-							s_arrayExpandContract[i] = null;
+						if (!sArrExpandContract[i].__upEC(Time.deltaTime))
+							sArrExpandContract[i] = null;
 
 					}
 				}
 
 				// for: Idling Checking Sequence
-				for (int i = 0; i < s_arrayIdle.Length; i++)
+				for (int i = 0; i < sArrIdle.Length; i++)
 				{
-					if (s_arrayIdle[i] != null)
+					if (sArrIdle[i] != null)
 					{
 						// if: The current Animate.cs no longer needs to run
-						if (!s_arrayIdle[i].__upI(Time.deltaTime))
-							s_arrayIdle[i] = null;
+						if (!sArrIdle[i].__upI(Time.deltaTime))
+							sArrIdle[i] = null;
 					}
 				}
 
 				// for: Idling Rotation Checking Sequence
-				for (int i = 0; i < s_arrayIdleRotation.Length; i++)
+				for (int i = 0; i < sArrIdleRotation.Length; i++)
 				{
-					if (s_arrayIdleRotation[i] != null)
+					if (sArrIdleRotation[i] != null)
 					{
 						// if: The current Animate.cs no longer needs to run
-						if (!s_arrayIdleRotation[i].__upIR(Time.deltaTime))
-							s_arrayIdleRotation[i] = null;
+						if (!sArrIdleRotation[i].__upIR(Time.deltaTime))
+							sArrIdleRotation[i] = null;
 					}
 				}
 			}
+
+
 
 			// Public Static Functions
 			// ActivateExpandContract(): Pushes an Animate.cs into update sequence
 			public static bool ActivateExpandContract(Animate _mAnimate)
 			{
-				for (int i = 0; i < s_arrayExpandContract.Length; i++)
+				for (int i = 0; i < sArrExpandContract.Length; i++)
 				{
-					if (s_arrayExpandContract[i] == null)
+					if (sArrExpandContract[i] == null)
 					{
-						s_arrayExpandContract[i] = _mAnimate;
+						sArrExpandContract[i] = _mAnimate;
 						return true;
 					}
 				}
-				Debug.LogWarning("AnimateHandler.ActivateExpandContract(): Cache have reached its maximum limit, consider creating a bigger cache?");
+				Debug.LogWarning("AnimateHandler.ActivateExpandContract(): Cache has reached its maximum limit, consider creating a bigger cache?");
 				return false;
 			}
 
 			// ActivateIdle(): Pushes an Animate.cs into update sequence
 			public static bool ActivateIdle(Animate _mAnimate)
 			{
-				for (int i = 0; i < s_arrayIdle.Length; i++)
+				for (int i = 0; i < sArrIdle.Length; i++)
 				{
-					if (s_arrayIdle[i] == null)
+					if (sArrIdle[i] == null)
 					{
-						s_arrayIdle[i] = _mAnimate;
+						sArrIdle[i] = _mAnimate;
 						return true;
 					}
 				}
-				Debug.LogWarning("AnimateHandler.ActivateIdle(): Cache have reached its maximum limit, consider creating a bigger cache?");
+				Debug.LogWarning("AnimateHandler.ActivateIdle(): Cache has reached its maximum limit, consider creating a bigger cache?");
 				return false;
 			}
 
 			// ActivateIdleRotation(): Pushes an Animate.cs into update sequence
 			public static bool ActivateIdleRotation(Animate _mAnimate)
 			{
-				for (int i = 0; i < s_arrayIdleRotation.Length; i++)
+				for (int i = 0; i < sArrIdleRotation.Length; i++)
 				{
-					if (s_arrayIdleRotation[i] == null)
+					if (sArrIdleRotation[i] == null)
 					{
-						s_arrayIdleRotation[i] = _mAnimate;
+						sArrIdleRotation[i] = _mAnimate;
 						return true;
 					}
 				}
-				Debug.LogWarning("AnimateHandler.ActivateIdleRotation(): Cache have reached its maximum limit, consider creating a bigger cache?");
+				Debug.LogWarning("AnimateHandler.ActivateIdleRotation(): Cache has reached its maximum limit, consider creating a bigger cache?");
 				return false;
 			}
 		}
