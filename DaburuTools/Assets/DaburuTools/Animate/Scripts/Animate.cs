@@ -55,6 +55,11 @@ namespace DaburuTools
 			private bool bIsIdling = false;                     // bIsIdling: Returns if the object is performing an idling animation;
 			private bool bIsIdlingRotation = false;             // bIsIdlingRotation: Returns if the object is performing an idling rotation animation
 
+			// Getter-Setter Functions
+			public bool IsExpandContract { get { return bIsExpandContract; } }
+			public bool IsIdling { get { return bIsIdling; } }
+			public Transform AnimatedTransform { get { return mTransform; } }
+
 			// Constructor
 			/// <summary>
 			/// Enabling of animation effects
@@ -66,7 +71,8 @@ namespace DaburuTools
 				vExpandContract_InitialScale = mTransform.localScale;
 			}
 
-			// Public Functions
+
+
 			#region Expand-Contract Animation
 			/// <summary>
 			/// Performs the animation of the object expanding and contracting
@@ -392,22 +398,10 @@ namespace DaburuTools
 				// if: The current time have exceed the time taken for that turn
 				if (fIdleRotation_CurrentTime >= fIdleRotation_CurrentTotalTime)
 				{
-					// if: THe current animation turn is running for 'StopIdleRotation' instead of 'IdleRotation'
+					// if: The current animation turn is running for 'StopIdleRotation' instead of 'IdleRotation'
 					if (bIdleRotation_IsComingToAHalt)
 					{
-						// This where the stopping of the animation happens
-						fIdleRotation_MinRotation = 0f;
-						fIdleRotation_RotationRange = 0f;
-						fIdleRotation_MinTime = 0f;
-						fIdleRotation_TimeRange = 0f;
-						bIdleRotation_IsOverridable = true;
-						fIdleRotation_CurrentTime = 0f;
-						bIdleRotation_SmoothTransition = false;
-						bIdle_IsComingToAHalt = false;
-						bIsIdlingRotation = false;
-
-						Debug.Log(mTransform.rotation.eulerAngles);
-						mTransform.rotation = qIdleRotation_InitialQuaternion;
+						ResetIdleRotation();
 						return false;
 					}
 					else
@@ -463,7 +457,6 @@ namespace DaburuTools
 					fIdleRotation_CurrentTime = 0f;
 					bIdleRotation_IsComingToAHalt = true;
 					bIdleRotation_SmoothTransition = false;
-					//Debug.Log("mTransform.rotation.eulerAngles: " + mTransform.rotation.eulerAngles + ", fIdleRotation_CurrentTotalRotation: " + fIdleRotation_CurrentTotalRotation);
 					return true;
 				}
 				else 
@@ -472,12 +465,23 @@ namespace DaburuTools
 					return true;
 				}
 			}
-			#endregion
 
-			// Getter-Setter Functions
-			public bool IsExpandContract { get { return bIsExpandContract; } }
-			public bool IsIdling { get { return bIsIdling; } }
-			public Transform AnimatedTransform { get { return mTransform; } }
+			// ResetIdleRotation(): Resets related variables to before animation was called
+			private void ResetIdleRotation()
+			{
+				fIdleRotation_MinRotation = 0f;
+				fIdleRotation_RotationRange = 0f;
+				fIdleRotation_MinTime = 0f;
+				fIdleRotation_TimeRange = 0f;
+				bIdleRotation_IsOverridable = true;
+				fIdleRotation_CurrentTime = 0f;
+				bIdleRotation_SmoothTransition = false;
+				bIdle_IsComingToAHalt = false;
+				bIsIdlingRotation = false;
+
+				mTransform.rotation = qIdleRotation_InitialQuaternion;
+			}
+			#endregion
 		}
 	}
 }
