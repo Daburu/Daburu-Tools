@@ -58,6 +58,7 @@ namespace DaburuTools
 				if (mfElaspedDuration > mfActionDuration)
 				{
 					mTransform.localScale = mvecDesiredScale;	// Force it to be the exact scale that it wants.
+					OnActionEnd();
 					mParent.Remove(this);
 				}
 			}

@@ -17,6 +17,9 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
+				if (mParent != null && mActionLinkedList.Count == 0)
+					mParent.Remove(this);
+
 				if (mActionLinkedList.Count > 0)
 					mActionLinkedList.First.Value.RunAction();
 			}

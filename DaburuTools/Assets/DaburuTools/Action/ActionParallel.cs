@@ -17,6 +17,9 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
+				if (mParent != null && mActionLinkedList.Count == 0)
+					mParent.Remove(this);
+
 				for (LinkedListNode<Action> node = mActionLinkedList.First; node != null; node = node.Next)
 				{
 					node.Value.RunAction();
