@@ -1,27 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
-using DaburuTools.Animate;
+using UnityEngine.SceneManagement;
+using DaburuTools.Action;
 
 public class Animate_Test : MonoBehaviour {
 
-	Animate mAnimate;
+	ActionSequence mActionSequence;
 
 	void Awake()
 	{
-		mAnimate = new Animate(this.transform);
-	}
-		
-	void Start()
-	{
-		mAnimate.ExpandContract(2.0f, 10, 2.0f, false, true, 0.0f);
-		mAnimate.Idle(2.5f, 5.0f);
+		mActionSequence = new ActionSequence();
+		mActionSequence.Add(new ScaleAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
+		mActionSequence.Add(new ScaleAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 5.0f));
+		mActionSequence.Add(new ScaleAction(this.transform, new Vector3(1.5f, 0.5f, 2.0f), 1.0f));
 	}
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			mAnimate.StopIdle(true);
-		}
+		mActionSequence.RunAction();
 	}
 }
