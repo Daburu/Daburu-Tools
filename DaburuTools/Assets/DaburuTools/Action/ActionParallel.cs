@@ -13,6 +13,15 @@ namespace DaburuTools
 				mActionLinkedList = new LinkedList<Action>();
 			}
 
+			public ActionParallel(Action[] _Actions)
+			{
+				for (int i = 0; i < _Actions.Length; i++)
+				{
+					if (_Actions[i] == null) continue;
+					mActionLinkedList.AddFirst(_Actions[i]);
+				}
+			}
+
 			public override void RunAction()
 			{
 				base.RunAction();

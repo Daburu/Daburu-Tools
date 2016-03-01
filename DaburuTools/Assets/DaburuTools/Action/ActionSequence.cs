@@ -13,6 +13,15 @@ namespace DaburuTools
 				mActionLinkedList = new LinkedList<Action>();
 			}
 
+			public ActionSequence(Action[] _Actions)
+			{
+				for (int i = 0; i < _Actions.Length; i++)
+				{
+					if (_Actions[i] == null) continue;
+					mActionLinkedList.AddLast(_Actions[i]);
+				}
+			}
+
 			public override void RunAction()
 			{
 				base.RunAction();
