@@ -5,7 +5,7 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class ScaleAction : Action
+		public class ScaleToAction : Action
 		{
 			Transform mTransform;
 			Vector3 mvecInitialScale;
@@ -13,26 +13,26 @@ namespace DaburuTools
 			float mfActionDuration;
 			float mfElaspedDuration;
 
-			public ScaleAction(Transform _transform)
+			public ScaleToAction(Transform _transform)
 			{
 				mTransform = _transform;
-				SetupScaleAction();
+				SetupScaleToAction();
 			}
 
-			public ScaleAction(Transform _transform, Vector3 _desiredScale, float _actionDuration)
+			public ScaleToAction(Transform _transform, Vector3 _desiredScale, float _actionDuration)
 			{
 				mTransform = _transform;
-				SetupScaleAction();
-				SetScaleAction(_desiredScale, _actionDuration);
+				SetupScaleToAction();
+				SetScaleToAction(_desiredScale, _actionDuration);
 			}
 
-			public void SetScaleAction(Vector3 _desiredScale, float _actionDuration)
+			public void SetScaleToAction(Vector3 _desiredScale, float _actionDuration)
 			{
 				mvecDesiredScale = _desiredScale;
 				mfActionDuration = _actionDuration;
 			}
 
-			private void SetupScaleAction()
+			private void SetupScaleToAction()
 			{
 				mvecInitialScale = mTransform.localScale;
 				mfElaspedDuration = 0f;
@@ -42,7 +42,7 @@ namespace DaburuTools
 			{
 				base.OnActionBegin();
 
-				SetupScaleAction(); 
+				SetupScaleToAction(); 
 			}
 
 			public override void RunAction()

@@ -10,17 +10,17 @@ public class Animate_Test : MonoBehaviour {
 	void Awake()
 	{
 //		mActionSequence = new ActionSequence();
-//		mActionSequence.Add(new ScaleAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
-//		mActionSequence.Add(new ScaleAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 5.0f));
-//		mActionSequence.Add(new ScaleAction(this.transform, new Vector3(1.5f, 0.5f, 2.0f), 1.0f));
+//		mActionSequence.Add(new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
+//		mActionSequence.Add(new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 5.0f));
+//		mActionSequence.Add(new ScaleToAction(this.transform, new Vector3(1.5f, 0.5f, 2.0f), 1.0f));
 	}
 
 	void Start()
 	{
-		ActionHandler.AddAction(new ScaleAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
+		ActionHandler.AddAction(new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
 
-		ScaleAction scale_1 = new ScaleAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f);
-		ScaleAction scale_2 = new ScaleAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 1.0f);
+		ScaleToAction scale_1 = new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f);
+		ScaleToAction scale_2 = new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 1.0f);
 
 		ActionSequence actionSequence = new ActionSequence();
 		actionSequence.Add(scale_1);
