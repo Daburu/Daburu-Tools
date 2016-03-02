@@ -34,7 +34,7 @@ namespace DaburuTools
 
 			private void SetupMoveToAction()
 			{
-				mvecInitialPos = mTransform.localPosition;
+				mvecInitialPos = mTransform.position;
 				mfElaspedDuration = 0f;
 			}
 
