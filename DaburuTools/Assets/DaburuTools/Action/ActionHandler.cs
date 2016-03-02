@@ -39,7 +39,7 @@ namespace DaburuTools
 			}
 
 			#region Client Functions
-			public static void AddAction(Action _Action)
+			public static void RunAction(Action _Action)
 			{
 				sInstance.mMasterActionParallel.Add(_Action);
 			}
