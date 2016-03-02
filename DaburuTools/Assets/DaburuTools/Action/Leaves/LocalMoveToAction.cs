@@ -57,7 +57,7 @@ namespace DaburuTools
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact scale that it wants.
+					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact local position that it wants.
 					OnActionEnd();
 					mParent.Remove(this);
 				}
