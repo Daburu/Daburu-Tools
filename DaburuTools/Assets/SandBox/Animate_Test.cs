@@ -17,6 +17,7 @@ public class Animate_Test : MonoBehaviour {
 
 	void Start()
 	{
+		/*	ActionSequence and ActionParallel demonstration	*/
 //		ScaleToAction[] scaleActions = {
 //			new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f),
 //			new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 1.0f)
@@ -34,8 +35,11 @@ public class Animate_Test : MonoBehaviour {
 //
 //		ActionHandler.RunAction(actionParallel);
 
+		/*	RotateToAction Demonstration	*/
 		RotateToAction rotateToAction = new RotateToAction(this.transform, new Vector3(45.0f, 45.0f, 45.0f), 10.0f);
 		ActionHandler.RunAction(rotateToAction);
+
+
 	}
 
 	void Update()
