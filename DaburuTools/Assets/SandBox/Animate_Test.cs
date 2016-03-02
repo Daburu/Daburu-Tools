@@ -17,16 +17,22 @@ public class Animate_Test : MonoBehaviour {
 
 	void Start()
 	{
-		ActionHandler.AddAction(new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
+		ScaleToAction[] scaleActions = {
+			new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f),
+			new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 1.0f)
+		};
+		MoveToAction[] moveActions = {
+			new MoveToAction(this.transform, new Vector3(5.0f, 5.0f, 5.0f), 2.0f),
+			new MoveToAction(this.transform, new Vector3(-5.0f, -5.0f, -5.0f), 10.0f)
+		};
 
-		ScaleToAction scale_1 = new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f);
-		ScaleToAction scale_2 = new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 1.0f);
+		ActionSequence scaleActionSequence = new ActionSequence(scaleActions);
+		ActionSequence moveActionSequence = new ActionSequence(moveActions);
+		ActionParallel actionParallel = new ActionParallel();
+		actionParallel.Add(scaleActionSequence);
+		actionParallel.Add(moveActionSequence);
 
-		ActionSequence actionSequence = new ActionSequence();
-		actionSequence.Add(scale_1);
-		actionSequence.Add(scale_2);
-
-		ActionHandler.AddAction(actionSequence);
+		ActionHandler.RunAction(actionParallel);
 	}
 
 	void Update()
