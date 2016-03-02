@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 using DaburuTools.Action;
 
 public class Animate_Test : MonoBehaviour {
