@@ -43,22 +43,32 @@
                 return m_ParametricGraph(_x);
             }
 
+            /// <summary>
+            /// Read the gradient of the graph at x
+            /// </summary>
+            /// <param name="_x"> The x value of the graph </param>
+            /// <returns> Returns the gradient at x on the graph </returns>
+            public float ReadGradient(float _x)
+            {
+                return m_ParametricGraph(_x) / _x;
+            }
+
         // Public Static Functions
             /// <summary>
             /// Creates a f(x) function of parametric graph-A with a certain percentage influenced from parametric graph-B and
             /// reads the f(x) value of the graph
             /// </summary>
-            /// <param name="_parametricGraphA"> The initial parametric graph-A </param>
-            /// <param name="_parametricGraphB"> The influencing parametric graph-B </param>
-            /// <param name="_fBInfluence"> The percentage of influenced from the influencing parametric graph-B </param>
+            /// <param name="_graphA"> The initial graph A </param>
+            /// <param name="_graphB"> The influencing graph B </param>
+            /// <param name="_fBInfluence"> The percentage of influenced from the influencing graph B </param>
             /// <param name="_x"> The x value of the graph </param>
             /// <returns> Returns the f(x) value of the graph </returns>
-            public static float Mix(ParametricGraph _parametricGraphA, ParametricGraph _parametricGraphB, float _fBInfluence, float _x)
+            public static float Mix(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
             {
                 _x = KeepInRange(_x);
                 _fBInfluence = KeepInRange(_fBInfluence);
 
-                return _parametricGraphA(_x) * (1f - _fBInfluence) + _fBInfluence * _parametricGraphB(_x);
+                return _graphA.ReadUnclamped(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.ReadUnclamped(_x);
             }
 
             /// <summary>
@@ -66,16 +76,28 @@
             /// reads the f(x) value of the graph. This function does not clamp between 0.0f and 1.0f and that is out of the 
             /// scope of the purpose of Graph.cs. Use at your own risk!
             /// </summary>
-            /// <param name="_parametricGraphA"> The initial parametric graph-A </param>
-            /// <param name="_parametricGraphB"> The influencing parametric graph-B </param>
-            /// <param name="_fBInfluence"> The percentage of influenced from the influencing parametric graph-B </param>
+            /// <param name="_graphA"> The initial graph A </param>
+            /// <param name="_graphB"> The influencing graph B </param>
+            /// <param name="_fBInfluence"> The percentage of influenced from the influencing graph B </param>
             /// <param name="_x"> The x value of the graph </param>
             /// <returns> Returns the f(x) value of the graph </returns>
-            public static float MixUnclamped(ParametricGraph _parametricGraphA, ParametricGraph _parametricGraphB, float _fBInfluence, float _x)
+            public static float MixUnclamped(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
             {
                 _fBInfluence = KeepInRange(_fBInfluence);
 
-                return _parametricGraphA(_x) * (1f - _fBInfluence) + _fBInfluence * _parametricGraphB(_x);
+                return _graphA.ReadUnclamped(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.ReadUnclamped(_x);
+            }
+
+            /// <summary>
+            /// Returns the result of the average of two graphs at x
+            /// </summary>
+            /// <param name="_graphA"> The first graph </param>
+            /// <param name="_graphB"> The second graph </param>
+            /// <param name="_x"> The x value of the graph </param>
+            /// <returns> Returns the average of f(x) and g(x) </returns>
+            public static float Average(Graph _graphA, Graph _graphB, float _x)
+            {
+                return (_graphA.ReadUnclamped(_x) + _graphB.ReadUnclamped(_x)) / 2f;
             }
 
         // Private Static Functions
@@ -92,7 +114,7 @@
             private static float InverseLinearEquation(float _x) { return 1f - _x; }
             private static float ExponentialEquation(float _x) { return _x * _x; }
             private static float InverseExponentialEquation(float _x) { return 1f - (ExponentialEquation(1f - _x)); }
-            private static float SmoothStepEquation(float _x) { return MixUnclamped(ExponentialEquation, InverseExponentialEquation, _x, _x); }
+            private static float SmoothStepEquation(float _x) { return _x * _x * (3f - 2f * _x); }
 
         // Static Initializers
             /// <summary> { f(x) = x } Creates a linear graph equation, this is used to represent the 'default' of all Graph.cs types </summary>
@@ -103,7 +125,7 @@
             public static Graph Exponential { get { return new Graph(ExponentialEquation); } }
             /// <summary> { f(x) = 1-((1-x)^2) } Creates an inverse exponential graph. Steep Start; Smooth stop </summary>
             public static Graph InverseExponential { get { return new Graph(InverseExponentialEquation); } }
-            /// <summary> { f(x) = Something complicated with an x } Creates a slow start and end, with a steep body. Smooth Start; Smooth stop </summary>
+            /// <summary> { f(x) = 2x^3 - 2x^3 } Creates a slow start and end, with a steep body. Smooth Start; Smooth stop </summary>
             public static Graph SmoothStep { get { return new Graph(SmoothStepEquation); } }
     }
 }
