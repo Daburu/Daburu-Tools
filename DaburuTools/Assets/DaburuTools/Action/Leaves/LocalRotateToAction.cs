@@ -19,16 +19,16 @@ namespace DaburuTools
 				SetupLocalRotateToAction();
 			}
 
-			public LocalRotateToAction(Transform _transform, Vector3 _desiredLocalRotationition, float _actionDuration)
+			public LocalRotateToAction(Transform _transform, Vector3 _desiredLocalRotation, float _actionDuration)
 			{
 				mTransform = _transform;
 				SetupLocalRotateToAction();
-				SetLocalRotateToAction(_desiredLocalRotationition, _actionDuration);
+				SetLocalRotateToAction(_desiredLocalRotation, _actionDuration);
 			}
 
-			public void SetLocalRotateToAction(Vector3 _desiredLocalRotationition, float _actionDuration)
+			public void SetLocalRotateToAction(Vector3 _desiredLocalRotation, float _actionDuration)
 			{
-				mvecDesiredLocalRotation = _desiredLocalRotationition;
+				mvecDesiredLocalRotation = _desiredLocalRotation;
 				mfActionDuration = _actionDuration;
 			}
 
