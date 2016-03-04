@@ -1,24 +1,24 @@
 ﻿namespace DaburuTools
 {
-    // ParametricGraph(): A delegate to represent a method with a graph formula
-    //                    Where all ParametricGraph() type will always have a parameter x
+    // ExplicitFunction(): A delegate to represent a method with a graph formula
+    //                    Where all ExplicitFunction() type will always have a parameter x
     //                    and a return float of f(x)
-    public delegate float ParametricGraph(float _x);
+    public delegate float ExplicitFunction(float _x);
 
     // Graph: A data structure to store graph equations
     public struct Graph
     {
         // Private Variables
-            private ParametricGraph m_ParametricGraph;
+            private ExplicitFunction m_ExplicitFunction;    // m_ExplicitFunction: The delegate to store the graph function
 
         // Constructors
             /// <summary>
             /// Create a parametric graph instance
             /// </summary>
-            /// <param name="_parametricGraph"> The delegate that contains a parametric graph equation </param>
-            public Graph(ParametricGraph _parametricGraph)
+            /// <param name="_explicitFunction"> The delegate that contains a parametric graph equation </param>
+            public Graph(ExplicitFunction _explicitFunction)
             {
-                m_ParametricGraph = _parametricGraph;
+                m_ExplicitFunction = _explicitFunction;
             }
 
         // Public Functions
@@ -29,7 +29,7 @@
             /// <returns> Returns the f(x) value of the graph </returns>
             public float Read(float _x)
             {
-                return m_ParametricGraph(KeepInRange(_x));
+                return m_ExplicitFunction(KeepInRange(_x));
             }
 
             /// <summary>
@@ -40,7 +40,7 @@
             /// <returns> Returns the f(x) value of the graph </returns>
             public float ReadUnclamped(float _x)
             {
-                return m_ParametricGraph(_x);
+                return m_ExplicitFunction(_x);
             }
 
             /// <summary>
@@ -50,7 +50,7 @@
             /// <returns> Returns the gradient at x on the graph </returns>
             public float ReadGradient(float _x)
             {
-                return m_ParametricGraph(_x) / _x;
+                return m_ExplicitFunction(_x) / _x;
             }
 
         // Public Static Functions
