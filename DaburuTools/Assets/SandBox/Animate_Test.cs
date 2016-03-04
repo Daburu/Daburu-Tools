@@ -5,45 +5,28 @@ using DaburuTools.Action;
 
 public class Animate_Test : MonoBehaviour {
 
-	ActionSequence mActionSequence;
-
 	void Awake()
 	{
-//		mActionSequence = new ActionSequence();
-//		mActionSequence.Add(new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f));
-//		mActionSequence.Add(new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 5.0f));
-//		mActionSequence.Add(new ScaleToAction(this.transform, new Vector3(1.5f, 0.5f, 2.0f), 1.0f));
+		
 	}
 
 	void Start()
 	{
-		/*	ActionSequence and ActionParallel demonstration	*/
-//		ScaleToAction[] scaleActions = {
-//			new ScaleToAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 2.0f),
-//			new ScaleToAction(this.transform, new Vector3(1.0f, 1.0f, 1.0f), 1.0f)
-//		};
-//		MoveToAction[] moveActions = {
-//			new MoveToAction(this.transform, new Vector3(5.0f, 5.0f, 5.0f), 2.0f),
-//			new MoveToAction(this.transform, new Vector3(-5.0f, -5.0f, -5.0f), 10.0f)
-//		};
-//
-//		ActionSequence scaleActionSequence = new ActionSequence(scaleActions);
-//		ActionSequence moveActionSequence = new ActionSequence(moveActions);
-//		ActionParallel actionParallel = new ActionParallel();
-//		actionParallel.Add(scaleActionSequence);
-//		actionParallel.Add(moveActionSequence);
-//
-//		ActionHandler.RunAction(actionParallel);
-
 		/*	RotateToAction Demonstration	*/
-		RotateToAction rotateToAction = new RotateToAction(this.transform, new Vector3(45.0f, 45.0f, 45.0f), 10.0f);
-		ActionHandler.RunAction(rotateToAction);
+//		RotateToAction rotateToAction = new RotateToAction(this.transform, new Vector3(45.0f, 45.0f, 45.0f), 10.0f);
+//		ActionHandler.RunAction(rotateToAction);
 
+		ScaleToAction scaleAct = new ScaleToAction(this.transform, new Vector3(2.0f, 0.5f, 7.0f), 4.0f);
+		RotateToAction rotateAct = new RotateToAction(this.transform, new Vector3(45.0f, -45.0f, 180.0f), 3.5f);
+		MoveToAction moveAct = new MoveToAction(this.transform, new Vector3(-2.0f, 3.0f, 1.0f), 4.2f);
+		Action[] actions = { scaleAct, rotateAct, moveAct };
 
+		ActionSequence sequence = new ActionSequence(actions);
+		ActionHandler.RunAction(sequence);
 	}
 
 	void Update()
 	{
-//		mActionSequence.RunAction();
+		
 	}
 }
