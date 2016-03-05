@@ -65,24 +65,6 @@
             /// <returns> Returns the f(x) value of the graph </returns>
             public static float Mix(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
             {
-                _x = KeepInRange(_x);
-                _fBInfluence = KeepInRange(_fBInfluence);
-
-                return _graphA.ReadUnclamped(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.ReadUnclamped(_x);
-            }
-
-            /// <summary>
-            /// Creates a f(x) function of parametric graph-A with a certain percentage influenced from parametric graph-B and
-            /// reads the f(x) value of the graph. This function does not clamp between 0.0f and 1.0f and that is out of the 
-            /// scope of the purpose of Graph.cs. Use at your own risk!
-            /// </summary>
-            /// <param name="_graphA"> The initial graph A </param>
-            /// <param name="_graphB"> The influencing graph B </param>
-            /// <param name="_fBInfluence"> The percentage of influenced from the influencing graph B </param>
-            /// <param name="_x"> The x value of the graph </param>
-            /// <returns> Returns the f(x) value of the graph </returns>
-            public static float MixUnclamped(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
-            {
                 _fBInfluence = KeepInRange(_fBInfluence);
 
                 return _graphA.ReadUnclamped(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.ReadUnclamped(_x);
