@@ -15,6 +15,12 @@ public class AnimateTest_Child_2D : MonoBehaviour {
 //		sequence.Add(rotAct2);
 //
 //		ActionHandler.RunAction(sequence);
+
+
+		LocalRotateByAction2D rotAct = new LocalRotateByAction2D(this.transform, -720.0f, 3.0f);
+		LocalRotateByAction2D rotAct2 = new LocalRotateByAction2D(this.transform, 180.0f, 3.0f);
+		ActionHandler.RunAction(rotAct);
+		ActionHandler.RunAction(rotAct2);
 	}
 	
 	// Update is called once per frame
