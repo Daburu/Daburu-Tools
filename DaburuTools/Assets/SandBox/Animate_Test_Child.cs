@@ -64,10 +64,13 @@ public class Animate_Test_Child : MonoBehaviour {
 //		ActionHandler.RunAction(localRotateToAction);
 
 
-		LocalMoveByAction localMB1 = new LocalMoveByAction(this.transform, new Vector3(0.0f, 3.0f, 2.0f), 4.0f);
-		LocalMoveByAction localMB2 = new LocalMoveByAction(this.transform, new Vector3(5.0f, 2.0f, -3.0f), 4.0f);
-		ActionHandler.RunAction(localMB1);
-		ActionHandler.RunAction(localMB2);
+//		LocalMoveByAction localMB1 = new LocalMoveByAction(this.transform, new Vector3(0.0f, 3.0f, 2.0f), 4.0f);
+//		LocalMoveByAction localMB2 = new LocalMoveByAction(this.transform, new Vector3(5.0f, 2.0f, -3.0f), 4.0f);
+//		ActionHandler.RunAction(localMB1);
+//		ActionHandler.RunAction(localMB2);
+
+		LocalRotateByAction localRB1 = new LocalRotateByAction(this.transform, new Vector3(0.0f, 1080.0f, 0.0f), 10.0f);
+		ActionHandler.RunAction(localRB1);
 	}
 
 	void Update()

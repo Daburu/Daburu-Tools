@@ -52,12 +52,15 @@ public class Animate_Test : MonoBehaviour {
 //		ActionHandler.RunAction(scaleBy3);
 
 
-		RotateByAction rotBy1 = new RotateByAction(this.transform, new Vector3(720.0f, 0.0f, 0.0f), 5.0f);
-		RotateByAction rotBy2 = new RotateByAction(this.transform, new Vector3(0.0f, 720.0f, 0.0f), 5.0f);
-		RotateByAction rotBy3 = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 720.0f), 5.0f);
-		Action[] actions = {rotBy1, rotBy2, rotBy3};
-		ActionSequence sequence = new ActionSequence(actions);
-		ActionHandler.RunAction(sequence);
+//		RotateByAction rotBy1 = new RotateByAction(this.transform, new Vector3(720.0f, 0.0f, 0.0f), 5.0f);
+//		RotateByAction rotBy2 = new RotateByAction(this.transform, new Vector3(0.0f, 720.0f, 0.0f), 5.0f);
+//		RotateByAction rotBy3 = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 720.0f), 5.0f);
+//		Action[] actions = {rotBy1, rotBy2, rotBy3};
+//		ActionSequence sequence = new ActionSequence(actions);
+//		ActionHandler.RunAction(sequence);
+
+		RotateByAction rotByZ = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 180.0f), 5.0f);
+		ActionHandler.RunAction(rotByZ);
 	}
 
 	void Update()
