@@ -44,12 +44,20 @@ public class Animate_Test : MonoBehaviour {
 //		ActionHandler.RunAction(moveBy2);
 
 
-		ScaleByAction scaleBy1 = new ScaleByAction(this.transform, new Vector3(1.0f, 0.3f, 0.4f), 2.0f);
-		ScaleByAction scaleBy2 = new ScaleByAction(this.transform, new Vector3(1.2f, 0.4f, 0.3f), 5.0f);
-		ScaleByAction scaleBy3 = new ScaleByAction(this.transform, new Vector3(1.0f, 10.0f, 10.0f), 1.5f);
-		ActionHandler.RunAction(scaleBy1);
-		ActionHandler.RunAction(scaleBy2);
-		ActionHandler.RunAction(scaleBy3);
+//		ScaleByAction scaleBy1 = new ScaleByAction(this.transform, new Vector3(1.0f, 0.3f, 0.4f), 2.0f);
+//		ScaleByAction scaleBy2 = new ScaleByAction(this.transform, new Vector3(1.2f, 0.4f, 0.3f), 5.0f);
+//		ScaleByAction scaleBy3 = new ScaleByAction(this.transform, new Vector3(1.0f, 10.0f, 10.0f), 1.5f);
+//		ActionHandler.RunAction(scaleBy1);
+//		ActionHandler.RunAction(scaleBy2);
+//		ActionHandler.RunAction(scaleBy3);
+
+
+		RotateByAction rotBy1 = new RotateByAction(this.transform, new Vector3(720.0f, 0.0f, 0.0f), 5.0f);
+		RotateByAction rotBy2 = new RotateByAction(this.transform, new Vector3(0.0f, 720.0f, 0.0f), 5.0f);
+		RotateByAction rotBy3 = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 720.0f), 5.0f);
+		Action[] actions = {rotBy1, rotBy2, rotBy3};
+		ActionSequence sequence = new ActionSequence(actions);
+		ActionHandler.RunAction(sequence);
 	}
 
 	void Update()
