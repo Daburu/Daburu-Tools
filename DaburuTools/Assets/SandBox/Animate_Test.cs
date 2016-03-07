@@ -37,11 +37,19 @@ public class Animate_Test : MonoBehaviour {
 //		ActionHandler.RunAction(sequence);
 
 
-		MoveByAction moveBy1 = new MoveByAction(this.transform, new Vector3(1.0f, 2.0f, 4.0f), 2.5f);
-		MoveByAction moveBy2 = new MoveByAction(this.transform, new Vector3(-2.0f, -3.0f, -5.0f), 2.5f);
+//		MoveByAction moveBy1 = new MoveByAction(this.transform, new Vector3(1.0f, 2.0f, 4.0f), 2.5f);
+//		MoveByAction moveBy2 = new MoveByAction(this.transform, new Vector3(-2.0f, -3.0f, -5.0f), 2.5f);
+//
+//		ActionHandler.RunAction(moveBy1);
+//		ActionHandler.RunAction(moveBy2);
 
-		ActionHandler.RunAction(moveBy1);
-		ActionHandler.RunAction(moveBy2);
+
+		ScaleByAction scaleBy1 = new ScaleByAction(this.transform, new Vector3(1.0f, 0.3f, 0.4f), 2.0f);
+		ScaleByAction scaleBy2 = new ScaleByAction(this.transform, new Vector3(1.2f, 0.4f, 0.3f), 5.0f);
+		ScaleByAction scaleBy3 = new ScaleByAction(this.transform, new Vector3(1.0f, 10.0f, 10.0f), 1.5f);
+		ActionHandler.RunAction(scaleBy1);
+		ActionHandler.RunAction(scaleBy2);
+		ActionHandler.RunAction(scaleBy3);
 	}
 
 	void Update()
