@@ -9,6 +9,7 @@ namespace DaburuTools
 			private Action mRepeatedAction;
 			private int mnNumRepeats;
 			private int mnCurrentRepeats;
+			private bool mbReadyToReset;
 
 			public ActionRepeat(Action _Action, int _numRepeats)
 			{
@@ -29,22 +30,29 @@ namespace DaburuTools
 				if (mRepeatedAction != null)
 					mRepeatedAction.RunAction();
 
-				if (mParent != null && mRepeatedAction == null)
+				if (!mbIsResettable && mParent != null && mRepeatedAction == null)
 					mParent.Remove(this);
+
+				if (mbIsResettable)
+					if (mbReadyToReset)
+						mParent.Remove(this);
 			}
 			public override void MakeResettable(bool _bIsResettable)
 			{
 				base.MakeResettable(_bIsResettable);
+
+				mbReadyToReset = false;
 			}
 			public override void Reset()
 			{
 				mnCurrentRepeats = 0;
+				mbReadyToReset = false;
 				mRepeatedAction.Reset();
 			}
 
 
 
-			// Can't add. Don't need to override, will return false based on Action.cs
+			// Doesn't make sense to add. Don't need to override Add.
 			public override bool Remove(Action _Action)
 			{
 				mnCurrentRepeats++;
@@ -56,9 +64,9 @@ namespace DaburuTools
 
 				// Simply de-reference to let GC collect.
 				if (!mbIsResettable)
-				{
 					mRepeatedAction = null;
-				}
+				else
+					mbReadyToReset = true;
 
 				return true;
 			}

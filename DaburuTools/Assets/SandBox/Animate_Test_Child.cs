@@ -78,10 +78,21 @@ public class Animate_Test_Child : MonoBehaviour {
 			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
 			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
 		};
-		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveToActions), 2);
-		ActionRepeat repeatingTheRepeated = new ActionRepeat(repeatedAction, 3);
+		LocalMoveToAction[] localMoveToActions2 = {
+			new LocalMoveToAction(this.transform, new Vector3(1.5f, 0.0f, 0.0f), 0.25f),
+			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, -1.5f), 0.25f),
+			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
+			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
+		};
 
-		ActionHandler.RunAction(repeatedAction);
+		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveToActions), 2);
+		ActionSequence sequenceOfRepeats = new ActionSequence();
+		sequenceOfRepeats.Add(repeatedAction);
+		ActionRepeat repeatedAction2 = new ActionRepeat(new ActionSequence(localMoveToActions2), 2);
+		sequenceOfRepeats.Add(repeatedAction2);
+		ActionRepeat repeatingTheRepeated = new ActionRepeat(sequenceOfRepeats, 2);
+
+		ActionHandler.RunAction(repeatingTheRepeated);
 	}
 
 	void Update()
