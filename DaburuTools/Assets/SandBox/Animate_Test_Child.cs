@@ -118,12 +118,13 @@ public class Animate_Test_Child : MonoBehaviour {
 
 		ActionSequence sequenceScaleUpDown = new ActionSequence();
 		sequenceScaleUpDown.Add(repeatAction);
-		sequenceScaleUpDown.Add(repeatAction2);
+		sequenceScaleUpDown.Add(new ActionAfterDelay(repeatAction2, 2.5f));
 
 //		ActionRepeat finalRepeat = new ActionRepeat(sequenceScaleUpDown, 2);
 //		ActionHandler.RunAction(finalRepeat);
 		ActionRepeatForever foreverAction = new ActionRepeatForever(sequenceScaleUpDown);
-		ActionHandler.RunAction(foreverAction);
+		ActionAfterDelay delayedAction = new ActionAfterDelay(foreverAction, 5.0f);
+		ActionHandler.RunAction(delayedAction);
 	}
 
 	void Update()
