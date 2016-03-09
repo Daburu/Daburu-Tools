@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DaburuTools
+﻿namespace DaburuTools
 {
 	namespace Action
 	{
