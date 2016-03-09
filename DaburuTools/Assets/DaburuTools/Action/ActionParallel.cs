@@ -7,12 +7,12 @@ namespace DaburuTools
 		public class ActionParallel : Action
 		{
 			private LinkedList<Action> mActionLinkedList;
+			private LinkedList<Action> mStorageLinkedList;	// Used for resetting.
 
 			public ActionParallel()
 			{
 				mActionLinkedList = new LinkedList<Action>();
 			}
-
 			public ActionParallel(Action[] _Actions)
 			{
 				mActionLinkedList = new LinkedList<Action>();
@@ -23,6 +23,8 @@ namespace DaburuTools
 				}
 			}
 
+
+
 			public override void RunAction()
 			{
 				base.RunAction();
@@ -31,10 +33,33 @@ namespace DaburuTools
 					mParent.Remove(this);
 
 				for (LinkedListNode<Action> node = mActionLinkedList.First; node != null; node = node.Next)
-				{
 					node.Value.RunAction();
-				}
 			}
+			public override void MakeResettable(bool _bIsResettable)
+			{
+				base.MakeResettable(_bIsResettable);
+
+				for (LinkedListNode<Action> node = mActionLinkedList.First; node != null; node = node.Next)
+					node.Value.MakeResettable(_bIsResettable);
+
+				if (_bIsResettable)
+					mStorageLinkedList = new LinkedList<Action>();
+				else
+					mStorageLinkedList = null;
+			}
+			public override void Reset()
+			{
+				for (LinkedListNode<Action> node = mStorageLinkedList.First; node != null; node = node.Next)
+				{
+					node.Value.Reset();
+					mActionLinkedList.AddFirst(node.Value);
+				}
+
+				mStorageLinkedList.Clear();
+				mbIsRunning = false;
+			}
+
+
 
 			public override bool Add(Action _Action)
 			{
@@ -46,6 +71,10 @@ namespace DaburuTools
 			{
 				if (GetListHead() == null) { return false; }
 
+				if (mbIsResettable)
+				{
+					mStorageLinkedList.AddFirst(mActionLinkedList.Find(_Action).Value);
+				}
 				return mActionLinkedList.Remove(_Action);
 			}
 			public override LinkedListNode<Action> GetListHead() { return mActionLinkedList.First; }

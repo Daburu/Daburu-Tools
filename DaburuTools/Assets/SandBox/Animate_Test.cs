@@ -59,8 +59,8 @@ public class Animate_Test : MonoBehaviour {
 //		ActionSequence sequence = new ActionSequence(actions);
 //		ActionHandler.RunAction(sequence);
 
-		RotateByAction rotByZ = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 180.0f), 5.0f);
-		ActionHandler.RunAction(rotByZ);
+//		RotateByAction rotByZ = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 180.0f), 5.0f);
+//		ActionHandler.RunAction(rotByZ);
 	}
 
 	void Update()
