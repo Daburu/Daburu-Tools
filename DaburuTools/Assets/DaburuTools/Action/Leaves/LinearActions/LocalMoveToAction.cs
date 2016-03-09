@@ -24,7 +24,6 @@ namespace DaburuTools
 				SetupAction();
 				SetAction(_desiredLocalPosition, _actionDuration);
 			}
-
 			public void SetAction(Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mvecDesiredLocalPos = _desiredLocalPosition;

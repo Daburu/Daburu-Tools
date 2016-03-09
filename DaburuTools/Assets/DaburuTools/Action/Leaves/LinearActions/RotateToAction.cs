@@ -16,34 +16,32 @@ namespace DaburuTools
 			public RotateToAction(Transform _transform)
 			{
 				mTransform = _transform;
-				SetupRotateToAction();
+				SetupAction();
 			}
-
 			public RotateToAction(Transform _transform, Vector3 _desiredRotationition, float _actionDuration)
 			{
 				mTransform = _transform;
-				SetupRotateToAction();
-				SetRotateToAction(_desiredRotationition, _actionDuration);
+				SetupAction();
+				SetAction(_desiredRotationition, _actionDuration);
 			}
-
-			public void SetRotateToAction(Vector3 _desiredRotationition, float _actionDuration)
+			public void SetAction(Vector3 _desiredRotationition, float _actionDuration)
 			{
 				mvecDesiredRotation = _desiredRotationition;
 				mfActionDuration = _actionDuration;
 			}
-
-			private void SetupRotateToAction()
+			private void SetupAction()
 			{
 				mvecInitialRotation = mTransform.eulerAngles;
 				mfElaspedDuration = 0f;
 			}
-
 			public override void OnActionBegin()
 			{
 				base.OnActionBegin();
 
-				SetupRotateToAction(); 
+				SetupAction(); 
 			}
+
+
 
 			public override void RunAction()
 			{
@@ -62,16 +60,14 @@ namespace DaburuTools
 					mParent.Remove(this);
 				}
 			}
-
-			public override bool Add(Action _Action)
+			public override void MakeResettable(bool _bIsResettable)
 			{
-				return false;
+				base.MakeResettable(_bIsResettable);
 			}
-			public override bool Remove(Action _Action)
+			public override void Reset()
 			{
-				return false;
+				SetupAction();
 			}
-			public override LinkedListNode<Action> GetListHead() { return null; }
 		}
 	}
 }

@@ -17,28 +17,27 @@ namespace DaburuTools
 			public LocalRotateByAction2D(Transform _transform)
 			{
 				mTransform = _transform;
-				SetupMoveToAction();
+				SetupAction();
 			}
-
 			public LocalRotateByAction2D(Transform _transform, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
-				SetupMoveToAction();
-				SetMoveToAction(_desiredZEulerAngle, _actionDuration);
+				SetupAction();
+				SetAction(_desiredZEulerAngle, _actionDuration);
 			}
-
-			public void SetMoveToAction(float _desiredZEulerAngle, float _actionDuration)
+			public void SetAction(float _desiredZEulerAngle, float _actionDuration)
 			{
 				mfDesiredTotalZEulerAngle = _desiredZEulerAngle;
 				mfActionDuration = _actionDuration;
 				mvecDeltaPerSecond = Vector3.forward * _desiredZEulerAngle / mfActionDuration;	// Cache so don't need to calcualte every RunAction.
 			}
-
-			private void SetupMoveToAction()
+			private void SetupAction()
 			{
 				mfAccumulatedZEulerAngle = 0f;
 				mfElaspedDuration = 0f;
 			}
+
+
 
 			public override void RunAction()
 			{
@@ -63,16 +62,14 @@ namespace DaburuTools
 					mParent.Remove(this);
 				}
 			}
-
-			public override bool Add(Action _Action)
+			public override void MakeResettable(bool _bIsResettable)
 			{
-				return false;
+				base.MakeResettable(_bIsResettable);
 			}
-			public override bool Remove(Action _Action)
+			public override void Reset()
 			{
-				return false;
+				SetupAction();
 			}
-			public override LinkedListNode<Action> GetListHead() { return null; }
 		}
 	}
 }
