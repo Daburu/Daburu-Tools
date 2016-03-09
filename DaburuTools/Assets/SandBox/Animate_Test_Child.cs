@@ -72,27 +72,35 @@ public class Animate_Test_Child : MonoBehaviour {
 //		LocalRotateByAction localRB1 = new LocalRotateByAction(this.transform, new Vector3(0.0f, 1080.0f, 0.0f), 10.0f);
 //		ActionHandler.RunAction(localRB1);
 
-		LocalMoveToAction[] localMoveToActions = {
-			new LocalMoveToAction(this.transform, new Vector3(1.5f, 0.0f, 0.0f), 0.25f),
-			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, -1.5f), 0.25f),
-			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
-			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
-		};
-		LocalMoveToAction[] localMoveToActions2 = {
-			new LocalMoveToAction(this.transform, new Vector3(1.5f, 0.0f, 0.0f), 0.25f),
-			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, -1.5f), 0.25f),
-			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
-			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
+//		LocalMoveToAction[] localMoveToActions = {
+//			new LocalMoveToAction(this.transform, new Vector3(1.5f, 0.0f, 0.0f), 0.25f),
+//			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, -1.5f), 0.25f),
+//			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
+//			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
+//		};
+//		LocalMoveToAction[] localMoveToActions2 = {
+//			new LocalMoveToAction(this.transform, new Vector3(1.5f, 0.0f, 0.0f), 0.25f),
+//			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, -1.5f), 0.25f),
+//			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
+//			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
+//		};
+//
+//		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveToActions), 2);
+//		ActionSequence sequenceOfRepeats = new ActionSequence();
+//		sequenceOfRepeats.Add(repeatedAction);
+//		ActionRepeat repeatedAction2 = new ActionRepeat(new ActionSequence(localMoveToActions2), 2);
+//		sequenceOfRepeats.Add(repeatedAction2);
+//		ActionRepeat repeatingTheRepeated = new ActionRepeat(sequenceOfRepeats, 2);
+//
+//		ActionHandler.RunAction(repeatingTheRepeated);
+
+		LocalMoveByAction[] localMoveByActions = {
+			new LocalMoveByAction(this.transform, new Vector3(1.5f, 1.5f, 1.5f), 0.25f),
+			new LocalMoveByAction(this.transform, new Vector3(-1.0f, -1.0f, -1.0f), 0.25f)
 		};
 
-		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveToActions), 2);
-		ActionSequence sequenceOfRepeats = new ActionSequence();
-		sequenceOfRepeats.Add(repeatedAction);
-		ActionRepeat repeatedAction2 = new ActionRepeat(new ActionSequence(localMoveToActions2), 2);
-		sequenceOfRepeats.Add(repeatedAction2);
-		ActionRepeat repeatingTheRepeated = new ActionRepeat(sequenceOfRepeats, 2);
-
-		ActionHandler.RunAction(repeatingTheRepeated);
+		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveByActions), 5);
+		ActionHandler.RunAction(repeatedAction);
 	}
 
 	void Update()

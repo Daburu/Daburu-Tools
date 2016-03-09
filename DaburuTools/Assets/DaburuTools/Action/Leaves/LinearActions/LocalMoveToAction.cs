@@ -16,34 +16,33 @@ namespace DaburuTools
 			public LocalMoveToAction(Transform _transform)
 			{
 				mTransform = _transform;
-				SetupLocalMoveToAction();
+				SetupAction();
 			}
-
 			public LocalMoveToAction(Transform _transform, Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mTransform = _transform;
-				SetupLocalMoveToAction();
-				SetLocalMoveToAction(_desiredLocalPosition, _actionDuration);
+				SetupAction();
+				SetAction(_desiredLocalPosition, _actionDuration);
 			}
 
-			public void SetLocalMoveToAction(Vector3 _desiredLocalPosition, float _actionDuration)
+			public void SetAction(Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mvecDesiredLocalPos = _desiredLocalPosition;
 				mfActionDuration = _actionDuration;
 			}
-
-			private void SetupLocalMoveToAction()
+			private void SetupAction()
 			{
 				mvecInitialLocalPos = mTransform.localPosition;
 				mfElaspedDuration = 0f;
 			}
-
 			public override void OnActionBegin()
 			{
 				base.OnActionBegin();
 
-				SetupLocalMoveToAction(); 
+				SetupAction(); 
 			}
+
+
 
 			public override void RunAction()
 			{
@@ -68,9 +67,7 @@ namespace DaburuTools
 			}
 			public override void Reset()
 			{
-				// Forces OnActionBegin to run again.
-				// Which runs SetupLocalMoveToAction. Effectiely resetting.
-				mbIsRunning = false;
+				SetupAction();
 			}
 		}
 	}
