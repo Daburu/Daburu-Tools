@@ -62,16 +62,16 @@ namespace DaburuTools
 					mParent.Remove(this);
 				}
 			}
-
-			public override bool Add(Action _Action)
+			public override void MakeResettable(bool _bIsResettable)
 			{
-				return false;
+				base.MakeResettable(_bIsResettable);
 			}
-			public override bool Remove(Action _Action)
+			public override void Reset()
 			{
-				return false;
+				// Forces OnActionBegin to run again.
+				// Which runs SetupLocalMoveToAction. Effectiely resetting.
+				mbIsRunning = false;
 			}
-			public override LinkedListNode<Action> GetListHead() { return null; }
 		}
 	}
 }

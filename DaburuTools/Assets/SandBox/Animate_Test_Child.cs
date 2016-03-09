@@ -57,7 +57,7 @@ public class Animate_Test_Child : MonoBehaviour {
 //			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
 //			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
 //		};
-
+//
 //		ActionHandler.RunAction(new ActionSequence(localMoveToActions));
 
 //		LocalRotateToAction localRotateToAction = new LocalRotateToAction(this.transform, new Vector3(180.0f, 0.0f, 15.0f), 10.0f);
@@ -69,8 +69,19 @@ public class Animate_Test_Child : MonoBehaviour {
 //		ActionHandler.RunAction(localMB1);
 //		ActionHandler.RunAction(localMB2);
 
-		LocalRotateByAction localRB1 = new LocalRotateByAction(this.transform, new Vector3(0.0f, 1080.0f, 0.0f), 10.0f);
-		ActionHandler.RunAction(localRB1);
+//		LocalRotateByAction localRB1 = new LocalRotateByAction(this.transform, new Vector3(0.0f, 1080.0f, 0.0f), 10.0f);
+//		ActionHandler.RunAction(localRB1);
+
+		LocalMoveToAction[] localMoveToActions = {
+			new LocalMoveToAction(this.transform, new Vector3(1.5f, 0.0f, 0.0f), 0.25f),
+			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, -1.5f), 0.25f),
+			new LocalMoveToAction(this.transform, new Vector3(-1.5f, 0.0f, 0.0f), 0.25f),
+			new LocalMoveToAction(this.transform, new Vector3(0.0f, 0.0f, 1.5f), 0.25f)
+		};
+		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveToActions), 2);
+		ActionRepeat repeatingTheRepeated = new ActionRepeat(repeatedAction, 3);
+
+		ActionHandler.RunAction(repeatedAction);
 	}
 
 	void Update()

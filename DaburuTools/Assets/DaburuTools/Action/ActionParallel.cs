@@ -38,16 +38,12 @@ namespace DaburuTools
 
 			public override bool Add(Action _Action)
 			{
-				if (!IsComposite()) { return false; }
-
 				_Action.mParent = this;
 				mActionLinkedList.AddFirst(_Action);
 				return true;
 			}
 			public override bool Remove(Action _Action)
 			{
-				if (!IsComposite()) { return false; }
-
 				if (GetListHead() == null) { return false; }
 
 				return mActionLinkedList.Remove(_Action);
