@@ -13,7 +13,7 @@ namespace DaburuTools
 			{
 				mActionLinkedList = new LinkedList<Action>();
 			}
-			public ActionParallel(Action[] _Actions)
+			public ActionParallel(params Action[] _Actions)
 			{
 				mActionLinkedList = new LinkedList<Action>();
 				for (int i = 0; i < _Actions.Length; i++)
@@ -65,6 +65,16 @@ namespace DaburuTools
 			{
 				_Action.mParent = this;
 				mActionLinkedList.AddFirst(_Action);
+				return true;
+			}
+			public bool Add(params Action[] _Actions)
+			{
+				for (int i = 0; i < _Actions.Length; i++)
+				{
+					_Actions[i].mParent = this;
+					mActionLinkedList.AddFirst(_Actions[i]);
+				}
+
 				return true;
 			}
 			public override bool Remove(Action _Action)

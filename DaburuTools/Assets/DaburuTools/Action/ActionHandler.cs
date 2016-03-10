@@ -43,6 +43,11 @@ namespace DaburuTools
 			{
 				sInstance.mMasterActionParallel.Add(_Action);
 			}
+
+			public static void RunActions(params Action[] _Actions)
+			{
+				sInstance.mMasterActionParallel.Add(_Actions);
+			}
 			#endregion
 		}
 	}

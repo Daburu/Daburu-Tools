@@ -116,9 +116,11 @@ public class Animate_Test_Child : MonoBehaviour {
 		ActionParallel actionParallel2 = new ActionParallel(scaleByActions2);
 		ActionRepeat repeatAction2 = new ActionRepeat(actionParallel2, 3);
 
-		ActionSequence sequenceScaleUpDown = new ActionSequence();
-		sequenceScaleUpDown.Add(repeatAction);
-		sequenceScaleUpDown.Add(new ActionAfterDelay(repeatAction2, 2.5f));
+		Action[] actions = {repeatAction, new ActionAfterDelay(repeatAction2, 2.5f)};
+		ActionSequence sequenceScaleUpDown = new ActionSequence(actions);
+//		sequenceScaleUpDown.Add(repeatAction);
+//		sequenceScaleUpDown.Add(new ActionAfterDelay(repeatAction2, 2.5f));
+//		sequenceScaleUpDown.Add(repeatAction, new ActionAfterDelay(repeatAction2, 2.5f));
 
 //		ActionRepeat finalRepeat = new ActionRepeat(sequenceScaleUpDown, 2);
 //		ActionHandler.RunAction(finalRepeat);
