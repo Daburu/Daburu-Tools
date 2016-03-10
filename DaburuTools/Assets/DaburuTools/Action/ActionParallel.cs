@@ -29,11 +29,18 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
-				if (mParent != null && mActionLinkedList.Count == 0)
-					mParent.Remove(this);
+				if (mActionLinkedList.Count > 0)
+				{
+					for (LinkedListNode<Action> node = mActionLinkedList.First; node != null; node = node.Next)
+						node.Value.RunAction();
+				}
+				else
+				{
+					OnActionEnd();
 
-				for (LinkedListNode<Action> node = mActionLinkedList.First; node != null; node = node.Next)
-					node.Value.RunAction();
+					if (mParent != null)
+						mParent.Remove(this);
+				}
 			}
 			public override void MakeResettable(bool _bIsResettable)
 			{

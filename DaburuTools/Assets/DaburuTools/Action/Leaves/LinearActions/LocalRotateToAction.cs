@@ -34,7 +34,7 @@ namespace DaburuTools
 				mvecInitialLocalRotation = mTransform.localEulerAngles;
 				mfElaspedDuration = 0f;
 			}
-			public override void OnActionBegin()
+			protected override void OnActionBegin()
 			{
 				base.OnActionBegin();
 

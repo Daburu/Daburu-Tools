@@ -9,10 +9,15 @@ namespace DaburuTools
 			public Action mParent = null;
 			public bool mbIsRunning = false;
 			public bool mbIsResettable = false;
+			public OnActionBeginDelegate OnActionStart = EmptyFunc;
+			public OnActionEndDelegate OnActionFinish = EmptyFunc;
 
 			// Optional.
-			public virtual void OnActionBegin() { mbIsRunning = true; }
-			public virtual void OnActionEnd() 	{ mbIsRunning = false; }
+			public delegate void OnActionBeginDelegate();
+			public delegate void OnActionEndDelegate();
+			protected virtual void OnActionBegin() { mbIsRunning = true; OnActionStart(); }
+			protected virtual void OnActionEnd() 	{ mbIsRunning = false; OnActionFinish(); }
+			private static void EmptyFunc() {}
 
 			// All must implement.
 			public virtual void RunAction() 	{ if (!mbIsRunning) OnActionBegin(); }

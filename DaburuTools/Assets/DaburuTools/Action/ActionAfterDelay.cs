@@ -22,6 +22,7 @@
 			{
 				base.RunAction();
 
+				// Delay the action till delay span has passed.
 				if (mfTimePassed < mfTimeDelay)
 				{
 					mfTimePassed += UnityEngine.Time.deltaTime;
@@ -29,10 +30,16 @@
 				}
 
 				if (mDelayedAction != null)
+				{
 					mDelayedAction.RunAction();
+				}
+				else
+				{
+					OnActionEnd();
 
-				if (!mbIsResettable && mParent != null && mDelayedAction == null)
-					mParent.Remove(this);
+					if (mParent != null)
+						mParent.Remove(this);
+				}
 			}
 			public override void MakeResettable(bool _bIsResettable)
 			{

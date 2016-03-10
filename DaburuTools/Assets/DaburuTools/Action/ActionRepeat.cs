@@ -26,14 +26,25 @@
 				base.RunAction();
 
 				if (mRepeatedAction != null)
-					mRepeatedAction.RunAction();
+				{
+					if (mbIsResettable && mbReadyToReset)
+					{
+						OnActionEnd();
 
-				if (!mbIsResettable && mParent != null && mRepeatedAction == null)
-					mParent.Remove(this);
-
-				if (mbIsResettable)
-					if (mbReadyToReset)
 						mParent.Remove(this);
+					}
+					else
+					{
+						mRepeatedAction.RunAction();
+					}
+				}
+				else
+				{
+					OnActionEnd();
+
+					if (mParent != null)
+						mParent.Remove(this);
+				}
 			}
 			public override void MakeResettable(bool _bIsResettable)
 			{
