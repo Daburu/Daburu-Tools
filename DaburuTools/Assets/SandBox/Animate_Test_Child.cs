@@ -108,7 +108,8 @@ public class Animate_Test_Child : MonoBehaviour {
 		};
 		ActionParallel actionParallel = new ActionParallel(scaleByActions);
 		actionParallel.OnActionFinish = () => { Debug.Log("Scaled Up"); };
-		ActionRepeat repeatAction = new ActionRepeat(actionParallel, 3);
+		ActionSequence sequence = new ActionSequence(actionParallel, new DelayAction(1.0f));
+		ActionRepeat repeatAction = new ActionRepeat(sequence, 3);
 
 		ScaleByAction[] scaleByActions2 = {
 			new ScaleByAction(this.transform, new Vector3(1.0f, 0.33f, 1.0f), 0.5f),
@@ -117,7 +118,7 @@ public class Animate_Test_Child : MonoBehaviour {
 		ActionParallel actionParallel2 = new ActionParallel(scaleByActions2);
 		ActionRepeat repeatAction2 = new ActionRepeat(actionParallel2, 3);
 
-		Action[] actions = {repeatAction, new ActionAfterDelay(repeatAction2, 2.5f)};
+		Action[] actions = {repeatAction, new ActionAfterDelay(repeatAction2, 0.5f)};
 		ActionSequence sequenceScaleUpDown = new ActionSequence(actions);
 		sequenceScaleUpDown.OnActionFinish = () => { Debug.Log("Finished cycle of scale up and down"); };
 //		sequenceScaleUpDown.Add(repeatAction);
