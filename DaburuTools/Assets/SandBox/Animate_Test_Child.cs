@@ -129,8 +129,14 @@ public class Animate_Test_Child : MonoBehaviour {
 //		ActionHandler.RunAction(finalRepeat);
 		ActionRepeatForever foreverAction = new ActionRepeatForever(sequenceScaleUpDown);
 		ActionAfterDelay delayedAction = new ActionAfterDelay(foreverAction, 5.0f);
-		foreverAction.OnActionStart = () => { Debug.Log("Delegate Test"); };
+		foreverAction.OnActionStart += () => { Debug.Log("Delegate Test"); };
+		foreverAction.OnActionStart += foo;
 		ActionHandler.RunAction(delayedAction);
+	}
+
+	void foo()
+	{
+		Debug.Log("Hello");
 	}
 
 	void Update()
