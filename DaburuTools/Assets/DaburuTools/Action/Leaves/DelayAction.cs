@@ -10,6 +10,11 @@ namespace DaburuTools
 			float mfActionDuration;
 			float mfElaspedDuration;
 
+			public DelayAction()
+			{
+				SetAction(0f);
+				SetupAction();
+			}
 			public DelayAction(float _actionDuration)
 			{
 				SetAction(_actionDuration);
