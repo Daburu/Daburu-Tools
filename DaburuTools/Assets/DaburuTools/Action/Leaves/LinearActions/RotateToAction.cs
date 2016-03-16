@@ -18,11 +18,11 @@ namespace DaburuTools
 				mTransform = _transform;
 				SetupAction();
 			}
-			public RotateToAction(Transform _transform, Vector3 _desiredRotationition, float _actionDuration)
+			public RotateToAction(Transform _transform, Vector3 _desiredRotation, float _actionDuration)
 			{
 				mTransform = _transform;
 				SetupAction();
-				SetAction(_desiredRotationition, _actionDuration);
+				SetAction(_desiredRotation, _actionDuration);
 			}
 			public void SetAction(Vector3 _desiredRotationition, float _actionDuration)
 			{
