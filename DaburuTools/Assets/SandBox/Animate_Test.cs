@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 //using UnityEngine.SceneManagement;
+using DaburuTools;
 using DaburuTools.Action;
 
 public class Animate_Test : MonoBehaviour {
@@ -61,6 +62,15 @@ public class Animate_Test : MonoBehaviour {
 
 //		RotateByAction rotByZ = new RotateByAction(this.transform, new Vector3(0.0f, 0.0f, 180.0f), 5.0f);
 //		ActionHandler.RunAction(rotByZ);
+
+		GraphScaleToAction graphScale1 = new GraphScaleToAction(transform, Graph.SmoothStep, new Vector3(3.0f, 3.0f, 3.0f), 3.0f);
+		GraphScaleToAction graphScale2 = new GraphScaleToAction(transform, Graph.InverseExponential, new Vector3(1.0f, 1.0f, 1.0f), 3.0f);
+		DelayAction delay1 = new DelayAction(1.0f);
+		DelayAction delay2 = new DelayAction(1.0f);
+		ActionSequence sequence = new ActionSequence(graphScale1, delay1, graphScale2, delay2);
+		ActionRepeatForever repeatedAciton = new ActionRepeatForever(sequence);
+		ActionAfterDelay delayedAction = new ActionAfterDelay(repeatedAciton, 1.0f);
+		ActionHandler.RunAction(repeatedAciton);
 	}
 
 	void Update()
