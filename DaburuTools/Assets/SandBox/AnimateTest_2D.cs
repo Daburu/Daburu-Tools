@@ -28,6 +28,9 @@ public class AnimateTest_2D : MonoBehaviour
 //		GraphRotateToAction2D rotActSmoothStep = new GraphRotateToAction2D(this.transform, DaburuTools.Graph.SmoothStep, 720.0f, 3.0f);
 //		ActionHandler.RunAction(rotAct);
 //		ActionHandler.RunAction(new ActionAfterDelay(rotActSmoothStep, 3.0f));
+
+		GraphRotateByAction2D rotAct = new GraphRotateByAction2D(transform, DaburuTools.Graph.SmoothStep, -120.0f, 2.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
 	}
 	
 	// Update is called once per frame
