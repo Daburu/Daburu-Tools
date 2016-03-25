@@ -5,31 +5,31 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class GraphLocalMoveToAction : Action
+		public class GraphRotateToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialLocalPos;
-			Vector3 mvecDesiredLocalPos;
+			Vector3 mvecInitialRotation;
+			Vector3 mvecDesiredRotation;
 			float mfActionDuration;
 			float mfElaspedDuration;
 			Graph mGraph;
 
-			public GraphLocalMoveToAction(Transform _transform, Graph _graph)
+			public GraphRotateToAction(Transform _transform, Graph _graph)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
 			}
-			public GraphLocalMoveToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalPosition, float _actionDuration)
+			public GraphRotateToAction(Transform _transform, Graph _graph, Vector3 _desiredRotation, float _actionDuration)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
-				SetAction(_desiredLocalPosition, _actionDuration);
+				SetAction(_desiredRotation, _actionDuration);
 			}
-			public void SetAction(Vector3 _desiredLocalPosition, float _actionDuration)
+			public void SetAction(Vector3 _desiredRotationition, float _actionDuration)
 			{
-				mvecDesiredLocalPos = _desiredLocalPosition;
+				mvecDesiredRotation = _desiredRotationition;
 				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
@@ -38,7 +38,7 @@ namespace DaburuTools
 			}
 			private void SetupAction()
 			{
-				mvecInitialLocalPos = mTransform.localPosition;
+				mvecInitialRotation = mTransform.eulerAngles;
 				mfElaspedDuration = 0f;
 			}
 			protected override void OnActionBegin()
@@ -57,12 +57,12 @@ namespace DaburuTools
 				mfElaspedDuration += Time.deltaTime;
 
 				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
-				mTransform.localPosition = Vector3.LerpUnclamped(mvecInitialLocalPos, mvecDesiredLocalPos, t);
+				mTransform.eulerAngles = Vector3.LerpUnclamped(mvecInitialRotation, mvecDesiredRotation, t);
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact local position that it wants.
+					mTransform.eulerAngles =  mvecDesiredRotation;	// Force it to be the exact rotation that it wants.
 					OnActionEnd();
 					mParent.Remove(this);
 				}
