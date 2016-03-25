@@ -22,10 +22,13 @@ public class AnimateTest_Child_2D : MonoBehaviour {
 //		ActionHandler.RunAction(rotAct);
 //		ActionHandler.RunAction(rotAct2);
 
-		GraphLocalRotateToAction2D rotAct = new GraphLocalRotateToAction2D(this.transform, DaburuTools.Graph.Linear, -720.0f, 3.0f);
-		GraphLocalRotateToAction2D rotAct2 = new GraphLocalRotateToAction2D(this.transform, DaburuTools.Graph.SmoothStep, -720.0f, 3.0f);
-		ActionHandler.RunAction(rotAct);
-		ActionHandler.RunAction(new ActionAfterDelay(rotAct2, 3.0f));
+//		GraphLocalRotateToAction2D rotAct = new GraphLocalRotateToAction2D(this.transform, DaburuTools.Graph.Linear, -720.0f, 3.0f);
+//		GraphLocalRotateToAction2D rotAct2 = new GraphLocalRotateToAction2D(this.transform, DaburuTools.Graph.SmoothStep, -720.0f, 3.0f);
+//		ActionHandler.RunAction(rotAct);
+//		ActionHandler.RunAction(new ActionAfterDelay(rotAct2, 3.0f));
+
+		GraphLocalRotateByAction2D rotAct = new GraphLocalRotateByAction2D(transform, DaburuTools.Graph.SmoothStep, -120.0f, 2.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
 	}
 	
 	// Update is called once per frame
