@@ -85,6 +85,14 @@ public class Animate_Test : MonoBehaviour {
 //		GraphMoveByAction moveBy = new GraphMoveByAction(transform, Graph.SmoothStep, new Vector3(3.0f, 0.0f, 3.0f), 2.0f);
 //		GraphMoveByAction moveBy2 = new GraphMoveByAction(transform, Graph.SmoothStep, new Vector3(0.0f, -3.0f, 0.0f), 4.0f);
 //		ActionHandler.RunActions(moveBy, moveBy2);
+
+//		GraphScaleByAction scaleAct = new GraphScaleByAction(transform, Graph.SmoothStep, new Vector3(1.5f, 1.5f, 1.5f), 4.0f);
+//		ActionHandler.RunAction(new ActionRepeatForever(scaleAct));
+		GraphScaleByAction scaleAct = new GraphScaleByAction(transform, Graph.SmoothStep, new Vector3(2.0f, 2.0f, 2.0f), 2.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(scaleAct));
+
+		GraphScaleByAction scaleAct2 = new GraphScaleByAction(transform, Graph.Exponential, new Vector3(0.5f, 1.0f, 1.0f), 2.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(scaleAct2));
 	}
 
 	void Update()
