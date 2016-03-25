@@ -79,12 +79,12 @@ public class Animate_Test : MonoBehaviour {
 //
 //		ActionHandler.RunAction(graphRotate);
 
-		GraphRotateByAction rotAct = new GraphRotateByAction(transform, Graph.SmoothStep, new Vector3(0.0f, 30.0f, 0.0f), 2.0f);
-		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
+//		GraphRotateByAction rotAct = new GraphRotateByAction(transform, Graph.SmoothStep, new Vector3(0.0f, 30.0f, 0.0f), 2.0f);
+//		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
 
-		GraphMoveByAction moveBy = new GraphMoveByAction(transform, Graph.SmoothStep, new Vector3(3.0f, 0.0f, 3.0f), 2.0f);
-		GraphMoveByAction moveBy2 = new GraphMoveByAction(transform, Graph.SmoothStep, new Vector3(0.0f, -3.0f, 0.0f), 4.0f);
-		ActionHandler.RunActions(moveBy, moveBy2);
+//		GraphMoveByAction moveBy = new GraphMoveByAction(transform, Graph.SmoothStep, new Vector3(3.0f, 0.0f, 3.0f), 2.0f);
+//		GraphMoveByAction moveBy2 = new GraphMoveByAction(transform, Graph.SmoothStep, new Vector3(0.0f, -3.0f, 0.0f), 4.0f);
+//		ActionHandler.RunActions(moveBy, moveBy2);
 	}
 
 	void Update()
