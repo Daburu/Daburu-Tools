@@ -102,36 +102,39 @@ public class Animate_Test_Child : MonoBehaviour {
 //		ActionRepeat repeatedAction = new ActionRepeat(new ActionSequence(localMoveByActions), 5);
 //		ActionHandler.RunAction(repeatedAction);
 
-		ScaleByAction[] scaleByActions = {
-			new ScaleByAction(this.transform, new Vector3(1.0f, 3.0f, 1.0f), 0.5f),
-			new ScaleByAction(this.transform, new Vector3(4.0f, 1.0f, 1.0f), 1.0f)
-		};
-		ActionParallel actionParallel = new ActionParallel(scaleByActions);
-		actionParallel.OnActionFinish = () => { Debug.Log("Scaled Up"); };
-		ActionSequence sequence = new ActionSequence(actionParallel, new DelayAction(1.0f));
-		ActionRepeat repeatAction = new ActionRepeat(sequence, 3);
+//		ScaleByAction[] scaleByActions = {
+//			new ScaleByAction(this.transform, new Vector3(1.0f, 3.0f, 1.0f), 0.5f),
+//			new ScaleByAction(this.transform, new Vector3(4.0f, 1.0f, 1.0f), 1.0f)
+//		};
+//		ActionParallel actionParallel = new ActionParallel(scaleByActions);
+//		actionParallel.OnActionFinish = () => { Debug.Log("Scaled Up"); };
+//		ActionSequence sequence = new ActionSequence(actionParallel, new DelayAction(1.0f));
+//		ActionRepeat repeatAction = new ActionRepeat(sequence, 3);
+//
+//		ScaleByAction[] scaleByActions2 = {
+//			new ScaleByAction(this.transform, new Vector3(1.0f, 0.33f, 1.0f), 0.5f),
+//			new ScaleByAction(this.transform, new Vector3(0.25f, 1.0f, 1.0f), 1.0f)
+//		};
+//		ActionParallel actionParallel2 = new ActionParallel(scaleByActions2);
+//		ActionRepeat repeatAction2 = new ActionRepeat(actionParallel2, 3);
+//
+//		Action[] actions = {repeatAction, new ActionAfterDelay(repeatAction2, 0.5f)};
+//		ActionSequence sequenceScaleUpDown = new ActionSequence(actions);
+//		sequenceScaleUpDown.OnActionFinish = () => { Debug.Log("Finished cycle of scale up and down"); };
+////		sequenceScaleUpDown.Add(repeatAction);
+////		sequenceScaleUpDown.Add(new ActionAfterDelay(repeatAction2, 2.5f));
+////		sequenceScaleUpDown.Add(repeatAction, new ActionAfterDelay(repeatAction2, 2.5f));
+//
+////		ActionRepeat finalRepeat = new ActionRepeat(sequenceScaleUpDown, 2);
+////		ActionHandler.RunAction(finalRepeat);
+//		ActionRepeatForever foreverAction = new ActionRepeatForever(sequenceScaleUpDown);
+//		ActionAfterDelay delayedAction = new ActionAfterDelay(foreverAction, 5.0f);
+//		foreverAction.OnActionStart += () => { Debug.Log("Delegate Test"); };
+//		foreverAction.OnActionStart += foo;
+//		ActionHandler.RunAction(delayedAction);
 
-		ScaleByAction[] scaleByActions2 = {
-			new ScaleByAction(this.transform, new Vector3(1.0f, 0.33f, 1.0f), 0.5f),
-			new ScaleByAction(this.transform, new Vector3(0.25f, 1.0f, 1.0f), 1.0f)
-		};
-		ActionParallel actionParallel2 = new ActionParallel(scaleByActions2);
-		ActionRepeat repeatAction2 = new ActionRepeat(actionParallel2, 3);
-
-		Action[] actions = {repeatAction, new ActionAfterDelay(repeatAction2, 0.5f)};
-		ActionSequence sequenceScaleUpDown = new ActionSequence(actions);
-		sequenceScaleUpDown.OnActionFinish = () => { Debug.Log("Finished cycle of scale up and down"); };
-//		sequenceScaleUpDown.Add(repeatAction);
-//		sequenceScaleUpDown.Add(new ActionAfterDelay(repeatAction2, 2.5f));
-//		sequenceScaleUpDown.Add(repeatAction, new ActionAfterDelay(repeatAction2, 2.5f));
-
-//		ActionRepeat finalRepeat = new ActionRepeat(sequenceScaleUpDown, 2);
-//		ActionHandler.RunAction(finalRepeat);
-		ActionRepeatForever foreverAction = new ActionRepeatForever(sequenceScaleUpDown);
-		ActionAfterDelay delayedAction = new ActionAfterDelay(foreverAction, 5.0f);
-		foreverAction.OnActionStart += () => { Debug.Log("Delegate Test"); };
-		foreverAction.OnActionStart += foo;
-		ActionHandler.RunAction(delayedAction);
+		GraphLocalMoveToAction gphlocalMove = new GraphLocalMoveToAction(transform, DaburuTools.Graph.Dipper, new Vector3(-3.0f, -5.0f, 2.0f), 2.0f);
+		ActionHandler.RunAction(new ActionAfterDelay(gphlocalMove, 1.0f));
 	}
 
 	void foo()
