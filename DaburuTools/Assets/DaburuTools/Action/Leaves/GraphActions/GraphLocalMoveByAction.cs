@@ -8,8 +8,8 @@ namespace DaburuTools
 		public class GraphLocalMoveByAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecAccumulatedLocalDelta;
-			Vector3 mvecDesiredTotalLocalDelta;
+			Vector3 mvecAccumulatedDelta;
+			Vector3 mvecDesiredTotalDelta;
 			float mfActionDuration;
 			float mfElaspedDuration;
 			Graph mGraph;
@@ -20,16 +20,16 @@ namespace DaburuTools
 				mGraph = _graph;
 				SetupAction();
 			}
-			public GraphLocalMoveByAction(Transform _transform, Graph _graph, Vector3 _desiredLocalDelta, float _actionDuration)
+			public GraphLocalMoveByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
-				SetAction(_desiredLocalDelta, _actionDuration);
+				SetAction(_desiredDelta, _actionDuration);
 			}
-			public void SetAction(Vector3 _desiredLocalDelta, float _actionDuration)
+			public void SetAction(Vector3 _desiredDelta, float _actionDuration)
 			{
-				mvecDesiredTotalLocalDelta = _desiredLocalDelta;
+				mvecDesiredTotalDelta = _desiredDelta;
 				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
@@ -38,7 +38,7 @@ namespace DaburuTools
 			}
 			private void SetupAction()
 			{
-				mvecAccumulatedLocalDelta = Vector3.zero;
+				mvecAccumulatedDelta = Vector3.zero;
 				mfElaspedDuration = 0f;
 			}
 
@@ -53,17 +53,17 @@ namespace DaburuTools
 				// for when we need to terminate the action.
 				mfElaspedDuration += Time.deltaTime;
 
-				mTransform.localPosition -= mvecAccumulatedLocalDelta;	// Reverse the previous frame's rotation.
+				mTransform.localPosition -= mvecAccumulatedDelta;	// Reverse the previous frame's rotation.
 
 				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
-				mvecAccumulatedLocalDelta = Vector3.LerpUnclamped(Vector3.zero, mvecDesiredTotalLocalDelta, t);
+				mvecAccumulatedDelta = Vector3.LerpUnclamped(Vector3.zero, mvecDesiredTotalDelta, t);
 
-				mTransform.localPosition += mvecAccumulatedLocalDelta;	// Apply the new delta rotation.
+				mTransform.localPosition += mvecAccumulatedDelta;	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					Vector3 imperfection = mvecDesiredTotalLocalDelta - mvecAccumulatedLocalDelta;
+					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
 					mTransform.localPosition += imperfection;	// Force to exact delta displacement.
 
 					OnActionEnd();

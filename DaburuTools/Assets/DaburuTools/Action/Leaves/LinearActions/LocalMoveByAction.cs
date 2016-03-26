@@ -8,9 +8,9 @@ namespace DaburuTools
 		public class LocalMoveByAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecAccumulatedLocalDelta;
-			Vector3 mvecDesiredTotalLocalDelta;
-			Vector3 mvecLocalDeltaPerSecond;
+			Vector3 mvecAccumulatedDelta;
+			Vector3 mvecDesiredTotalDelta;
+			Vector3 mvecDeltaPerSecond;
 			float mfActionDuration;
 			float mfElaspedDuration;
 
@@ -19,21 +19,21 @@ namespace DaburuTools
 				mTransform = _transform;
 				SetupAction();
 			}
-			public LocalMoveByAction(Transform _transform, Vector3 _desiredLocalDelta, float _actionDuration)
+			public LocalMoveByAction(Transform _transform, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
 				SetupAction();
-				SetAction(_desiredLocalDelta, _actionDuration);
+				SetAction(_desiredDelta, _actionDuration);
 			}
-			public void SetAction(Vector3 _desiredLocalDelta, float _actionDuration)
+			public void SetAction(Vector3 _desiredDelta, float _actionDuration)
 			{
-				mvecDesiredTotalLocalDelta = _desiredLocalDelta;
+				mvecDesiredTotalDelta = _desiredDelta;
 				mfActionDuration = _actionDuration;
-				mvecLocalDeltaPerSecond = _desiredLocalDelta / mfActionDuration;	// Cache so don't need to calcualte every RunAction.
+				mvecDeltaPerSecond = _desiredDelta / mfActionDuration;	// Cache so don't need to calcualte every RunAction.
 			}
 			private void SetupAction()
 			{
-				mvecAccumulatedLocalDelta = Vector3.zero;
+				mvecAccumulatedDelta = Vector3.zero;
 				mfElaspedDuration = 0f;
 			}
 
@@ -48,14 +48,14 @@ namespace DaburuTools
 				// for when we need to terminate the action.
 				mfElaspedDuration += Time.deltaTime;
 
-				Vector3 delta = mvecLocalDeltaPerSecond * Time.deltaTime;
+				Vector3 delta = mvecDeltaPerSecond * Time.deltaTime;
 				mTransform.localPosition += delta;
-				mvecAccumulatedLocalDelta += delta;
+				mvecAccumulatedDelta += delta;
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					Vector3 imperfection = mvecDesiredTotalLocalDelta - mvecAccumulatedLocalDelta;
+					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
 					mTransform.localPosition += imperfection;	// Force to exact delta displacement.
 
 					OnActionEnd();
