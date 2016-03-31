@@ -10,7 +10,6 @@ namespace DaburuTools
 			Transform mTransform;
 			Vector3 mvecAccumulatedScale;
 			Vector3 mvecDesiredScaleDelta;
-			Vector3 mvecDeltaPerSecond;
 			float mfActionDuration;
 			float mfElaspedDuration;
 			Graph mGraph;
@@ -32,7 +31,6 @@ namespace DaburuTools
 			{
 				mvecDesiredScaleDelta = _desiredDelta - Vector3.one;
 				mfActionDuration = _actionDuration;
-				mvecDeltaPerSecond = mvecDesiredScaleDelta / mfActionDuration;	// Cache so don't need to calcualte every RunAction.
 			}
 			public void SetGraph(Graph _newGraph)
 			{
