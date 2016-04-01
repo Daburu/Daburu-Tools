@@ -94,16 +94,12 @@ public class Animate_Test : MonoBehaviour {
 //		GraphScaleByAction scaleAct2 = new GraphScaleByAction(transform, Graph.Exponential, new Vector3(0.5f, 1.0f, 1.0f), 2.0f);
 //		ActionHandler.RunAction(new ActionRepeatForever(scaleAct2));
 
-		PulseAction pulseAct = new PulseAction(transform, 3, Graph.SmoothStep, 2.0f, transform.localScale, new Vector3(5.0f, 5.0f, 5.0f));
-		PulseAction pulseAct2 = new PulseAction(transform, 1, Graph.Dipper, Graph.Dipper, 2.0f, 2.0f, transform.localScale, new Vector3(5.0f, 5.0f, 5.0f));
-		ActionHandler.RunAction(new ActionRepeatForever(pulseAct2));
-	}
+//		PulseAction pulseAct = new PulseAction(transform, 3, Graph.SmoothStep, 2.0f, transform.localScale, new Vector3(5.0f, 5.0f, 5.0f));
+//		PulseAction pulseAct2 = new PulseAction(transform, 1, Graph.Dipper, Graph.Dipper, 2.0f, 2.0f, transform.localScale, new Vector3(5.0f, 5.0f, 5.0f));
+//		ActionHandler.RunAction(new ActionRepeatForever(pulseAct2));
+//		ActionHandler.RunAction(pulseAct);
 
-	void Update()
-	{
-//		transform.RotateAround(orbitPoint, spokeAxis, 100.0f * Time.deltaTime);
+		IdleRotateAction idleRot = new IdleRotateAction(transform, 1, Graph.Linear, 1.0f, 1.0f, 200.0f, 360.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(idleRot));
 	}
-
-	Vector3 orbitPoint = new Vector3 (0.0f, 0.0f, 0.0f);
-	Vector3 spokeAxis = new Vector3(1.0f, 1.0f, 1.0f);
 }
