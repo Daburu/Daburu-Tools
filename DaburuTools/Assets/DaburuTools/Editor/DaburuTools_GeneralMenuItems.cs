@@ -6,6 +6,7 @@ public class DaburuTools_GeneralMenuItems
 {
 	public GameObject ActionHandler;
 
+	[MenuItem("Assets/Create/DaburuTools/Action Handler")]
 	[MenuItem("DaburuTools/Action/Create ActionHandler")]
 	private static void DT_Action_CreateActionHandler()
 	{
