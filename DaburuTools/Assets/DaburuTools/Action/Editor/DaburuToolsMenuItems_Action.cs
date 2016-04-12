@@ -2,7 +2,7 @@
 using UnityEditor;
 using DaburuTools.Action;
 
-public class DaburuTools_GeneralMenuItems
+public class DaburuToolsMenuItems_Action
 {
 	public GameObject ActionHandler;
 
