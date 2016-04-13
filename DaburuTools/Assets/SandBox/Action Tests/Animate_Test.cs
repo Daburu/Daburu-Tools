@@ -99,7 +99,15 @@ public class Animate_Test : MonoBehaviour {
 //		ActionHandler.RunAction(new ActionRepeatForever(pulseAct2));
 //		ActionHandler.RunAction(pulseAct);
 
-		IdleRotateAction idleRot = new IdleRotateAction(transform, 1, Graph.Linear, 1.0f, 1.0f, 200.0f, 360.0f);
-		ActionHandler.RunAction(new ActionRepeatForever(idleRot));
+//		IdleRotateAction idleRot = new IdleRotateAction(transform, 1, Graph.Linear, 1.0f, 1.0f, 200.0f, 360.0f);
+//		ActionHandler.RunAction(new ActionRepeatForever(idleRot));
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Destroy(transform.GetChild(0).gameObject);
+		}
 	}
 }

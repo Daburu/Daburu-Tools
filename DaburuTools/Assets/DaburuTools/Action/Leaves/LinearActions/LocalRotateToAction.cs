@@ -47,6 +47,13 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
+				if (mTransform == null)
+				{
+					// Debug.LogWarning("DaburuTools.Action: mTransform Deleted prematurely");
+					mParent.Remove(this);
+					return;
+				}
+
 				mfElaspedDuration += Time.deltaTime;
 
 				float t = mfElaspedDuration / mfActionDuration;

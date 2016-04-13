@@ -139,9 +139,10 @@ public class Animate_Test_Child : MonoBehaviour {
 //		GraphLocalRotateToAction gphlocalRotate = new GraphLocalRotateToAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(-300.0f, -500.0f, 20.0f), 2.0f);
 //		ActionHandler.RunAction(new ActionAfterDelay(gphlocalRotate, 1.0f));
 
-//		GraphLocalRotateByAction rotAct = new GraphLocalRotateByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(0.0f, 30.0f, 0.0f), 2.0f);
+		GraphLocalRotateByAction rotAct = new GraphLocalRotateByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(0.0f, 90.0f, 0.0f), 2.0f);
 //		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
-//
+		ActionHandler.RunAction(new ActionRepeat(rotAct, 10));
+
 //		GraphMoveByAction moveBy = new GraphMoveByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(-3.0f, 0.0f, -3.0f), 2.0f);
 //		GraphMoveByAction moveBy2 = new GraphMoveByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(0.0f, 3.0f, 0.0f), 4.0f);
 //		ActionHandler.RunActions(moveBy, moveBy2);

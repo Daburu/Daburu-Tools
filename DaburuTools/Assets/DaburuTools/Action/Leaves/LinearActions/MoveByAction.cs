@@ -43,6 +43,13 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
+				if (mTransform == null)
+				{
+					// Debug.LogWarning("DaburuTools.Action: mTransform Deleted prematurely");
+					mParent.Remove(this);
+					return;
+				}
+
 				// It is less tricky to track the action by elasped time.
 				// Otherwise, we need to check the sqrDist of both vec3s
 				// for when we need to terminate the action.
