@@ -17,6 +17,7 @@ public class DaburuToolsMenuItems_Action
 			if (((GameObject)ActionHandlerPrefab).GetComponent<ActionHandler>() != null)
 			{
 				GameObject actionHandler = PrefabUtility.InstantiatePrefab(ActionHandlerPrefab) as GameObject;
+				Undo.RegisterCreatedObjectUndo(actionHandler, "Create ActionHandler");
 				// Remove the "(Clone)" of the name.
 				actionHandler.name = actionHandler.name.Remove(actionHandler.name.Length - 7);
 				Debug.Log("ActionHanlder created successfully.");
@@ -44,11 +45,10 @@ public class DaburuToolsMenuItems_Action
 		}
 
 		int instancesLeft = actionHandlers.Length;
-		Debug.Log(instancesLeft);
 		int count = 0;
 		for (int i = instancesLeft - 1; i > -1; i--)
 		{
-			GameObject.DestroyImmediate(actionHandlers[i].gameObject);
+			Undo.DestroyObjectImmediate(actionHandlers[i].gameObject);
 			count++;
 		}
 		Debug.Log("Deleted all ActionHandler instances successfully.\nTotal of " + count + " instances found and removed.");
