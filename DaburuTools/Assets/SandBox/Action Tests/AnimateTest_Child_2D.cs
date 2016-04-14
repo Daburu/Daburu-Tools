@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DaburuTools.Action;
+using DaburuTools;
 
 public class AnimateTest_Child_2D : MonoBehaviour {
 
@@ -27,8 +28,11 @@ public class AnimateTest_Child_2D : MonoBehaviour {
 //		ActionHandler.RunAction(rotAct);
 //		ActionHandler.RunAction(new ActionAfterDelay(rotAct2, 3.0f));
 
-		GraphLocalRotateByAction2D rotAct = new GraphLocalRotateByAction2D(transform, DaburuTools.Graph.SmoothStep, -120.0f, 2.0f);
-		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
+//		GraphLocalRotateByAction2D rotAct = new GraphLocalRotateByAction2D(transform, DaburuTools.Graph.SmoothStep, -120.0f, 2.0f);
+//		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
+
+		OrbitAction2D orbit2D = new OrbitAction2D(transform, transform.parent, false, 3, Graph.Linear, 5.0f, false);
+		ActionHandler.RunAction(orbit2D);
 	}
 	
 	// Update is called once per frame
