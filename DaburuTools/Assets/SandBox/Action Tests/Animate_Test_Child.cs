@@ -2,6 +2,7 @@
 using System.Collections;
 //using UnityEngine.SceneManagement;
 using DaburuTools.Action;
+using DaburuTools;
 
 public class Animate_Test_Child : MonoBehaviour {
 
@@ -139,13 +140,22 @@ public class Animate_Test_Child : MonoBehaviour {
 //		GraphLocalRotateToAction gphlocalRotate = new GraphLocalRotateToAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(-300.0f, -500.0f, 20.0f), 2.0f);
 //		ActionHandler.RunAction(new ActionAfterDelay(gphlocalRotate, 1.0f));
 
-		GraphLocalRotateByAction rotAct = new GraphLocalRotateByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(0.0f, 90.0f, 0.0f), 2.0f);
-//		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
-		ActionHandler.RunAction(new ActionRepeat(rotAct, 10));
+//		GraphLocalRotateByAction rotAct = new GraphLocalRotateByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(0.0f, 90.0f, 0.0f), 2.0f);
+////		ActionHandler.RunAction(new ActionRepeatForever(rotAct));
+//		ActionHandler.RunAction(new ActionRepeat(rotAct, 10));
 
 //		GraphMoveByAction moveBy = new GraphMoveByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(-3.0f, 0.0f, -3.0f), 2.0f);
 //		GraphMoveByAction moveBy2 = new GraphMoveByAction(transform, DaburuTools.Graph.SmoothStep, new Vector3(0.0f, 3.0f, 0.0f), 4.0f);
 //		ActionHandler.RunActions(moveBy, moveBy2);
+
+
+
+
+		OrbitAction orbitAction = new OrbitAction(transform, transform.parent, Vector3.up, 1, Graph.Linear, 5.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(orbitAction));
+
+		RotateByAction rotateByAction = new RotateByAction(transform, new Vector3(0.0f, -360.0f, 0.0f), 3.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(rotateByAction));
 	}
 
 	void foo()
@@ -155,6 +165,6 @@ public class Animate_Test_Child : MonoBehaviour {
 
 	void Update()
 	{
-		
+//		transform.RotateAround(transform.parent.position, Vector3.up, 5.0f);
 	}
 }
