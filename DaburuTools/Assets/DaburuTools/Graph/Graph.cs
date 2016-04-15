@@ -114,6 +114,8 @@
             private static float InverseQuadraticEquation(float _x) { return 4f * _x * (1f - _x); }
             private static float DipperEquation(float _x) { return (3f * _x * _x * _x - _x) / 2f; }
             private static float BobberEquation(float _x) { return 1f - DipperEquation(1f - _x); }
+			private static float OneEquation(float _x) { return 1f; }
+			private static float ZeroEquation(float _x) { return 0f; }
 
         // Static Initializers
             /// <summary> { f(x) = x } Creates a linear graph equation, this is used to represent the 'default' of all Graph.cs types </summary>
@@ -134,5 +136,9 @@
             public static Graph Dipper { get { return new Graph(DipperEquation); } }
             /// <summary> { f(x) = (1 - (3(1 - x)^3 + x - 2)) / 2 } Create a similar curve to inverse-exponential, excepts it bobs above the graph at the end </summary>
             public static Graph Bobber { get { return new Graph(BobberEquation); } }
+			/// <summary> { f(x) = 1 } Creates a x = 1 graph equation. It will always return one </summary>
+			public static Graph One { get { return new Graph(OneEquation); } }
+			/// <summary> { f(x) = 0 } Creates a x = 0 graph equation. It will always return zero </summary>
+			public static Graph Zero { get { return new Graph(ZeroEquation); } }
     }
 }
