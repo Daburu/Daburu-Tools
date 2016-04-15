@@ -4,7 +4,7 @@ using DaburuTools;
 public class SampleGraphProgram : MonoBehaviour 
 {
 	public Transform m_Node; // <- Please put the preFab named 'Node' into this variable in the inspector for graph to work!
-	private Graph m_Graph = Graph.Linear;
+	private Graph m_Graph = Graph.SmoothStep;
 
 	// This SampleGraphProgram will try to touch on all features of Graph.cs
 	// and hope that you have a full understanding of how it all works!
