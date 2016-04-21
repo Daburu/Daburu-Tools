@@ -111,7 +111,6 @@ namespace DaburuTools
 						// Set new shake pos.
 						float t = mAttenuationGraph.Read(mfElaspedDuration / (mfShakePeriod * mnNumShakes));
 						mVecDeltaPos = Random.insideUnitCircle * mfShakeIntensity * t;
-						Debug.Log(mVecDeltaPos);
 						mTransform.position += mVecDeltaPos;
 					}
 				}
