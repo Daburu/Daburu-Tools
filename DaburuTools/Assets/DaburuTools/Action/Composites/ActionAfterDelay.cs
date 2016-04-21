@@ -4,6 +4,14 @@
 	{
 		public class ActionAfterDelay : Action
 		{
+			public override void SetUnscaledDeltaTime(bool _bIsUnscaledDeltaTime)
+			{
+				base.SetUnscaledDeltaTime(_bIsUnscaledDeltaTime);
+
+				// Set the same for children actions.
+				mDelayedAction.SetUnscaledDeltaTime(_bIsUnscaledDeltaTime);
+			}
+
 			private Action mDelayedAction;
 			private float mfTimeDelay;
 			private float mfTimePassed;
@@ -25,7 +33,7 @@
 				// Delay the action till delay span has passed.
 				if (mfTimePassed < mfTimeDelay)
 				{
-					mfTimePassed += UnityEngine.Time.deltaTime;
+					mfTimePassed += ActionDeltaTime(mbIsUnscaledDeltaTime);
 					return;
 				}
 

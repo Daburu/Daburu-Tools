@@ -102,10 +102,16 @@ public class Animate_Test : MonoBehaviour {
 //		IdleRotateAction idleRot = new IdleRotateAction(transform, 1, Graph.Linear, 1.0f, 1.0f, 200.0f, 360.0f);
 //		ActionHandler.RunAction(new ActionRepeatForever(idleRot));
 
-		MoveToAction unscaledTest = new MoveToAction(this.transform, Vector3.forward * 10.0f, 40.0f);
-		unscaledTest.SetUnscaledDeltaTime(true);
-//		unscaledTest.SetUnscaledDeltaTime(false);
-		ActionHandler.RunAction(unscaledTest);
+//		MoveToAction unscaledTest = new MoveToAction(this.transform, Vector3.forward * 10.0f, 40.0f);
+//		unscaledTest.SetUnscaledDeltaTime(true);
+////		unscaledTest.SetUnscaledDeltaTime(false);
+//		ActionHandler.RunAction(unscaledTest);
+
+		MoveToAction moveTo = new MoveToAction(this.transform, Vector3.forward * 3.0f, 5.0f);
+		MoveToAction moveBack = new MoveToAction(this.transform, Vector3.forward * -3.0f, 5.0f);
+		ActionSequence sequence = new ActionSequence(moveTo, moveBack);
+		sequence.SetUnscaledDeltaTime(true);
+		ActionHandler.RunAction(sequence);
 	}
 
 	void Update()

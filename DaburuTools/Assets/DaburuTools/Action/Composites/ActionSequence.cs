@@ -6,6 +6,15 @@ namespace DaburuTools
 	{
 		public class ActionSequence : Action
 		{
+			public override void SetUnscaledDeltaTime(bool _bIsUnscaledDeltaTime)
+			{
+				base.SetUnscaledDeltaTime(_bIsUnscaledDeltaTime);
+
+				// Set the same for children actions.
+				for (LinkedListNode<Action> node = mActionLinkedList.First; node != null; node = node.Next)
+					node.Value.SetUnscaledDeltaTime(_bIsUnscaledDeltaTime);
+			}
+
 			private LinkedList<Action> mActionLinkedList;
 			private LinkedList<Action> mStorageLinkedList;	// Used for resetting.
 

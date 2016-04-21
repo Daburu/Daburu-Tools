@@ -4,6 +4,14 @@
 	{
 		public class ActionRepeatForever : Action
 		{
+			public override void SetUnscaledDeltaTime(bool _bIsUnscaledDeltaTime)
+			{
+				base.SetUnscaledDeltaTime(_bIsUnscaledDeltaTime);
+
+				// Set the same for children actions.
+				mRepeatedAction.SetUnscaledDeltaTime(_bIsUnscaledDeltaTime);
+			}
+
 			private Action mRepeatedAction;
 
 			public ActionRepeatForever(Action _Action)

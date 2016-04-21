@@ -8,7 +8,7 @@ namespace DaburuTools
 		{
 			// Unscaled Delta Time Settings
 			protected bool mbIsUnscaledDeltaTime = false;
-			public void SetUnscaledDeltaTime(bool _bIsUnscaledDeltaTime)	{ mbIsUnscaledDeltaTime = _bIsUnscaledDeltaTime; }
+			public virtual void SetUnscaledDeltaTime(bool _bIsUnscaledDeltaTime)	{ mbIsUnscaledDeltaTime = _bIsUnscaledDeltaTime; }
 			protected float ActionDeltaTime(bool _bIsUnscaledDeltaTime)
 			{
 				if (_bIsUnscaledDeltaTime)
