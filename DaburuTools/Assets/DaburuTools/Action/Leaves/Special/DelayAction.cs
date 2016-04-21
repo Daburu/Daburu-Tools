@@ -42,7 +42,7 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)

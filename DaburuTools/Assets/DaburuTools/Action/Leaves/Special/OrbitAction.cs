@@ -92,7 +92,7 @@ namespace DaburuTools
 				if (PreventOwnAxisRotation)
 					mTransform.Rotate(mOrbitAxisDir, 360.0f * tOld);
 
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 				float mfCycleElasped = mfElaspedDuration - mfCycleDuration * mnCurrentCycle;
 				if (mfCycleElasped < mfCycleDuration)
 				{
