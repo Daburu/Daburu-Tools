@@ -58,7 +58,7 @@ namespace DaburuTools
 				// It is less tricky to track the action by elasped time.
 				// Otherwise, we need to check the sqrDist of both vec3s
 				// for when we need to terminate the action.
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				Vector3 previousDeltaRot = new Vector3(
 					0.0f,

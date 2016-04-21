@@ -61,7 +61,7 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
 				mTransform.eulerAngles = new Vector3(

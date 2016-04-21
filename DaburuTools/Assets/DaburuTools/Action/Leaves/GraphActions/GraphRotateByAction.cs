@@ -58,7 +58,7 @@ namespace DaburuTools
 				// It is less tricky to track the action by elasped time.
 				// Otherwise, we need to check the sqrDist of both vec3s
 				// for when we need to terminate the action.
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				mTransform.Rotate(-mvecAccumulatedDelta);	// Reverse the previous frame's rotation.
 
