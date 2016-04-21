@@ -101,13 +101,22 @@ public class Animate_Test : MonoBehaviour {
 
 //		IdleRotateAction idleRot = new IdleRotateAction(transform, 1, Graph.Linear, 1.0f, 1.0f, 200.0f, 360.0f);
 //		ActionHandler.RunAction(new ActionRepeatForever(idleRot));
+
+		MoveToAction unscaledTest = new MoveToAction(this.transform, Vector3.forward * 10.0f, 40.0f);
+		unscaledTest.SetUnscaledDeltaTime(true);
+//		unscaledTest.SetUnscaledDeltaTime(false);
+		ActionHandler.RunAction(unscaledTest);
 	}
 
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Destroy(transform.GetChild(0).gameObject);
+//			Destroy(transform.GetChild(0).gameObject);
+			if (Time.timeScale > 0.0f)
+				Time.timeScale = 0.0f;
+			else
+				Time.timeScale = 1.0f;
 		}
 	}
 }

@@ -6,6 +6,17 @@ namespace DaburuTools
 	{
 		public class Action
 		{
+			// Unscaled Delta Time Settings
+			protected bool mbIsUnscaledDeltaTime = false;
+			public void SetUnscaledDeltaTime(bool _bIsUnscaledDeltaTime)	{ mbIsUnscaledDeltaTime = _bIsUnscaledDeltaTime; }
+			protected float ActionDeltaTime(bool _bIsUnscaledDeltaTime)
+			{
+				if (_bIsUnscaledDeltaTime)
+					return UnityEngine.Time.unscaledDeltaTime;
+				else
+					return UnityEngine.Time.deltaTime;
+			}
+
 			public Action mParent = null;
 			public bool mbIsRunning = false;
 			public bool mbIsResettable = false;
@@ -15,7 +26,7 @@ namespace DaburuTools
 			// Optional.
 			public delegate void OnActionBeginDelegate();
 			public delegate void OnActionEndDelegate();
-			protected virtual void OnActionBegin() { mbIsRunning = true; OnActionStart(); }
+			protected virtual void OnActionBegin()	{ mbIsRunning = true; OnActionStart(); }
 			protected virtual void OnActionEnd() 	{ mbIsRunning = false; OnActionFinish(); }
 			private static void EmptyFunc() {}
 

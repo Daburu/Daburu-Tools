@@ -54,7 +54,7 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				float t = mfElaspedDuration / mfActionDuration;
 				mTransform.localEulerAngles = Vector3.LerpUnclamped(mvecInitialLocalRotation, mvecDesiredLocalRotation, t);

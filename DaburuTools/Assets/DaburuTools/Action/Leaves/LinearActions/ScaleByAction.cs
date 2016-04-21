@@ -59,9 +59,9 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				Vector3 delta = mvecDeltaPerSecond * Time.deltaTime;
+				Vector3 delta = mvecDeltaPerSecond * ActionDeltaTime(mbIsUnscaledDeltaTime);
 				mTransform.localScale = Vector3.Scale(CalcInverseAccumulatedScale(), mvecAccumulatedScale + delta);
 				mvecAccumulatedScale += delta;
 

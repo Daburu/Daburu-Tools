@@ -53,9 +53,9 @@ namespace DaburuTools
 				// It is less tricky to track the action by elasped time.
 				// Otherwise, we need to check the sqrDist of both vec3s
 				// for when we need to terminate the action.
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				Vector3 delta = mvecDeltaPerSecond * Time.deltaTime;
+				Vector3 delta = mvecDeltaPerSecond * ActionDeltaTime(mbIsUnscaledDeltaTime);
 				mTransform.Rotate(delta, Space.Self);
 				mfAccumulatedZEulerAngle += delta.z;
 

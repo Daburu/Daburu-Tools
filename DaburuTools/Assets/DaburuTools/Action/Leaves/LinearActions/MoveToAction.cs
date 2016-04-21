@@ -54,7 +54,7 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += Time.deltaTime;
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				float t = mfElaspedDuration / mfActionDuration;
 				mTransform.position = Vector3.LerpUnclamped(mvecInitialPos, mvecDesiredPos, t);
