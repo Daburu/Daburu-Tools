@@ -59,6 +59,23 @@ namespace DaburuTools
 			{
 				SetupAction();
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// Simulate the action has ended. Does not really matter by how much.
+				mfElaspedDuration = mfActionDuration;
+
+				// No need for snap to desired, true same effect as false.
+				// Only delays time, will simply run the next Action either ways.
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 		}
 	}
 }

@@ -151,12 +151,14 @@ public class Animate_Test_Child : MonoBehaviour {
 
 
 
-		OrbitAction orbitAction = new OrbitAction(transform, transform.parent, Vector3.up + Vector3.right, 1, Graph.Exponential, 5.0f);
-		ActionHandler.RunAction(new ActionRepeatForever(orbitAction));
+		orbit = new OrbitAction(transform, transform.parent, Vector3.up + Vector3.right, 1, Graph.Exponential, 5.0f);
+		ActionHandler.RunAction(new ActionRepeatForever(orbit));
 
-		RotateByAction rotateByAction = new RotateByAction(transform, new Vector3(0.0f, -360.0f, 0.0f), 3.0f);
-		ActionHandler.RunAction(new ActionRepeatForever(rotateByAction));
+//		RotateByAction rotateByAction = new RotateByAction(transform, new Vector3(0.0f, -360.0f, 0.0f), 3.0f);
+//		ActionHandler.RunAction(new ActionRepeatForever(rotateByAction));
 	}
+
+	private OrbitAction orbit;
 
 	void foo()
 	{
@@ -166,5 +168,7 @@ public class Animate_Test_Child : MonoBehaviour {
 	void Update()
 	{
 //		transform.RotateAround(transform.parent.position, Vector3.up, 5.0f);
+		if (Input.GetKeyDown(KeyCode.Space))
+			orbit.StopActionRecursive(true);
 	}
 }

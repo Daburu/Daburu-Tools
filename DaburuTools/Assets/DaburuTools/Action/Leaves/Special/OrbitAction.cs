@@ -137,6 +137,37 @@ namespace DaburuTools
 			{
 				SetupAction();
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// Simulate the action has ended. Does not really matter by how much.
+				mnCurrentCycle = mnNumCycles;
+
+				if (_bSnapToDesired)
+				{
+					// Undo previous frame's rotation.
+					float mfCycleElaspedOld = mfElaspedDuration - mfCycleDuration * mnCurrentCycle;
+					float tOld = mRevolutionGraph.Read(mfCycleElaspedOld / mfCycleDuration);
+					mTransform.RotateAround(mOrbitPointTransform.position, mOrbitAxisDir, -360.0f * tOld);
+					// Offset Rotation so that the orbit action does not affect the object's rotation.
+					if (PreventOwnAxisRotation)
+						mTransform.Rotate(mOrbitAxisDir, 360.0f * tOld);
+
+					// Force it to be the end position of the cycle.
+					mTransform.RotateAround(mOrbitPointTransform.position, mOrbitAxisDir, 360.0f);
+					// Offset Rotation so that the orbit action does not affect the object's rotation.
+					if (mbPreventOwnAxisRotation)
+						mTransform.Rotate(mOrbitAxisDir, -360.0f);
+				}
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 		}
 	}
 

@@ -107,52 +107,56 @@ public class Animate_Test : MonoBehaviour {
 ////		unscaledTest.SetUnscaledDeltaTime(false);
 //		ActionHandler.RunAction(unscaledTest);
 
-		moveTo = new LocalMoveToAction(this.transform, Vector3.forward * 3.0f, 2.0f);
-		MoveToAction moveBack = new MoveToAction(this.transform, Vector3.forward * -3.0f, 2.0f);
-		ScaleToAction scaleTo = new ScaleToAction(this.transform, Vector3.one * 5.0f, 5.0f);
-		sequence = new ActionSequence(moveTo, moveBack);
-//		sequence.SetUnscaledDeltaTime(true);
-		repeatTest = new ActionRepeat(sequence, 2);
-//		ActionHandler.RunAction(repeatTest);
-//		ActionHandler.RunAction(sequence);
-//		ActionHandler.RunAction(new ActionRepeatForever(sequence));
-		delayedAction = new ActionAfterDelay(sequence, 1.0f);
-//		ActionHandler.RunAction(new ActionRepeatForever(delayedAction));
-
-		scaleBy = new ScaleByAction(transform, Vector3.one * 5.0f, 5.0f);
-//		parallel = new ActionParallel(sequence, scaleBy);
-		moveBy = new LocalMoveByAction(transform, Vector3.one * 2.0f, 5.0f);
-		parallel = new ActionParallel(scaleBy, moveBy);
-		ActionHandler.RunAction(parallel);
-	}
-
-	private LocalMoveToAction moveTo;
-	private LocalMoveByAction moveBy;
-	private ScaleByAction scaleBy;
-	private ActionRepeat repeatTest;
-	private ActionSequence sequence;
-	private ActionParallel parallel;
-	private ActionAfterDelay delayedAction;
-
-	void Update()
-	{
+//		moveTo = new LocalMoveToAction(this.transform, Vector3.forward * 3.0f, 2.0f);
+//		MoveToAction moveBack = new MoveToAction(this.transform, Vector3.forward * -3.0f, 2.0f);
+//		ScaleToAction scaleTo = new ScaleToAction(this.transform, Vector3.one * 5.0f, 5.0f);
+//		sequence = new ActionSequence(moveTo, moveBack);
+////		sequence.SetUnscaledDeltaTime(true);
+//		repeatTest = new ActionRepeat(sequence, 2);
+////		ActionHandler.RunAction(repeatTest);
+////		ActionHandler.RunAction(sequence);
+////		ActionHandler.RunAction(new ActionRepeatForever(sequence));
+//		delayedAction = new ActionAfterDelay(sequence, 1.0f);
+////		ActionHandler.RunAction(new ActionRepeatForever(delayedAction));
+//
+//		scaleBy = new ScaleByAction(transform, Vector3.one * 5.0f, 5.0f);
+////		parallel = new ActionParallel(sequence, scaleBy);
+//		moveBy = new LocalMoveByAction(transform, Vector3.one * 2.0f, 5.0f);
+////		parallel = new ActionParallel(scaleBy, moveBy);
+//		pulse = new PulseAction(transform, 5, Graph.SmoothStep, 1.0f, transform.localScale, Vector3.one * 2.0f);
+////		parallel = new ActionParallel(pulse);
+//		ActionHandler.RunAction(parallel);
+//	}
+//
+//	private PulseAction pulse;
+//	private LocalMoveToAction moveTo;
+//	private LocalMoveByAction moveBy;
+//	private ScaleByAction scaleBy;
+//	private ActionRepeat repeatTest;
+//	private ActionSequence sequence;
+//	private ActionParallel parallel;
+//	private ActionAfterDelay delayedAction;
+//
+//	void Update()
+//	{
+////		if (Input.GetKeyDown(KeyCode.Space))
+////		{
+//////			Destroy(transform.GetChild(0).gameObject);
+////			if (Time.timeScale > 0.0f)
+////				Time.timeScale = 0.0f;
+////			else
+////				Time.timeScale = 1.0f;
+////		}
+//
 //		if (Input.GetKeyDown(KeyCode.Space))
 //		{
-////			Destroy(transform.GetChild(0).gameObject);
-//			if (Time.timeScale > 0.0f)
-//				Time.timeScale = 0.0f;
-//			else
-//				Time.timeScale = 1.0f;
+////			moveTo.StopAction(true);
+////			moveTo.StopActionRecursive(true);
+////			moveBy.StopActionRecursive(true);
+//			pulse.StopActionRecursive(true);
+////			delayedAction.StopActionRecursive(true);
+////			sequence.StopAction(false);
+////			repeatTest.StopActionRecursive(true);
 //		}
-
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-//			moveTo.StopAction(true);
-//			moveTo.StopActionRecursive(true);
-			moveBy.StopActionRecursive(true);
-//			delayedAction.StopActionRecursive(true);
-//			sequence.StopAction(false);
-//			repeatTest.StopActionRecursive(true);
-		}
 	}
 }
