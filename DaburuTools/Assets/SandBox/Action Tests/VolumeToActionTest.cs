@@ -7,11 +7,24 @@ public class VolumeToActionTest : MonoBehaviour
 {
 	void Start()
 	{
-		VolumeToAction volDown = new VolumeToAction(gameObject.GetComponent<AudioSource>(), 0.0f, 5.0f);
+		volDown = new VolumeToAction(gameObject.GetComponent<AudioSource>(), 0.0f, 5.0f);
 		volDown.SetGraph(Graph.Exponential);
 		VolumeToAction volUp = new VolumeToAction(gameObject.GetComponent<AudioSource>(), 1.0f, 5.0f);
 		volUp.SetGraph(Graph.InverseExponential);
-		ActionSequence sequence = new ActionSequence(volDown, volUp);
-		ActionHandler.RunAction(new ActionRepeatForever(sequence));
+		sequence = new ActionSequence(volDown, volUp);
+		forever = new ActionRepeatForever(sequence);
+		ActionHandler.RunAction(forever);
+	}
+
+	VolumeToAction volDown;
+	ActionSequence sequence;
+	ActionRepeatForever forever;
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+//			volDown.StopActionRecursive(true);
+//			sequence.StopActionRecursive(true);
+			forever.StopActionRecursive(true);
 	}
 }

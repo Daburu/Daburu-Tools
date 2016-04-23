@@ -77,6 +77,26 @@ namespace DaburuTools
 			{
 				SetupAction();
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// Simulate the action has ended. Does not really matter by how much.
+				mfElaspedDuration = mfActionDuration;
+
+				if (_bSnapToDesired)
+				{
+					// Snap volume to desired volume.
+					mAudioSource.volume = mfDesiredVolume;
+				}
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 		}
 	}
 }
