@@ -107,22 +107,47 @@ public class Animate_Test : MonoBehaviour {
 ////		unscaledTest.SetUnscaledDeltaTime(false);
 //		ActionHandler.RunAction(unscaledTest);
 
-		MoveToAction moveTo = new MoveToAction(this.transform, Vector3.forward * 3.0f, 5.0f);
-		MoveToAction moveBack = new MoveToAction(this.transform, Vector3.forward * -3.0f, 5.0f);
-		ActionSequence sequence = new ActionSequence(moveTo, moveBack);
-		sequence.SetUnscaledDeltaTime(true);
-		ActionHandler.RunAction(sequence);
+		moveTo = new MoveToAction(this.transform, Vector3.forward * 3.0f, 2.0f);
+		MoveToAction moveBack = new MoveToAction(this.transform, Vector3.forward * -3.0f, 2.0f);
+		ScaleToAction scaleTo = new ScaleToAction(this.transform, Vector3.one * 5.0f, 5.0f);
+		sequence = new ActionSequence(moveTo, moveBack);
+//		sequence.SetUnscaledDeltaTime(true);
+		repeatTest = new ActionRepeat(sequence, 2);
+//		ActionHandler.RunAction(repeatTest);
+//		ActionHandler.RunAction(sequence);
+//		ActionHandler.RunAction(new ActionRepeatForever(sequence));
+		delayedAction = new ActionAfterDelay(sequence, 1.0f);
+//		ActionHandler.RunAction(new ActionRepeatForever(delayedAction));
+
+
+		parallel = new ActionParallel(sequence);
+		ActionHandler.RunAction(parallel);
 	}
+
+	private MoveToAction moveTo;
+	private ActionRepeat repeatTest;
+	private ActionSequence sequence;
+	private ActionParallel parallel;
+	private ActionAfterDelay delayedAction;
 
 	void Update()
 	{
+//		if (Input.GetKeyDown(KeyCode.Space))
+//		{
+////			Destroy(transform.GetChild(0).gameObject);
+//			if (Time.timeScale > 0.0f)
+//				Time.timeScale = 0.0f;
+//			else
+//				Time.timeScale = 1.0f;
+//		}
+
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-//			Destroy(transform.GetChild(0).gameObject);
-			if (Time.timeScale > 0.0f)
-				Time.timeScale = 0.0f;
-			else
-				Time.timeScale = 1.0f;
+//			moveTo.StopAction(true);
+			moveTo.StopActionRecursive(true);
+//			delayedAction.StopActionRecursive(true);
+//			sequence.StopAction(false);
+//			repeatTest.StopActionRecursive(true);
 		}
 	}
 }

@@ -39,6 +39,18 @@
 			{
 				UnityEngine.Debug.LogWarning("ActionRepeatForever cannot be resetted");
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				if (mRepeatedAction.mbIsRunning == false)
+					mRepeatedAction.RunAction();
+				mRepeatedAction.StopAction(_bSnapToDesired);
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 
 
 

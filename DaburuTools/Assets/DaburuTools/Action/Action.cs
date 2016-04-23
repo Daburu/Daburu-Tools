@@ -34,6 +34,19 @@ namespace DaburuTools
 			public virtual void RunAction() 	{ if (!mbIsRunning) OnActionBegin(); }
 			public virtual void MakeResettable(bool _bIsResettable)	{ mbIsResettable = _bIsResettable; }
 			public virtual void Reset()	{}
+			public virtual void StopAction(bool _bSnapToDesired = false)	{}
+			// Do not override ActionRecurisve.
+			public void StopActionRecursive(bool _bSnapToDesired = false)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Stop itself.
+				StopAction(_bSnapToDesired);
+
+				if (mParent != null)
+					mParent.StopActionRecursive(_bSnapToDesired);
+			}
 
 			// Leaves do not need to override these functions.
 			public virtual bool Add(Action _Action) 	{ return false; }

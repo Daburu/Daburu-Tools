@@ -66,6 +66,24 @@
 				mbReadyToReset = false;
 				mRepeatedAction.Reset();
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// Simulate the action has ended. Does not really matter by how much.
+				mnCurrentRepeats = mnNumRepeats;
+
+				if (mRepeatedAction.mbIsRunning == false)
+					mRepeatedAction.RunAction();
+				mRepeatedAction.StopAction(_bSnapToDesired);
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 
 
 

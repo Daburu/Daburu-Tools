@@ -11,11 +11,11 @@ namespace DaburuTools
 			private static ActionHandler sInstance = null;
 			public static ActionHandler Instance { get { return sInstance; } }
 
-			private ActionParallel mMasterActionParallel;
+			private MasterActionParallel mMasterActionParallel;
 
 			private void SetUpActionHandler()
 			{
-				mMasterActionParallel = new ActionParallel();
+				mMasterActionParallel = new MasterActionParallel();
 			}
 
 			void Awake()
@@ -42,6 +42,16 @@ namespace DaburuTools
 			public static void RunAction(params Action[] _Actions)
 			{
 				sInstance.mMasterActionParallel.Add(_Actions);
+			}
+			#endregion
+
+			#region Nested Special ActionParallelClass
+			private sealed class MasterActionParallel : ActionParallel
+			{
+				public override void StopAction (bool _bSnapToDesired)
+				{
+					return;
+				}
 			}
 			#endregion
 		}
