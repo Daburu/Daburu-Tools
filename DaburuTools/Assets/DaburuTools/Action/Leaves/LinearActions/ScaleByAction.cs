@@ -85,6 +85,27 @@ namespace DaburuTools
 			{
 				SetupAction();
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// Simulate the action has ended. Does not really matter by how much.
+				mfElaspedDuration += mfActionDuration;
+
+				if (_bSnapToDesired)
+				{
+					Vector3 finalScaleVec = CalcInverseAccumulatedScale();
+					finalScaleVec = Vector3.Scale(finalScaleVec, mvecDesiredScaleDelta + Vector3.one);
+					mTransform.localScale = finalScaleVec;	// Force it to be the exact position that it wants.
+				}
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 		}
 	}
 

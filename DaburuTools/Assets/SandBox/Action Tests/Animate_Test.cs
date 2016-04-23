@@ -107,7 +107,7 @@ public class Animate_Test : MonoBehaviour {
 ////		unscaledTest.SetUnscaledDeltaTime(false);
 //		ActionHandler.RunAction(unscaledTest);
 
-		moveTo = new MoveToAction(this.transform, Vector3.forward * 3.0f, 2.0f);
+		moveTo = new LocalMoveToAction(this.transform, Vector3.forward * 3.0f, 2.0f);
 		MoveToAction moveBack = new MoveToAction(this.transform, Vector3.forward * -3.0f, 2.0f);
 		ScaleToAction scaleTo = new ScaleToAction(this.transform, Vector3.one * 5.0f, 5.0f);
 		sequence = new ActionSequence(moveTo, moveBack);
@@ -119,12 +119,16 @@ public class Animate_Test : MonoBehaviour {
 		delayedAction = new ActionAfterDelay(sequence, 1.0f);
 //		ActionHandler.RunAction(new ActionRepeatForever(delayedAction));
 
-
-		parallel = new ActionParallel(sequence);
+		scaleBy = new ScaleByAction(transform, Vector3.one * 5.0f, 5.0f);
+//		parallel = new ActionParallel(sequence, scaleBy);
+		moveBy = new LocalMoveByAction(transform, Vector3.one * 2.0f, 5.0f);
+		parallel = new ActionParallel(scaleBy, moveBy);
 		ActionHandler.RunAction(parallel);
 	}
 
-	private MoveToAction moveTo;
+	private LocalMoveToAction moveTo;
+	private LocalMoveByAction moveBy;
+	private ScaleByAction scaleBy;
 	private ActionRepeat repeatTest;
 	private ActionSequence sequence;
 	private ActionParallel parallel;
@@ -144,7 +148,8 @@ public class Animate_Test : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 //			moveTo.StopAction(true);
-			moveTo.StopActionRecursive(true);
+//			moveTo.StopActionRecursive(true);
+			moveBy.StopActionRecursive(true);
 //			delayedAction.StopActionRecursive(true);
 //			sequence.StopAction(false);
 //			repeatTest.StopActionRecursive(true);

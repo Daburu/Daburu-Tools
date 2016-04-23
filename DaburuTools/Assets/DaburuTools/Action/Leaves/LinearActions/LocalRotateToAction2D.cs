@@ -83,6 +83,29 @@ namespace DaburuTools
 			{
 				SetupAction();
 			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// Simulate the action has ended. Does not really matter by how much.
+				mfElaspedDuration += mfActionDuration;
+
+				if (_bSnapToDesired)
+				{
+					mTransform.localEulerAngles = new Vector3(
+						mTransform.localEulerAngles.x,
+						mTransform.localEulerAngles.y,
+						mfDesiredLocalZEulerAngle
+					);	// Force it to be the exact position that it wants.
+				}
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
 		}
 	}
 }
