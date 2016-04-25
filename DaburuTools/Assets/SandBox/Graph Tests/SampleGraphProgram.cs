@@ -4,7 +4,7 @@ using DaburuTools;
 public class SampleGraphProgram : MonoBehaviour 
 {
 	public Transform m_Node; // <- Please put the preFab named 'Node' into this variable in the inspector for graph to work!
-	private Graph m_Graph = Graph.SmoothStep;
+	private Graph m_Graph = Graph.Linear;
 
 	// This SampleGraphProgram will try to touch on all features of Graph.cs
 	// and hope that you have a full understanding of how it all works!
@@ -104,9 +104,11 @@ public class SampleGraphProgram : MonoBehaviour
 	// PlotGraph(): A simple method that helps to plot a graph
 	void PlotGraph(Graph _graph)
 	{
+		_graph.Cycle = GraphCycle.Constant;
+
 		for (int i = 0; i < 100; i++)
 		{
-			Instantiate(m_Node, new Vector3((float)i / 10f, _graph.Read((float)i / 100f) * 10f, 0f), Quaternion.identity);
+			Instantiate(m_Node, new Vector3((float)i / 10f, _graph.Read((float)-i / 10f), 0f), Quaternion.identity);
 		}
 	}
 }

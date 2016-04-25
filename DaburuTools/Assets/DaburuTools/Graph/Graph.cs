@@ -1,35 +1,80 @@
 ﻿namespace DaburuTools
 {
-    // ExplicitFunction(): A delegate to represent a method with a graph formula
-    //                    Where all ExplicitFunction() type will always have a parameter x
-    //                    and a return float of f(x)
-    public delegate float ExplicitFunction(float _x);
+	// GraphCycle: Determines the pattern of the graph at every integer unit on the x-axis
+	public enum GraphCycle { None, Constant, Repeat, Continuous }
 
-    // Graph: A data structure to store graph equations
-    public struct Graph
-    {
-        // Private Variables
-            private ExplicitFunction m_ExplicitFunction;    // m_ExplicitFunction: The delegate to store the graph function
+	// ExplicitFunction(): A delegate to represent a method with a graph formula
+	//                    Where all ExplicitFunction() type will always have a parameter x
+	//                    and a return float of f(x)
+	public delegate float ExplicitFunction(float _x);
 
-        // Constructors
-            /// <summary>
-            /// Create a parametric graph instance
-            /// </summary>
-            /// <param name="_explicitFunction"> The delegate that contains a parametric graph equation </param>
-            public Graph(ExplicitFunction _explicitFunction)
-            {
-                m_ExplicitFunction = _explicitFunction;
-            }
+	// Graph: A data structure to store graph equations
+	public struct Graph
+	{
+		// Private Variables
+			private GraphCycle enum_graphCycle;
+			private ExplicitFunction m_ExplicitFunction;    // m_ExplicitFunction: The delegate to store the graph function
 
-        // Public Functions
-            /// <summary>
-            /// Read the f(x) value of the graph
-            /// </summary>
-            /// <param name="_x"> The x value of the graph </param>
-            /// <returns> Returns the f(x) value of the graph </returns>
+		// Constructors
+			public Graph(ExplicitFunction _explicitFunction, GraphCycle _graphCycle)
+			{
+				m_ExplicitFunction = _explicitFunction;
+				enum_graphCycle = _graphCycle;
+			}
+			
+			/// <summary>
+			/// Create a parametric graph instance
+			/// </summary>
+			/// <param name="_explicitFunction"> The delegate that contains a parametric graph equation </param>
+			public Graph(ExplicitFunction _explicitFunction)
+			{
+				m_ExplicitFunction = _explicitFunction;
+				enum_graphCycle = GraphCycle.None;
+			}
+
+		// Public Functions
+			/// <summary>
+			/// Read the f(x) value of the graph
+			/// </summary>
+			/// <param name="_x"> The x value of the graph </param>
+			/// <returns> Returns the f(x) value of the graph </returns>
             public float Read(float _x)
             {
-                return m_ExplicitFunction(KeepInRange(_x));
+				switch (enum_graphCycle)
+				{
+ 					case GraphCycle.None:
+						return m_ExplicitFunction(_x);
+
+					case GraphCycle.Repeat:
+						if (_x > 1f)
+							return m_ExplicitFunction(_x % 1f);
+						else if (_x < 0f)
+							return m_ExplicitFunction(1f + (_x % 1f));
+						else
+							return m_ExplicitFunction(_x);
+
+					case GraphCycle.Constant:
+						if (_x < 0f)
+							return m_ExplicitFunction(0f);
+						else if (_x > 1f)
+							return m_ExplicitFunction(1f);
+						else
+							return m_ExplicitFunction(_x);
+
+					case GraphCycle.Continuous:
+						if (_x > 1f)
+							return m_ExplicitFunction(1f) * (float)((int)_x) + m_ExplicitFunction(_x % 1f);
+						else if (_x < 0f)
+							return m_ExplicitFunction(1f) * ((float)((int)_x) - 1f) + m_ExplicitFunction(1f + (_x % 1f));
+						else
+							return m_ExplicitFunction(_x);
+
+					default:
+#if UNITY_EDITOR
+						UnityEngine.Debug.LogWarning("Graph.cs: Read() function is unable to detect GraphCycle type");
+#endif
+						return 0f;
+				}
             }
 
             /// <summary>
@@ -65,7 +110,10 @@
             /// <returns> Returns the f(x) value of the graph </returns>
             public static float Mix(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
             {
-                _fBInfluence = KeepInRange(_fBInfluence);
+				if (_fBInfluence < 0f)
+					_fBInfluence = 0f;
+				else if (_fBInfluence > 1f)
+					_fBInfluence = 1f;
 
                 return _graphA.ReadUnclamped(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.ReadUnclamped(_x);
             }
@@ -93,15 +141,6 @@
             public static float Multiply(Graph _graphA, Graph _graphB, float _x)
             {
                 return _graphA.ReadUnclamped(_x) * _graphB.ReadUnclamped(_x);
-            }
-
-        // Private Static Functions
-            // KeepInRange(): Positivize all negatives x values. Mod all x that is more than 1
-            private static float KeepInRange(float _x)
-            {
-                if (_x < 0f) _x = -_x;
-                if (_x > 1f) _x %= 1f;
-                return _x;
             }
 
         // (Private Static) Template Graphs Equations
@@ -140,5 +179,8 @@
 			public static Graph One { get { return new Graph(OneEquation); } }
 			/// <summary> { f(x) = 0 } Creates a x = 0 graph equation. It will always return zero </summary>
 			public static Graph Zero { get { return new Graph(ZeroEquation); } }
+
+		// Getter-Setter Functions
+			public GraphCycle Cycle { get { return enum_graphCycle; } set { enum_graphCycle = value; } }
     }
 }
