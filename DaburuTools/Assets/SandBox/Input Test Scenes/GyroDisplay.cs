@@ -18,7 +18,7 @@ public class GyroDisplay : MonoBehaviour
 
 	void Update()
 	{
-		Quaternion q = m_gyro.Orientation;
+		Quaternion q = m_gyro.Rotation;
 		m_Text.text = "(" + Mathf.RoundToInt(q.eulerAngles.x) + "f, " + Mathf.RoundToInt(q.eulerAngles.y) + "f, " + Mathf.RoundToInt(q.eulerAngles.z) + "f)";
 	}
 }
