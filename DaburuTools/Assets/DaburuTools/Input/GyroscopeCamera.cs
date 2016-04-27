@@ -105,8 +105,10 @@ namespace DaburuTools
 				{
 				case CameraPerspective.FirstPerson:
 					transform.localRotation = rotFix;
+					break;
 				case CameraPerspective.ThirdPerson:
 					camPivot.transform.localRotation = rotFix;
+				break;
 				}
 				#endif
 			}
