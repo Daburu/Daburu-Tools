@@ -3,26 +3,35 @@ using System.Collections;
 
 public class Gyrotation : MonoBehaviour 
 {
+	private enum SnapTo { WorldAxis, InitialRotation };
+
 	// Editable Variables
 	[Header("Pivot Properties")]
 	[Tooltip("The pivot of gyroscope rotation. If nothing is assigned , the pivot will be the center of the current transform")]
 	[SerializeField] private Transform m_RotationPivot = null;
 
+	[Header("Reset Properties")]
+	[Tooltip("Determines if the rotation of the gyroscope at the start should be where the object is faced initially")]
+	[SerializeField] private bool bIsFaceObjectOnAwake = true;
+	[Tooltip("Determine what SetOffsetRotation() do. Worldaxis = snaps current rotation to world axis, InitialRotation = snaps current rotation to the initial rotation of the object")]
+	[SerializeField] private SnapTo enum_snapTo;
+
 	// Un-Editable Variables
-	private Gyroscope mGyroscope;
-	private Quaternion mCurrentRotation;
+	private Gyroscope m_Gyroscope;				// m_Gyroscope: A reference to the gyroscope
+	private Quaternion m_gyroscopeRotation;		// m_gyroscopeRotation: The proper axis-defined rotation of the gyroscope
+	private Quaternion m_worldRotation;			// m_worldRotation: The current rotation that goes along with the world-axis
 
 	private Vector3 mVectorFromPivot;
-	private Vector3 mInitialPosition;
-	private Quaternion mIdentityRotation = Quaternion.identity;
+	private Quaternion m_initialRotationOnAwake;
+	private float mf_offsetRotation = 0f;
 
 	// Private Functions
 	// Awake(): is called at the start of the program
 	void Awake () 
 	{
 		// Gyroscope Initialisation
-		mGyroscope = UnityEngine.Input.gyro;
-		mGyroscope.enabled = true;
+		m_Gyroscope = UnityEngine.Input.gyro;
+		m_Gyroscope.enabled = true;
 
 		// if: There is no rotation pivot assigned, the current gameObject will be assigned instead
 		if (m_RotationPivot == null)
@@ -30,31 +39,59 @@ public class Gyrotation : MonoBehaviour
 		
 		// Initialsation
 		mVectorFromPivot = this.transform.position - m_RotationPivot.transform.position;
-		mInitialPosition = this.transform.position;
+		m_initialRotationOnAwake = m_RotationPivot.rotation;
+		UpdateGyroscopeRotation();
+	}
+
+	void Start()
+	{
+		if (bIsFaceObjectOnAwake)
+			SetOffsetRotation();
 	}
 	
 	// Update(): is called every frame
 	void Update()
 	{
-		Quaternion finalRotation = new Quaternion(mGyroscope.attitude.x, mGyroscope.attitude.y, -mGyroscope.attitude.z, -mGyroscope.attitude.w);
-		mCurrentRotation = mIdentityRotation * Quaternion.Euler(90f, 0f, 0f) * finalRotation;
+		UpdateGyroscopeRotation();
+		m_worldRotation = Quaternion.Euler(0f, mf_offsetRotation, 0f) * m_gyroscopeRotation;
 
-		m_RotationPivot.position = mCurrentRotation * mVectorFromPivot + mInitialPosition;
-		m_RotationPivot.rotation = mCurrentRotation;
+		m_RotationPivot.rotation = m_worldRotation;
+		transform.position = (m_worldRotation * mVectorFromPivot) + m_RotationPivot.position;
+		transform.rotation = m_worldRotation;
+	}
+
+
+	// UpdateGyroscopeRotation(): Recalculates the gyroscope rotation and updates it into m_gyroscopeRotation;
+	private void UpdateGyroscopeRotation()
+	{
+		m_gyroscopeRotation = Quaternion.Euler(90f, 0f, 0f) * new Quaternion(m_Gyroscope.attitude.x, m_Gyroscope.attitude.y, -m_Gyroscope.attitude.z, -m_Gyroscope.attitude.w);
 	}
 
 	// Public Functions
 	/// <summary>
-	/// Sets the current rotation of the gyroscope to be the default
+	/// Sets the current rotation of the gyroscope to be the initial roation of the object
 	/// </summary>
-	public void SetIdentity()
+	public void SetOffsetRotation()
 	{
-		mIdentityRotation = mCurrentRotation;
+		switch(enum_snapTo)
+		{
+			case SnapTo.InitialRotation:
+				mf_offsetRotation = m_initialRotationOnAwake.eulerAngles.y - m_gyroscopeRotation.eulerAngles.y;
+				break;
+			case SnapTo.WorldAxis:
+				mf_offsetRotation = -m_gyroscopeRotation.eulerAngles.y;
+				break;
+		}
 	}
 
 	// Getter-Setter Functions
 	/// <summary>
 	/// Returns the current rotation of gyrotation
 	/// </summary>
-	public Quaternion Rotation { get { return mCurrentRotation; } }
+	public Quaternion GyroscopeRotation { get { return m_gyroscopeRotation; } }
+
+	/// <summary>
+	/// Returns the rotation in relating to world axis
+	/// </summary>
+	public Quaternion WorldRotation { get { return m_gyroscopeRotation; } }
 }
