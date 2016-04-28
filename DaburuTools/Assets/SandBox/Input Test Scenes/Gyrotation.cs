@@ -11,15 +11,13 @@ public class Gyrotation : MonoBehaviour
 	[SerializeField] private Transform m_RotationPivot = null;
 
 	[Header("Reset Properties")]
-	[Tooltip("Determines if the rotation of the gyroscope at the start should be where the object is faced initially")]
-	[SerializeField] private bool bIsFaceObjectOnAwake = true;
 	[Tooltip("Determine what SetOffsetRotation() do. Worldaxis = snaps current rotation to world axis, InitialRotation = snaps current rotation to the initial rotation of the object")]
 	[SerializeField] private SnapTo enum_snapTo;
 
 	// Un-Editable Variables
 	private Gyroscope m_Gyroscope;				// m_Gyroscope: A reference to the gyroscope
 	private Quaternion m_gyroscopeRotation;		// m_gyroscopeRotation: The proper axis-defined rotation of the gyroscope
-	private Quaternion m_worldRotation;			// m_worldRotation: The current rotation that goes along with the world-axis
+	private Quaternion m_UnityWorldRotation;	// m_UnityWorldRotation: The current rotation that goes along with the world-axis
 
 	private Vector3 mVectorFromPivot;
 	private Quaternion m_initialRotationOnAwake;
@@ -42,22 +40,16 @@ public class Gyrotation : MonoBehaviour
 		m_initialRotationOnAwake = m_RotationPivot.rotation;
 		UpdateGyroscopeRotation();
 	}
-
-	void Start()
-	{
-		if (bIsFaceObjectOnAwake)
-			SetOffsetRotation();
-	}
 	
 	// Update(): is called every frame
 	void Update()
 	{
 		UpdateGyroscopeRotation();
-		m_worldRotation = Quaternion.Euler(0f, mf_offsetRotation, 0f) * m_gyroscopeRotation;
+		m_UnityWorldRotation = Quaternion.Euler(0f, mf_offsetRotation, 0f) * m_gyroscopeRotation;
 
-		m_RotationPivot.rotation = m_worldRotation;
-		transform.position = (m_worldRotation * mVectorFromPivot) + m_RotationPivot.position;
-		transform.rotation = m_worldRotation;
+		m_RotationPivot.rotation = m_UnityWorldRotation;
+		transform.position = (m_UnityWorldRotation * mVectorFromPivot) + m_RotationPivot.position;
+		transform.rotation = m_UnityWorldRotation;
 	}
 
 
