@@ -54,6 +54,9 @@ namespace DaburuTools
 				m_inverseInitialRotationOnAwake = Quaternion.Inverse(m_initialRotationOnAwake);
 				UpdateGyroscopeRotation();
 
+				// This line fixed the x-axis problem
+				transform.Rotate(Vector3.right, -m_initialRotationOnAwake.eulerAngles.x * 2f);
+
 				// Editor
 				cameraRotationX = transform.localEulerAngles.x;
 				cameraRotationY = transform.localEulerAngles.y;
