@@ -41,6 +41,14 @@ namespace DaburuTools
 			#region Client Functions
 			public static void RunAction(params Action[] _Actions)
 			{
+				#if UNITY_EDITOR
+				if (sInstance == null)
+				{
+					Debug.LogWarning("DaburuTools.Action: MISSING ACTIONHANDLER. Please check if you have an ActionHandler in the scene.\nOtherwise, add one by going to the Menu bar and selecting DaburuTools > Action > Create ActionHandler");
+					return;
+				}
+				#endif
+
 				sInstance.mMasterActionParallel.Add(_Actions);
 			}
 			#endregion
