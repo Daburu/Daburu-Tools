@@ -29,6 +29,7 @@ namespace DaburuTools
 			private Vector3 m_vectorFromPivot;						// m_vectorFromPivot: The distance between the this object and the pivot
 			private Quaternion m_initialRotationOnAwake;			// m_initialRotationOnAwake: The initial rotation of this object when this script is awake
 			private Quaternion m_inverseInitialRotationOnAwake;		// m_inverseInitialRotationOnAwake: The inverse of the initial rotation of this object
+			private Quaternion m_initialPivotRotationOnAwake;		// m_initialPivotRotationOnAwake: The initial rotation of the pivot when this script is awake
 			private float mf_snapToPointOffsetRotation = 0f;		// mf_snapToPointOffsetRotation: The 'center-to-screen' y-axis offset
 
 			// Private Functions
@@ -46,6 +47,7 @@ namespace DaburuTools
 				// Initialisation
 				m_vectorFromPivot = this.transform.position - m_RotationPivot.transform.position;
 				m_initialRotationOnAwake = transform.rotation;
+				m_initialPivotRotationOnAwake = m_RotationPivot.rotation;
 				m_inverseInitialRotationOnAwake = Quaternion.Inverse(m_initialRotationOnAwake);
 				UpdateGyroscopeRotation();
 
@@ -82,7 +84,7 @@ namespace DaburuTools
 				if (m_RotationPivot != this.transform)
 				{
 					if (bIsPivotRotating)
-						m_RotationPivot.rotation = m_unityWorldRotation;
+						m_RotationPivot.rotation = m_unityWorldRotation * m_initialPivotRotationOnAwake;
 
 					transform.position = (m_unityWorldRotation * m_inverseInitialRotationOnAwake * m_vectorFromPivot) + m_RotationPivot.position;
 				}
