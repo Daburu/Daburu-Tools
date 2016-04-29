@@ -16,14 +16,9 @@ namespace DaburuTools
 			private enum SnapTo { WorldAxis, InitialRotation };
 
 			// Editable Variables
-			[Header("Pivot Properties")]
-			[Tooltip("The pivot of gyroscope rotation. If nothing is assigned , the pivot will be the center of the current transform")]
 			[SerializeField] private Transform m_RotationPivot = null;
-			[Tooltip("Determines if the pivot should rotate too. This will not affect if the pivot is the current object")]
 			[SerializeField] private bool bIsPivotRotating = false;
 
-			[Header("Reset Properties")]
-			[Tooltip("Determine what SnapToPoint() do. Worldaxis = snaps current rotation to world axis, InitialRotation = snaps current rotation to the initial rotation of the object")]
 			[SerializeField] private SnapTo enum_snapTo = SnapTo.InitialRotation;
 
 			// Un-Editable Variables
