@@ -151,7 +151,7 @@ public class Animate_Test_Child : MonoBehaviour {
 
 
 
-		orbit = new OrbitAction(transform, transform.parent, Vector3.up + Vector3.right, 1, Graph.Exponential, 5.0f);
+		orbit = new OrbitAction(transform, transform.parent, Vector3.up + Vector3.right, 1, Graph.SmoothStep, 5.0f);
 		ActionHandler.RunAction(new ActionRepeatForever(orbit));
 
 //		RotateByAction rotateByAction = new RotateByAction(transform, new Vector3(0.0f, -360.0f, 0.0f), 3.0f);
