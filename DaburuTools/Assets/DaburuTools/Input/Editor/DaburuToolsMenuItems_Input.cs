@@ -9,14 +9,14 @@ public class DaburuToolsMenuItems_Input
 	{
 		GameObject cameraGameObject = Selection.activeGameObject;
 
-		if (cameraGameObject.GetComponent<GyroscopeCamera>() != null)
+		if (cameraGameObject.GetComponent<GyroControl>() != null)
 		{
 			Debug.LogWarning("Camera is already gyro controlled.");
 			return;
 		}
 
-		Undo.AddComponent(cameraGameObject, typeof(GyroscopeCamera));
-		Debug.Log("\"" +cameraGameObject.name + "\" is now controlled by gyroscope.");
+		Undo.AddComponent(cameraGameObject, typeof(GyroControl));
+		Debug.Log("\"" +cameraGameObject.name + "\" is now gyro controlled.");
 	}
 
 	[MenuItem("DaburuTools/Input/Make Main Camera Gyro Controlled", false, 2)]
@@ -28,7 +28,7 @@ public class DaburuToolsMenuItems_Input
 			return;
 		}
 
-		if (Camera.main.gameObject.GetComponent<GyroscopeCamera>() != null)
+		if (Camera.main.gameObject.GetComponent<GyroControl>() != null)
 		{
 			Debug.LogWarning("Main camera is already gyro controlled");
 			EditorGUIUtility.PingObject(Camera.main.gameObject);
@@ -36,34 +36,25 @@ public class DaburuToolsMenuItems_Input
 			return;
 		}
 
-		Undo.AddComponent(Camera.main.gameObject, typeof(GyroscopeCamera));
-		Debug.Log("Main Camera: \"" + Camera.main.gameObject.name + "\" is now controlled by gyroscope.");
+		EditorGUIUtility.PingObject(Camera.main.gameObject);
+		Selection.activeObject = Camera.main.gameObject;
+		Undo.AddComponent(Camera.main.gameObject, typeof(GyroControl));
+		Debug.Log("Main Camera: \"" + Camera.main.gameObject.name + "\" is now gyro controlled.");
 	}
 
 	[MenuItem("DaburuTools/Input/Remove Gyro Controls from Selected Camera", false, 51)]
 	private static void DT_Input_RemoveGyroControlFromCamera()
 	{
 		GameObject cameraGameObject = Selection.activeGameObject;
-		GyroscopeCamera gyroCamScript = cameraGameObject.GetComponent<GyroscopeCamera>();
+		GyroControl gyroCamScript = cameraGameObject.GetComponent<GyroControl>();
 
 		if (gyroCamScript == null)
 		{
-			Debug.LogWarning("Camera is already not controlled by gyroscope.");
+			Debug.LogWarning("Camera is was not gyro controlled.");
 			return;
 		}
 
-		if ((int)gyroCamScript.mCameraPerspective == 1)	// If Third Person
-		{
-			if (gyroCamScript.camPivot == null)
-				Debug.LogWarning("CamPivot was not found. Could not complete cleanup. Did you move the third person cam pivot away?");
-			else
-			{
-				Undo.SetTransformParent(gyroCamScript.transform, gyroCamScript.camPivot.transform.parent, "De-parent GyroCam from camPivot");
-				Undo.DestroyObjectImmediate(gyroCamScript.camPivot);
-			}
-		}
-
-		Undo.DestroyObjectImmediate(cameraGameObject.GetComponent<GyroscopeCamera>());
+		Undo.DestroyObjectImmediate(cameraGameObject.GetComponent<GyroControl>());
 		Debug.Log("\"" + cameraGameObject.name + "\" has its gyroscope controls removed.");
 	}
 
