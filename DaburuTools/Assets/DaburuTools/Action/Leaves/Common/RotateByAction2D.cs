@@ -5,35 +5,41 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class RotateByAction : Action
+		public class RotateByAction2D : Action
 		{
 			Transform mTransform;
-			Vector3 mvecAccumulatedDelta;
-			Vector3 mvecDesiredTotalDelta;
-			Vector3 mvecDeltaPerSecond;
+			float mfAccumulatedZEulerAngle;
+			float mfDesiredTotalZEulerAngle;
 			float mfActionDuration;
 			float mfElaspedDuration;
+			Graph mGraph;
 
-			public RotateByAction(Transform _transform)
+			public RotateByAction2D(Transform _transform, Graph _graph, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
+				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredZEulerAngle, _actionDuration);
 			}
-			public RotateByAction(Transform _transform, Vector3 _desiredDelta, float _actionDuration)
+			public RotateByAction2D(Transform _transform, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
+				mGraph = Graph.Linear;
 				SetupAction();
-				SetAction(_desiredDelta, _actionDuration);
+				SetAction(_desiredZEulerAngle, _actionDuration);
 			}
-			public void SetAction(Vector3 _desiredDelta, float _actionDuration)
+			public void SetAction(float _desiredZEulerAngle, float _actionDuration)
 			{
-				mvecDesiredTotalDelta = _desiredDelta;
+				mfDesiredTotalZEulerAngle = _desiredZEulerAngle;
 				mfActionDuration = _actionDuration;
-				mvecDeltaPerSecond = _desiredDelta / mfActionDuration;	// Cache so don't need to calcualte every RunAction.
+			}
+			public void SetGraph(Graph _newGraph)
+			{
+				mGraph = _newGraph;
 			}
 			private void SetupAction()
 			{
-				mvecAccumulatedDelta = Vector3.zero;
+				mfAccumulatedZEulerAngle = 0f;
 				mfElaspedDuration = 0f;
 			}
 
@@ -55,14 +61,25 @@ namespace DaburuTools
 				// for when we need to terminate the action.
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				Vector3 delta = mvecDeltaPerSecond * ActionDeltaTime(mbIsUnscaledDeltaTime);
-				mTransform.Rotate(delta);
-				mvecAccumulatedDelta += delta;
+				Vector3 previousDeltaRot = new Vector3(
+					0.0f,
+					0.0f,
+					mfAccumulatedZEulerAngle);
+				mTransform.Rotate(-previousDeltaRot);	// Reverse the previous frame's rotation.
+
+				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				mfAccumulatedZEulerAngle = Mathf.LerpUnclamped(0.0f, mfDesiredTotalZEulerAngle, t);
+
+				Vector3 newDeltaRot = new Vector3(
+					0.0f,
+					0.0f,
+					mfAccumulatedZEulerAngle);
+				mTransform.Rotate(newDeltaRot);	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
+					Vector3 imperfection = Vector3.forward * (mfDesiredTotalZEulerAngle - mfAccumulatedZEulerAngle);
 					mTransform.Rotate(imperfection);	// Force to exact delta displacement.
 
 					OnActionEnd();
@@ -90,7 +107,7 @@ namespace DaburuTools
 
 				if (_bSnapToDesired)
 				{
-					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
+					Vector3 imperfection = Vector3.forward * (mfDesiredTotalZEulerAngle - mfAccumulatedZEulerAngle);
 					mTransform.Rotate(imperfection);	// Force it to be the exact position that it wants.
 				}
 

@@ -5,31 +5,32 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class GraphMoveToAction : Action
+		public class LocalMoveToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialPos;
-			Vector3 mvecDesiredPos;
+			Vector3 mvecInitialLocalPos;
+			Vector3 mvecDesiredLocalPos;
 			float mfActionDuration;
 			float mfElaspedDuration;
 			Graph mGraph;
 
-			public GraphMoveToAction(Transform _transform, Graph _graph)
+			public LocalMoveToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredLocalPosition, _actionDuration);
 			}
-			public GraphMoveToAction(Transform _transform, Graph _graph, Vector3 _desiredPosition, float _actionDuration)
+			public LocalMoveToAction(Transform _transform, Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				mGraph = Graph.Linear;
 				SetupAction();
-				SetAction(_desiredPosition, _actionDuration);
+				SetAction(_desiredLocalPosition, _actionDuration);
 			}
-			public void SetAction(Vector3 _desiredPosition, float _actionDuration)
+			public void SetAction(Vector3 _desiredLocalPosition, float _actionDuration)
 			{
-				mvecDesiredPos = _desiredPosition;
+				mvecDesiredLocalPos = _desiredLocalPosition;
 				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
@@ -38,7 +39,7 @@ namespace DaburuTools
 			}
 			private void SetupAction()
 			{
-				mvecInitialPos = mTransform.position;
+				mvecInitialLocalPos = mTransform.localPosition;
 				mfElaspedDuration = 0f;
 			}
 			protected override void OnActionBegin()
@@ -64,12 +65,12 @@ namespace DaburuTools
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
-				mTransform.position = Vector3.LerpUnclamped(mvecInitialPos, mvecDesiredPos, t);
+				mTransform.localPosition = Vector3.LerpUnclamped(mvecInitialLocalPos, mvecDesiredLocalPos, t);
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					mTransform.position = mvecDesiredPos;	// Force it to be the exact position that it wants.
+					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact local position that it wants.
 					OnActionEnd();
 					mParent.Remove(this);
 				}
@@ -95,7 +96,7 @@ namespace DaburuTools
 
 				if (_bSnapToDesired)
 				{
-					mTransform.position = mvecDesiredPos;	// Force it to be the exact position that it wants.
+					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact position that it wants.
 				}
 
 				OnActionEnd();

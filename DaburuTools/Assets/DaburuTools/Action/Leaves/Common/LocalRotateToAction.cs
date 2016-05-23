@@ -5,7 +5,7 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class GraphLocalRotateToAction : Action
+		public class LocalRotateToAction : Action
 		{
 			Transform mTransform;
 			Vector3 mvecInitialLocalRotation;
@@ -14,16 +14,17 @@ namespace DaburuTools
 			float mfElaspedDuration;
 			Graph mGraph;
 
-			public GraphLocalRotateToAction(Transform _transform, Graph _graph)
+			public LocalRotateToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalRotation, float _actionDuration)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredLocalRotation, _actionDuration);
 			}
-			public GraphLocalRotateToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalRotation, float _actionDuration)
+			public LocalRotateToAction(Transform _transform, Vector3 _desiredLocalRotation, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				mGraph = Graph.Linear;
 				SetupAction();
 				SetAction(_desiredLocalRotation, _actionDuration);
 			}

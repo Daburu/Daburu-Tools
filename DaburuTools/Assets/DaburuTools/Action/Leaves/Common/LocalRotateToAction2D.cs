@@ -5,31 +5,32 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class GraphRotateByAction2D : Action
+		public class LocalRotateToAction2D : Action
 		{
 			Transform mTransform;
-			float mfAccumulatedZEulerAngle;
-			float mfDesiredTotalZEulerAngle;
+			float mfInitialLocalZEulerAngle;
+			float mfDesiredLocalZEulerAngle;
 			float mfActionDuration;
 			float mfElaspedDuration;
 			Graph mGraph;
 
-			public GraphRotateByAction2D(Transform _transform, Graph _graph)
+			public LocalRotateToAction2D(Transform _transform, Graph _graph, float _desiredLocalZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredLocalZEulerAngle, _actionDuration);
 			}
-			public GraphRotateByAction2D(Transform _transform, Graph _graph, float _desiredZEulerAngle, float _actionDuration)
+			public LocalRotateToAction2D(Transform _transform, float _desiredLocalZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				mGraph = Graph.Linear;
 				SetupAction();
-				SetAction(_desiredZEulerAngle, _actionDuration);
+				SetAction(_desiredLocalZEulerAngle, _actionDuration);
 			}
-			public void SetAction(float _desiredZEulerAngle, float _actionDuration)
+			public void SetAction(float _desiredLocalZEulerAngle, float _actionDuration)
 			{
-				mfDesiredTotalZEulerAngle = _desiredZEulerAngle;
+				mfDesiredLocalZEulerAngle = _desiredLocalZEulerAngle;
 				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
@@ -38,8 +39,14 @@ namespace DaburuTools
 			}
 			private void SetupAction()
 			{
-				mfAccumulatedZEulerAngle = 0f;
+				mfInitialLocalZEulerAngle = mTransform.localEulerAngles.z;
 				mfElaspedDuration = 0f;
+			}
+			protected override void OnActionBegin()
+			{
+				base.OnActionBegin();
+
+				SetupAction(); 
 			}
 
 
@@ -55,32 +62,23 @@ namespace DaburuTools
 					return;
 				}
 
-				// It is less tricky to track the action by elasped time.
-				// Otherwise, we need to check the sqrDist of both vec3s
-				// for when we need to terminate the action.
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				Vector3 previousDeltaRot = new Vector3(
-					0.0f,
-					0.0f,
-					mfAccumulatedZEulerAngle);
-				mTransform.Rotate(-previousDeltaRot);	// Reverse the previous frame's rotation.
-
 				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
-				mfAccumulatedZEulerAngle = Mathf.LerpUnclamped(0.0f, mfDesiredTotalZEulerAngle, t);
-
-				Vector3 newDeltaRot = new Vector3(
-					0.0f,
-					0.0f,
-					mfAccumulatedZEulerAngle);
-				mTransform.Rotate(newDeltaRot);	// Apply the new delta rotation.
+				mTransform.localEulerAngles = new Vector3(
+					mTransform.localEulerAngles.x,
+					mTransform.localEulerAngles.y,
+					Mathf.LerpUnclamped(mfInitialLocalZEulerAngle, mfDesiredLocalZEulerAngle, t)
+				);
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					Vector3 imperfection = Vector3.forward * (mfDesiredTotalZEulerAngle - mfAccumulatedZEulerAngle);
-					mTransform.Rotate(imperfection);	// Force to exact delta displacement.
-
+					mTransform.localEulerAngles = new Vector3(
+						mTransform.localEulerAngles.x,
+						mTransform.localEulerAngles.y,
+						mfDesiredLocalZEulerAngle
+					);	// Force it to be the exact rotation that it wants.
 					OnActionEnd();
 					mParent.Remove(this);
 				}
@@ -106,8 +104,11 @@ namespace DaburuTools
 
 				if (_bSnapToDesired)
 				{
-					Vector3 imperfection = Vector3.forward * (mfDesiredTotalZEulerAngle - mfAccumulatedZEulerAngle);
-					mTransform.Rotate(imperfection);	// Force it to be the exact position that it wants.
+					mTransform.localEulerAngles = new Vector3(
+						mTransform.localEulerAngles.x,
+						mTransform.localEulerAngles.y,
+						mfDesiredLocalZEulerAngle
+					);	// Force it to be the exact position that it wants.
 				}
 
 				OnActionEnd();

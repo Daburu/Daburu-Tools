@@ -5,7 +5,7 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class GraphMoveByAction : Action
+		public class LocalRotateByAction : Action
 		{
 			Transform mTransform;
 			Vector3 mvecAccumulatedDelta;
@@ -14,16 +14,17 @@ namespace DaburuTools
 			float mfElaspedDuration;
 			Graph mGraph;
 
-			public GraphMoveByAction(Transform _transform, Graph _graph)
+			public LocalRotateByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
 				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredDelta, _actionDuration);
 			}
-			public GraphMoveByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
+			public LocalRotateByAction(Transform _transform, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				mGraph = Graph.Linear;
 				SetupAction();
 				SetAction(_desiredDelta, _actionDuration);
 			}
@@ -60,18 +61,18 @@ namespace DaburuTools
 				// for when we need to terminate the action.
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				mTransform.position -= mvecAccumulatedDelta;	// Reverse the previous frame's rotation.
+				mTransform.Rotate(-mvecAccumulatedDelta, Space.Self);	// Reverse the previous frame's rotation.
 
 				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
 				mvecAccumulatedDelta = Vector3.LerpUnclamped(Vector3.zero, mvecDesiredTotalDelta, t);
 
-				mTransform.position += mvecAccumulatedDelta;	// Apply the new delta rotation.
+				mTransform.Rotate(mvecAccumulatedDelta, Space.Self);	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
 					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
-					mTransform.position += imperfection;	// Force to exact delta displacement.
+					mTransform.Rotate(imperfection, Space.Self);	// Force to exact delta displacement.
 
 					OnActionEnd();
 					mParent.Remove(this);
@@ -99,7 +100,7 @@ namespace DaburuTools
 				if (_bSnapToDesired)
 				{
 					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
-					mTransform.position += imperfection;	// Force it to be the exact position that it wants.
+					mTransform.Rotate(imperfection, Space.Self);	// Force it to be the exact position that it wants.
 				}
 
 				OnActionEnd();

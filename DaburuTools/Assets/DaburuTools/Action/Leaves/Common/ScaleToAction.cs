@@ -5,33 +5,41 @@ namespace DaburuTools
 {
 	namespace Action
 	{
-		public class RotateToAction2D : Action
+		public class ScaleToAction : Action
 		{
 			Transform mTransform;
-			float mfInitialZEulerAngle;
-			float mfDesiredZEulerAngle;
+			Vector3 mvecInitialScale;
+			Vector3 mvecDesiredScale;
 			float mfActionDuration;
 			float mfElaspedDuration;
+			Graph mGraph;
 
-			public RotateToAction2D(Transform _transform)
+			public ScaleToAction(Transform _transform, Graph _graph, Vector3 _desiredScale, float _actionDuration)
 			{
 				mTransform = _transform;
+				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredScale, _actionDuration);
 			}
-			public RotateToAction2D(Transform _transform, float _desiredZEulerAngle, float _actionDuration)
+			public ScaleToAction(Transform _transform, Vector3 _desiredScale, float _actionDuration)
 			{
 				mTransform = _transform;
+				mGraph = Graph.Linear;
 				SetupAction();
-				SetAction(_desiredZEulerAngle, _actionDuration);
+				SetAction(_desiredScale, _actionDuration);
 			}
-			public void SetAction(float _desiredZEulerAngle, float _actionDuration)
+			public void SetAction(Vector3 _desiredScale, float _actionDuration)
 			{
-				mfDesiredZEulerAngle = _desiredZEulerAngle;
+				mvecDesiredScale = _desiredScale;
 				mfActionDuration = _actionDuration;
+			}
+			public void SetGraph(Graph _newGraph)
+			{
+				mGraph = _newGraph;
 			}
 			private void SetupAction()
 			{
-				mfInitialZEulerAngle = mTransform.eulerAngles.z;
+				mvecInitialScale = mTransform.localScale;
 				mfElaspedDuration = 0f;
 			}
 			protected override void OnActionBegin()
@@ -56,21 +64,13 @@ namespace DaburuTools
 
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				float t = mfElaspedDuration / mfActionDuration;
-				mTransform.eulerAngles = new Vector3(
-					mTransform.eulerAngles.x,
-					mTransform.eulerAngles.y,
-					Mathf.LerpUnclamped(mfInitialZEulerAngle, mfDesiredZEulerAngle, t)
-				);
+				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				mTransform.localScale = Vector3.LerpUnclamped(mvecInitialScale, mvecDesiredScale, t);
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
 				{
-					mTransform.eulerAngles = new Vector3(
-						mTransform.eulerAngles.x,
-						mTransform.eulerAngles.y,
-						mfDesiredZEulerAngle
-					);	// Force it to be the exact rotation that it wants.
+					mTransform.localScale = mvecDesiredScale;	// Force it to be the exact scale that it wants.
 					OnActionEnd();
 					mParent.Remove(this);
 				}
@@ -96,11 +96,7 @@ namespace DaburuTools
 
 				if (_bSnapToDesired)
 				{
-					mTransform.eulerAngles = new Vector3(
-						mTransform.eulerAngles.x,
-						mTransform.eulerAngles.y,
-						mfDesiredZEulerAngle
-					);	// Force it to be the exact position that it wants.
+					mTransform.localScale = mvecDesiredScale;	// Force it to be the exact position that it wants.
 				}
 
 				OnActionEnd();
@@ -108,4 +104,5 @@ namespace DaburuTools
 			}
 		}
 	}
+
 }

@@ -10,18 +10,21 @@ namespace DaburuTools
 			Transform mTransform;
 			float mfAccumulatedZEulerAngle;
 			float mfDesiredTotalZEulerAngle;
-			Vector3 mvecDeltaPerSecond;
 			float mfActionDuration;
 			float mfElaspedDuration;
+			Graph mGraph;
 
-			public LocalRotateByAction2D(Transform _transform)
+			public LocalRotateByAction2D(Transform _transform, Graph _graph, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
+				mGraph = _graph;
 				SetupAction();
+				SetAction(_desiredZEulerAngle, _actionDuration);
 			}
 			public LocalRotateByAction2D(Transform _transform, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
+				mGraph = Graph.Linear;
 				SetupAction();
 				SetAction(_desiredZEulerAngle, _actionDuration);
 			}
@@ -29,7 +32,10 @@ namespace DaburuTools
 			{
 				mfDesiredTotalZEulerAngle = _desiredZEulerAngle;
 				mfActionDuration = _actionDuration;
-				mvecDeltaPerSecond = Vector3.forward * _desiredZEulerAngle / mfActionDuration;	// Cache so don't need to calcualte every RunAction.
+			}
+			public void SetGraph(Graph _newGraph)
+			{
+				mGraph = _newGraph;
 			}
 			private void SetupAction()
 			{
@@ -55,9 +61,20 @@ namespace DaburuTools
 				// for when we need to terminate the action.
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				Vector3 delta = mvecDeltaPerSecond * ActionDeltaTime(mbIsUnscaledDeltaTime);
-				mTransform.Rotate(delta, Space.Self);
-				mfAccumulatedZEulerAngle += delta.z;
+				Vector3 previousDeltaRot = new Vector3(
+					0.0f,
+					0.0f,
+					mfAccumulatedZEulerAngle);
+				mTransform.Rotate(-previousDeltaRot, Space.Self);	// Reverse the previous frame's rotation.
+
+				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				mfAccumulatedZEulerAngle = Mathf.LerpUnclamped(0.0f, mfDesiredTotalZEulerAngle, t);
+
+				Vector3 newDeltaRot = new Vector3(
+					0.0f,
+					0.0f,
+					mfAccumulatedZEulerAngle);
+				mTransform.Rotate(newDeltaRot, Space.Self);	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
 				if (mfElaspedDuration > mfActionDuration)
