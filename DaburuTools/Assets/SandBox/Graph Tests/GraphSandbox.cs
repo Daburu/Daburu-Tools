@@ -10,9 +10,13 @@ public class GraphSandbox : MonoBehaviour
 	// Private Functions
 	void Start()
 	{
-		for (int i = 0; i < 10; i++)
-		{
- 			Debug.Log(Graph.Multiply(m_graph, m_graph2).Read((float)i / 10f) + " vs. " + Graph.MultiplyAsFloat(m_graph, m_graph2, (float)i / 10f));
-		}
+		//for (int i = 0; i < 10; i++)
+		//{
+		//	float x = (float)i / 10f;
+		//	Debug.Log(m_graph.Read(x) + 3 + " vs. " + (m_graph + 3).Read(x));
+		//}
+
+		Graph graph = new Graph((float x) => { return 1f / x; });
+		Debug.Log(graph.Read(0f));
 	}
 }
