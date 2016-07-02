@@ -121,6 +121,17 @@
 					return VerticalFlipAsFloat(_graph, _fFlip, x);
 				}, _graph.enum_graphCycle);
 			}
+
+			/// <summary>
+			/// Flips the graph along the f(x)-direction and returns the x value of the graph
+			/// </summary>
+			/// <param name="_graph"> The graph to be flipped </param>
+			/// <param name="_fFlip"> The value of f(x) at which the graph will be flipped along </param>
+			/// <returns> Returns the value of f(x) on the flipped graph </returns>
+			public static float VerticalFlipAsFloat(Graph _graph, float _x)
+			{
+				return VerticalFlipAsFloat(_graph, 0.5f, _x);
+			}
 			
 			/// <summary>
 			/// Flips the graph along the f(x)-direction and returns the x value of the graph
@@ -156,6 +167,17 @@
 				{
 					return HorizontalFlipAsFloat(_graph, _fFlip, x);
 				}, _graph.enum_graphCycle);
+			}
+
+			/// <summary>
+			/// Flips the graph along the x-direction and returns the x value of the graph
+			/// </summary>
+			/// <param name="_graph"> The graph to be flipped </param>
+			/// <param name="_fFlip"> The value of f(x) at which the graph will be flipped along </param>
+			/// <returns> Returns the value of x on the flipped graph </returns>
+			public static float HorizontalFlipAsFloat(Graph _graph, float _x)
+			{
+				return HorizontalFlipAsFloat(_graph, 0.5f, _x);
 			}
 
 			/// <summary>
@@ -250,7 +272,7 @@
             }
 
 			/// <summary>
-			/// Returns the product of graph-A and graph-B. Alternatively, you can use _graphA * _graphB;
+			/// Returns the product of graph-A and graph-B. Alternatively, the operator _graphA * _graphB could also be use to represent the same thing
 			/// </summary>
 			/// <param name="_graphA"> The first graph </param>
 			/// <param name="_graphB"> The second graph </param>
@@ -261,7 +283,7 @@
 			}
 
 			/// <summary>
-			/// Returns the product of graph-A and graph-B. Alternatively, you can use _graphA * _graphB;
+			/// Returns the product of graph-A and graph-B. Alternatively, the operator _graphA * _graphB could also be use to represent the same thing
 			/// </summary>
 			/// <param name="_graphA"> The first graph </param>
 			/// <param name="_graphB"> The second graph </param>
@@ -276,7 +298,7 @@
 			}
 
             /// <summary>
-            /// Returns the product of graph-A and graph-B at x. Alternatively, you can use (_graphA * _graphB).Read();
+			/// Returns the product of graph-A and graph-B at x. the operator (_graphA * _graphB).Read() could also be use to represent the same thing;
             /// </summary>
             /// <param name="_graphA"> The first graph </param>
             /// <param name="_graphB"> The second graph </param>
@@ -309,6 +331,28 @@
 					return _graph.Read(x) - _x;
 				}, _graph.enum_graphCycle);
 			}
+			
+			/// <summary>
+			/// Returns a new graph that is scaled by the floating point
+			/// </summary>
+			public static Graph operator *(Graph _graph, float _x)
+			{
+				return new Graph((float x) =>
+				{
+					return _graph.Read(x) * _x;
+				}, _graph.enum_graphCycle);
+			}
+			
+			/// <summary>
+			/// Returns a new graph that is scaled by the floating point
+			/// </summary>
+			public static Graph operator /(Graph _graph, float _x)
+			{
+				return new Graph((float x) =>
+				{
+					return _graph.Read(x) / _x;
+				}, _graph.enum_graphCycle);
+			}
 
 			/// <summary>
 			/// Returns a new graph which is the addition of two graphs. Note: The new graph's graphCycle defaults back to GraphCycle.None;
@@ -329,6 +373,28 @@
 				return new Graph((float x) =>
 				{
 					return _graphA.Read(x) - _graphB.Read(x);
+				}, GraphCycle.None);
+			}
+			
+			/// <summary>
+			/// Return a new graph that is scaled by the other graph. Alternatively, the operator Graph.Multiply(_graphA, _graphB) could also be use to represent the same thing
+			/// </summary>
+			public static Graph operator *(Graph _graphA, Graph _graphB)
+			{
+				return new Graph((float x) =>
+				{
+					return _graphA.Read(x) * _graphB.Read(x);
+				}, GraphCycle.None);
+			}
+
+			/// <summary>
+			/// Return a new graph that is scaled by the other graph
+			/// </summary>
+			public static Graph operator /(Graph _graphA, Graph _graphB)
+			{
+				return new Graph((float x) =>
+				{
+					return _graphA.Read(x) / _graphB.Read(x);
 				}, GraphCycle.None);
 			}
 

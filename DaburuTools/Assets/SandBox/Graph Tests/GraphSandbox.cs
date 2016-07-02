@@ -4,19 +4,25 @@ using DaburuTools;
 
 public class GraphSandbox : MonoBehaviour 
 {
-	Graph m_graph = Graph.Quadratic;
-	Graph m_graph2 = Graph.InverseExponential;
+	Graph m_graph = Graph.Linear;
+	Graph m_graphAdd;
+	Graph m_graphSubtract;
+	Graph m_graphMultiply;
+	Graph m_graphDivide;
 
 	// Private Functions
 	void Start()
 	{
-		//for (int i = 0; i < 10; i++)
-		//{
-		//	float x = (float)i / 10f;
-		//	Debug.Log(m_graph.Read(x) + 3 + " vs. " + (m_graph + 3).Read(x));
-		//}
+		m_graphAdd = m_graph + 1f;
+		m_graphSubtract = m_graph - 1f;
+		m_graphMultiply = m_graph * 2f;
+		m_graphDivide = m_graph / 2f;
 
-		Graph graph = new Graph((float x) => { return 1f / x; });
-		Debug.Log(graph.Read(0f));
+		for (int i = 0; i < 10; i++)
+		{
+			float x = (float)i / 10f;
+
+			Debug.Log("At " + i + ", Default: " + m_graph.Read(x) + ", Add: " + m_graphAdd.Read(x) + ", Subtract: " + m_graphSubtract.Read(x) + ", Multiply: " + m_graphMultiply.Read(x) + ", Divide: " + m_graphDivide.Read(x));
+		}
 	}
 }
