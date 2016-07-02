@@ -78,17 +78,6 @@
             }
 
             /// <summary>
-            /// Read the f(x) value of the graph.
-            /// Note: This function does not clamp between 0.0f and 1.0f and that is out of the scope of the purpose of Graph.cs. Use at your own risk!
-            /// </summary>
-            /// <param name="_x"> The x value of the graph </param>
-            /// <returns> Returns the f(x) value of the graph </returns>
-            public float ReadUnclamped(float _x)
-            {
-                return m_ExplicitFunction(_x);
-            }
-
-            /// <summary>
             /// Read the gradient of the graph at x
             /// </summary>
             /// <param name="_x"> The x value of the graph </param>
@@ -99,48 +88,121 @@
             }
 
         // Public Static Functions
+			/// <summary>
+			/// Creates a graph of graph-A with a certain percentage influenced from graph-B
+			/// </summary>
+			/// <param name="_graphA"> The initial graph A </param>
+			/// <param name="_graphB"> The influencing graph B </param>
+			/// <param name="_fBInfluence"> The percentage of influenced from the influencing graph B </param>
+			/// <returns> Returns a graph that mixed the two graphs together </returns>
+			public static Graph Mix(Graph _graphA, Graph _graphB, float _fBInfluence)
+			{
+				return Mix(_graphA, _graphB, _fBInfluence, GraphCycle.None);
+			}
+
+			/// <summary>
+			/// Creates a graph of graph-A with a certain percentage influenced from graph-B
+			/// </summary>
+			/// <param name="_graphA"> The initial graph A </param>
+			/// <param name="_graphB"> The influencing graph B </param>
+			/// <param name="_fBInfluence"> The percentage of influenced from the influencing graph B </param>
+			/// <param name="_enumGraphCycle"> The graph cycle type of the graph </param>
+			/// <returns> Returns a graph that mixed the two graphs together </returns>
+			public static Graph Mix(Graph _graphA, Graph _graphB, float _fBInfluence, GraphCycle _enumGraphCycle)
+			{
+				return new Graph((float x) =>
+				{
+					return MixAsFloat(_graphA, _graphB, _fBInfluence, x);
+				}, _enumGraphCycle);
+			}
+
             /// <summary>
-            /// Creates a f(x) function of parametric graph-A with a certain percentage influenced from parametric graph-B and
-            /// reads the f(x) value of the graph
+            /// Returns the result at x of graph-A with a certain percentage influenced from graph-B
             /// </summary>
             /// <param name="_graphA"> The initial graph A </param>
             /// <param name="_graphB"> The influencing graph B </param>
             /// <param name="_fBInfluence"> The percentage of influenced from the influencing graph B </param>
             /// <param name="_x"> The x value of the graph </param>
             /// <returns> Returns the f(x) value of the graph </returns>
-            public static float Mix(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
+            public static float MixAsFloat(Graph _graphA, Graph _graphB, float _fBInfluence, float _x)
             {
-				if (_fBInfluence < 0f)
-					_fBInfluence = 0f;
-				else if (_fBInfluence > 1f)
-					_fBInfluence = 1f;
-
-                return _graphA.ReadUnclamped(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.ReadUnclamped(_x);
+                return _graphA.Read(_x) * (1f - _fBInfluence) + _fBInfluence * _graphB.Read(_x);
             }
 
+			/// <summary>
+			/// Creates a graph from the average of graph-A and graph-B
+			/// </summary>
+			/// <param name="_graphA"> The first graph </param>
+			/// <param name="_graphB"> The second graph </param>
+			/// <returns> Returns the average of both graph </returns>
+			public static Graph Average(Graph _graphA, Graph _graphB)
+			{
+				return Average(_graphA, _graphB, GraphCycle.None);
+			}
+
+			/// <summary>
+			/// Creates a graph from the average of graph-A and graph-B
+			/// </summary>
+			/// <param name="_graphA"> The first graph </param>
+			/// <param name="_graphB"> The second graph </param>
+			/// <param name="_enumGraphCycle"> The graph cycle type of the graph </param>
+			/// <returns> Returns the average of both graph </returns>
+			public static Graph Average(Graph _graphA, Graph _graphB, GraphCycle _enumGraphCycle)
+			{
+				return new Graph((float x) =>
+				{
+					return AverageAsFloat(_graphA, _graphB, x);
+				}, _enumGraphCycle);
+			}
+
             /// <summary>
-            /// Returns the result of the average of two graphs at x
+			/// Returns the average of graph-A and graph-B at x
             /// </summary>
             /// <param name="_graphA"> The first graph </param>
             /// <param name="_graphB"> The second graph </param>
             /// <param name="_x"> The x value of the graph </param>
             /// <returns> Returns the average of f(x) and g(x) </returns>
-            public static float Average(Graph _graphA, Graph _graphB, float _x)
+            public static float AverageAsFloat(Graph _graphA, Graph _graphB, float _x)
             {
-                return (_graphA.ReadUnclamped(_x) + _graphB.ReadUnclamped(_x)) / 2f;
+                return (_graphA.Read(_x) + _graphB.Read(_x)) / 2f;
             }
-            
+
+			/// <summary>
+			/// Returns the product of graph-A and graph-B. Alternatively, you can use _graphA * _graphB;
+			/// </summary>
+			/// <param name="_graphA"> The first graph </param>
+			/// <param name="_graphB"> The second graph </param>
+			/// <returns> Return the product of both graphs </returns>
+			public static Graph Multiply(Graph _graphA, Graph _graphB)
+			{
+				return Multiply(_graphA, _graphB, GraphCycle.None);
+			}
+
+			/// <summary>
+			/// Returns the product of graph-A and graph-B. Alternatively, you can use _graphA * _graphB;
+			/// </summary>
+			/// <param name="_graphA"> The first graph </param>
+			/// <param name="_graphB"> The second graph </param>
+			///	<param name="_enumGraphCycle"> The graph cycle type of the graph </param>
+			/// <returns> Return the product of both graphs </returns>
+			public static Graph Multiply(Graph _graphA, Graph _graphB, GraphCycle _enumgraphCycle)
+			{
+				return new Graph((float x) =>
+				{
+					return MultiplyAsFloat(_graphA, _graphB, x);
+				}, _enumgraphCycle);
+			}
+
             /// <summary>
-            /// Return the product of two graphs. Despite this function does not keep within range of 0 to 1, if both f(x)
-            /// and g(x) does not exceed 1, the product would stay within 1
+            /// Returns the product of graph-A and graph-B at x. Alternatively, you can use (_graphA * _graphB).Read();
             /// </summary>
             /// <param name="_graphA"> The first graph </param>
             /// <param name="_graphB"> The second graph </param>
             /// <param name="_x"> The x value of the graph </param>
             /// <returns> Return the product of both graphs </returns>
-            public static float Multiply(Graph _graphA, Graph _graphB, float _x)
+            public static float MultiplyAsFloat(Graph _graphA, Graph _graphB, float _x)
             {
-                return _graphA.ReadUnclamped(_x) * _graphB.ReadUnclamped(_x);
+                return _graphA.Read(_x) * _graphB.Read(_x);
             }
 
         // (Private Static) Template Graphs Equations
@@ -182,5 +244,9 @@
 
 		// Getter-Setter Functions
 			public GraphCycle Cycle { get { return enum_graphCycle; } set { enum_graphCycle = value; } }
+
+		// Obselete Functions (Last Updated: Higher than v4.1)
+			[System.Obsolete("Use Graph.Read() instead, which no longer clamp f(x) between 0f to 1f")]
+			public float ReadUnclamped(float _x) { return 0f; }
     }
 }
