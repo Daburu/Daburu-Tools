@@ -4,8 +4,6 @@ using DaburuTools.Action;
 
 public class DaburuToolsMenuItems_Action
 {
-	public GameObject ActionHandler;
-
 	[MenuItem("Assets/Create/DaburuTools/Action Handler")]
 	[MenuItem("DaburuTools/Action/Create ActionHandler")]
 	private static void DT_Action_CreateActionHandler()
