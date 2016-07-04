@@ -1,0 +1,78 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+namespace DaburuTools
+{
+	namespace Action
+	{
+		public class #SCRIPTNAME# : Action
+		{
+			// 1: Declare your variables
+
+			// Constructor.
+			// DO NOT FORGET YOUR PARAMETERS!
+			public #SCRIPTNAME#()
+			{
+				SetAction();
+				SetupAction();
+			}
+
+			// DO NOT FORGET TO PUT YOUR PARAMETERS!
+			public void SetAction()
+			{
+				// 2: Whatever you want to do to intialise your variables.
+				// Isolate these steps into a public function so that your users can easily reconfigure your Action after creation.
+			}
+			private void SetupAction()
+			{
+				// 3: Declare what you want to be dont just before the Action runs.
+				// Commonly used to grab position or transform values at the start of the Action.
+				// This is to prevent errors when an Action is not immediately run the same frame of initialisation.
+			}
+			protected override void OnActionBegin()
+			{
+				base.OnActionBegin();
+
+				SetupAction(); 
+			}
+
+
+
+			public override void RunAction()
+			{
+				base.RunAction();
+
+				// 4: Implementation of the Action's "update" function goes here.
+
+				// Remove self after action is finished.
+				if (true/*This true is temporary, replace it with... your Condition for ending Action*/)
+				{
+					OnActionEnd();
+					mParent.Remove(this);
+				}
+			}
+			public override void MakeResettable(bool _bIsResettable)
+			{
+				base.MakeResettable(_bIsResettable);
+			}
+			public override void Reset()
+			{
+				SetupAction();
+			}
+			public override void StopAction(bool _bSnapToDesired)
+			{
+				if (!mbIsRunning)
+					return;
+
+				// Prevent it from Resetting.
+				MakeResettable(false);
+
+				// 5: Implement how the action stops (Perhaps setting the Condition for ending Action in "RunAction" to true).
+				// Do not foget to implement how to snap to the desired end values should the parameter _bSnapToDesired be set true.
+
+				OnActionEnd();
+				mParent.Remove(this);
+			}
+		}
+	}
+}

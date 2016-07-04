@@ -4,8 +4,9 @@ using DaburuTools.Action;
 
 public class DaburuToolsMenuItems_Action
 {
+	#region ActionHandler
 	[MenuItem("Assets/Create/DaburuTools/Action Handler")]
-	[MenuItem("DaburuTools/Action/Create ActionHandler")]
+	[MenuItem("DaburuTools/Action/Create ActionHandler", false, 1)]
 	private static void DT_Action_CreateActionHandler()
 	{
 		ActionHandler[] actionHandlers = GameObject.FindObjectsOfType<ActionHandler>();
@@ -31,7 +32,7 @@ public class DaburuToolsMenuItems_Action
 		}
 	}
 
-	[MenuItem("DaburuTools/Action/Delete All ActionHandler")]
+	[MenuItem("DaburuTools/Action/Delete All ActionHandler", false, 2)]
 	private static void DT_Action_DeleteAllActionHandler()
 	{
 		ActionHandler[] actionHandlers = GameObject.FindObjectsOfType<ActionHandler>();
@@ -51,4 +52,13 @@ public class DaburuToolsMenuItems_Action
 		}
 		Debug.Log("Deleted all ActionHandler instances successfully.\nTotal of " + count + " instances found and removed.");
 	}
+	#endregion
+
+	#region ActionTemplate
+	[MenuItem("DaburuTools/Action/Create New Action Script From Template", false, 21)]
+	private static void DT_Action_CreateNewActionScriptFromTemplate()
+	{
+		DaburuTools_Action_ActionScriptTemplateWindow.Init();
+	}
+	#endregion
 }
