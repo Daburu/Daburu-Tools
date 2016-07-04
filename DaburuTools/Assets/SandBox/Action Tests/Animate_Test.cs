@@ -18,6 +18,15 @@ public class Animate_Test : MonoBehaviour {
 //		ActionHandler.RunAction(rotateToAction);
 
 		ScaleToAction scaleAct = new ScaleToAction(this.transform, new Vector3(2.0f, 0.5f, 7.0f), 4.0f);
+		scaleAct.OnActionStart += () => {
+			Debug.Log("scaleAct Start");
+		};
+		scaleAct.OnActionUpdate += () => {
+			Debug.Log("scaleAct Update");
+		};
+		scaleAct.OnActionFinish += () => {
+			Debug.Log("scaleAct Finish");
+		};
 		RotateToAction rotateAct = new RotateToAction(this.transform, Graph.SmoothStep, new Vector3(45.0f, -45.0f, 180.0f), 3.5f);
 		MoveToAction moveAct = new MoveToAction(this.transform, new Vector3(-2.0f, 3.0f, 1.0f), 4.2f);
 		Action[] actions = { scaleAct, rotateAct, moveAct };

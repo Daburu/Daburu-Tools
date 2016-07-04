@@ -21,17 +21,26 @@ namespace DaburuTools
 			public bool mbIsRunning = false;
 			public bool mbIsResettable = false;
 			public OnActionBeginDelegate OnActionStart = EmptyFunc;
+			public OnActionUpdateDelegate OnActionUpdate = EmptyFunc;
 			public OnActionEndDelegate OnActionFinish = EmptyFunc;
 
 			// Optional.
 			public delegate void OnActionBeginDelegate();
+			public delegate void OnActionUpdateDelegate();
 			public delegate void OnActionEndDelegate();
 			protected virtual void OnActionBegin()	{ mbIsRunning = true; OnActionStart(); }
+			protected virtual void OnActionRun()	{ OnActionUpdate(); }
 			protected virtual void OnActionEnd() 	{ mbIsRunning = false; OnActionFinish(); }
 			private static void EmptyFunc() {}
 
 			// All must implement.
-			public virtual void RunAction() 	{ if (!mbIsRunning) OnActionBegin(); }
+			public virtual void RunAction()
+			{
+				if (!mbIsRunning)
+					OnActionBegin();
+
+				OnActionRun();
+			}
 			public virtual void MakeResettable(bool _bIsResettable)	{ mbIsResettable = _bIsResettable; }
 			public virtual void Reset()	{}
 			public virtual void StopAction(bool _bSnapToDesired = false)	{}
