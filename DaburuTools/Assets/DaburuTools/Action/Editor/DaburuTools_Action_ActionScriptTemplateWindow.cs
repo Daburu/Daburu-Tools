@@ -11,12 +11,14 @@ namespace DaburuTools
 			private string mStrActionName = "";
 			private static bool mbFailLoadTemplate = false;
 			private static bool mbFailNewAsset = false;
+			private static bool mbNewWindow = true;
 
 			public static void Init()
 			{
 				// Setup Variables
 				mbFailLoadTemplate = false;
 				mbFailNewAsset = false;
+				mbNewWindow = true;
 
 				// Get existing window or if none, make a new one.
 				DaburuTools_Action_ActionScriptTemplateWindow window =
@@ -37,6 +39,7 @@ namespace DaburuTools
 				GUILayout.Label ("Name Your New Action", EditorStyles.boldLabel);
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Action Name: ", GUILayout.Width(75));
+				GUI.SetNextControlName("ScriptPrefixTextField");
 				mStrActionName = GUILayout.TextField(mStrActionName);
 				GUILayout.EndHorizontal();
 				GUILayout.Label("Preview name: " + mStrActionName + "Action.cs", previewStyle);
@@ -67,6 +70,12 @@ namespace DaburuTools
 					EditorGUILayout.HelpBox(
 						"Type in your desired Action name in the textfield above and click the \"Create Action Script\" button.",
 						MessageType.Info, true);
+				}
+
+				if (mbNewWindow)
+				{
+					EditorGUI.FocusTextInControl("ScriptPrefixTextField");
+					mbNewWindow = false;
 				}
 			}
 
