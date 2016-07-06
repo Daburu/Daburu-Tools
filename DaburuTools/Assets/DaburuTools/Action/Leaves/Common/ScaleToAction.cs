@@ -68,7 +68,7 @@ namespace DaburuTools
 				mTransform.localScale = Vector3.LerpUnclamped(mvecInitialScale, mvecDesiredScale, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					mTransform.localScale = mvecDesiredScale;	// Force it to be the exact scale that it wants.
 					OnActionEnd();

@@ -75,7 +75,7 @@ namespace DaburuTools
 
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					Vector3 finalScaleVec = CalcInverseAccumulatedScale();
 					finalScaleVec = Vector3.Scale(finalScaleVec, mvecDesiredScaleDelta + Vector3.one);

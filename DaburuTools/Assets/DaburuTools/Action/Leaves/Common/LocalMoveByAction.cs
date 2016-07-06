@@ -69,7 +69,7 @@ namespace DaburuTools
 				mTransform.localPosition += mvecAccumulatedDelta;	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
 					mTransform.localPosition += imperfection;	// Force to exact delta displacement.

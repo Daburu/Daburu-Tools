@@ -68,7 +68,7 @@ namespace DaburuTools
 				mTransform.position = Vector3.LerpUnclamped(mvecInitialPos, mvecDesiredPos, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					mTransform.position = mvecDesiredPos;	// Force it to be the exact position that it wants.
 					OnActionEnd();

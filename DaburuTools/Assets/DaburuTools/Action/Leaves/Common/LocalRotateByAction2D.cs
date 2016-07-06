@@ -77,7 +77,7 @@ namespace DaburuTools
 				mTransform.Rotate(newDeltaRot, Space.Self);	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					Vector3 imperfection = Vector3.forward * (mfDesiredTotalZEulerAngle - mfAccumulatedZEulerAngle);
 					mTransform.Rotate(imperfection, Space.Self);	// Force to exact delta displacement.

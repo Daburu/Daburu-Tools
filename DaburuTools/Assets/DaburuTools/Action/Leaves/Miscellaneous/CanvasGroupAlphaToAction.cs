@@ -68,7 +68,7 @@ namespace DaburuTools
 				mCanvasGroup.alpha = mGraph.Read(Mathf.Lerp(mfOriginalAlpha, mfDesiredAlpha, t));
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					// Snap to desired alpha.
 					mCanvasGroup.alpha = mfDesiredAlpha;

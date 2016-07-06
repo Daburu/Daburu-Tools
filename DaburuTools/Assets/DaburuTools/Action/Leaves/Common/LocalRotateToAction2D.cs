@@ -72,7 +72,7 @@ namespace DaburuTools
 				);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					mTransform.localEulerAngles = new Vector3(
 						mTransform.localEulerAngles.x,

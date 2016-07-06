@@ -45,7 +45,7 @@ namespace DaburuTools
 				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					OnActionEnd();
 					mParent.Remove(this);

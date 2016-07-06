@@ -68,7 +68,7 @@ namespace DaburuTools
 				mTransform.localPosition = Vector3.LerpUnclamped(mvecInitialLocalPos, mvecDesiredLocalPos, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact local position that it wants.
 					OnActionEnd();

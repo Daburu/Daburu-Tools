@@ -64,7 +64,7 @@ namespace DaburuTools
 				mRawImage.color = newCol;
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					// Snap to desired alpha.
 					Color finalCol = mRawImage.color;

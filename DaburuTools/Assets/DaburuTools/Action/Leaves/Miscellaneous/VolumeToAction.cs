@@ -67,7 +67,7 @@ namespace DaburuTools
 				mAudioSource.volume = Mathf.Lerp(mfOriginalVolume, mfDesiredVolume, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					// Snap volume to desired volume.
 					mAudioSource.volume = mfDesiredVolume;

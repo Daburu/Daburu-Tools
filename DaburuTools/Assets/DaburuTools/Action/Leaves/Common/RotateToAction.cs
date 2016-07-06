@@ -68,7 +68,7 @@ namespace DaburuTools
 				mTransform.eulerAngles = Vector3.LerpUnclamped(mvecInitialRotation, mvecDesiredRotation, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					mTransform.eulerAngles =  mvecDesiredRotation;	// Force it to be the exact rotation that it wants.
 					OnActionEnd();
