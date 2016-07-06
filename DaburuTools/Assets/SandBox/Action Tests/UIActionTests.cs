@@ -8,16 +8,21 @@ public class UIActionTests : MonoBehaviour
 {
 	private Image mImage;
 	private RawImage mRawImage;
+	private Text mText;
 
 	void Awake()
 	{
 		mImage = transform.FindChild("ImageTest").GetComponent<Image>();
 		mRawImage = transform.FindChild("RawImageTest").GetComponent<RawImage>();
+		mText = transform.FindChild("TextTest").GetComponent<Text>();
 
 		ImageAlphaToAction fadeImage = new ImageAlphaToAction(mImage, Graph.InverseExponential, 0.0f, 5.0f);
 		ActionHandler.RunAction(fadeImage);
 
 		RawImageAlphaToAction fadeRawImage = new RawImageAlphaToAction(mRawImage, Graph.Exponential, 0.0f, 5.0f);
 		ActionHandler.RunAction(fadeRawImage);
+
+		TextAlphaToAction fadeText = new TextAlphaToAction(mText, 0.0f, 2.5f);
+		ActionHandler.RunAction(fadeText);
 	}
 }
