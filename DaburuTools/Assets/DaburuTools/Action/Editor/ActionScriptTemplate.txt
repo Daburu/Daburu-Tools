@@ -56,7 +56,7 @@ namespace DaburuTools
 				// 5: Implementation of the Action's "update" function goes here.
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration > mfActionDuration)
+				if (mfElaspedDuration >= mfActionDuration)
 				{
 					// 6: Snapping your action to end desired value.
 
