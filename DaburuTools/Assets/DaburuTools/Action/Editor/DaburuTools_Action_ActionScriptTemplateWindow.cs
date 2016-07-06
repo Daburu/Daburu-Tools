@@ -8,6 +8,8 @@ namespace DaburuTools
 	{
 		public class DaburuTools_Action_ActionScriptTemplateWindow : EditorWindow
 		{
+			private const string kStrScriptPrefixTextFieldName = "ScriptPrefixTextField";
+
 			private string mStrActionName = "";
 			private static bool mbFailLoadTemplate = false;
 			private static bool mbFailNewAsset = false;
@@ -39,7 +41,7 @@ namespace DaburuTools
 				GUILayout.Label ("Name Your New Action", EditorStyles.boldLabel);
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Action Name: ", GUILayout.Width(75));
-				GUI.SetNextControlName("ScriptPrefixTextField");
+				GUI.SetNextControlName(kStrScriptPrefixTextFieldName);
 				mStrActionName = GUILayout.TextField(mStrActionName);
 				GUILayout.EndHorizontal();
 				GUILayout.Label("Preview name: " + mStrActionName + "Action.cs", previewStyle);
@@ -49,6 +51,26 @@ namespace DaburuTools
 					if (CreateNewActionScript(mStrActionName + "Action") == true)
 					{
 						Close();
+						return;
+					}
+				}
+
+				// Check for keydown events
+				// no matter where, but if Escape was pushed, close the dialog
+				if (Event.current.keyCode == KeyCode.Escape)
+				{
+					Close();
+					return; // no point in continuing if closed
+				}
+
+				// we look if the event occured while the focus was in our input element
+				if (GUI.GetNameOfFocusedControl() == kStrScriptPrefixTextFieldName
+					&& Event.current.keyCode == KeyCode.Return)
+				{
+					if (CreateNewActionScript(mStrActionName + "Action") == true)
+					{
+						Close();
+						return;
 					}
 				}
 
@@ -74,7 +96,7 @@ namespace DaburuTools
 
 				if (mbNewWindow)
 				{
-					EditorGUI.FocusTextInControl("ScriptPrefixTextField");
+					EditorGUI.FocusTextInControl(kStrScriptPrefixTextFieldName);
 					mbNewWindow = false;
 				}
 			}
