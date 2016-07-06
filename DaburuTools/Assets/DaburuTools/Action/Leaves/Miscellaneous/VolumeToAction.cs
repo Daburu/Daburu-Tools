@@ -13,7 +13,7 @@ namespace DaburuTools
 			Graph mGraph;
 
 			float mfOriginalVolume;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 
 			public VolumeToAction(AudioSource _audioSource, Graph _graph, float _desiredVolume, float _actionDuration)
 			{
@@ -46,7 +46,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mfOriginalVolume = mAudioSource.volume;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 			protected override void OnActionBegin()
 			{
@@ -61,13 +61,13 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				mAudioSource.volume = Mathf.Lerp(mfOriginalVolume, mfDesiredVolume, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					// Snap volume to desired volume.
 					mAudioSource.volume = mfDesiredVolume;
@@ -93,7 +93,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration = mfActionDuration;
+				mfElapsedDuration = mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

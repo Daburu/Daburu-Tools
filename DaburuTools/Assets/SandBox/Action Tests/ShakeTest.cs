@@ -19,7 +19,7 @@ public class ShakeTest : MonoBehaviour
 		ActionHandler.RunAction(shake);
 	}
 
-	float ElaspedDuration;
+	float ElapsedDuration;
 	Vector3 offset;
 	float inensityValue;
 	

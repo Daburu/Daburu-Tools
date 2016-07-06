@@ -11,7 +11,7 @@ namespace DaburuTools
 			Vector3 mvecInitialLocalPos;
 			Vector3 mvecDesiredLocalPos;
 			float mfActionDuration;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			Graph mGraph;
 
 			public LocalMoveToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalPosition, float _actionDuration)
@@ -40,7 +40,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mvecInitialLocalPos = mTransform.localPosition;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 			protected override void OnActionBegin()
 			{
@@ -62,13 +62,13 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				mTransform.localPosition = Vector3.LerpUnclamped(mvecInitialLocalPos, mvecDesiredLocalPos, t);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					mTransform.localPosition = mvecDesiredLocalPos;	// Force it to be the exact local position that it wants.
 					OnActionEnd();
@@ -92,7 +92,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration += mfActionDuration;
+				mfElapsedDuration += mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

@@ -11,7 +11,7 @@ namespace DaburuTools
 			Vector3 mvecAccumulatedScale;
 			Vector3 mvecDesiredScaleDelta;
 			float mfActionDuration;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			Graph mGraph;
 
 			public ScaleByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
@@ -40,7 +40,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mvecAccumulatedScale = Vector3.one;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 			private Vector3 CalcInverseAccumulatedScale()
 			{
@@ -65,9 +65,9 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				Vector3 delta = Vector3.LerpUnclamped(Vector3.zero, mvecDesiredScaleDelta, t) + Vector3.one - mvecAccumulatedScale;
 
 				mTransform.localScale = Vector3.Scale(CalcInverseAccumulatedScale(), mvecAccumulatedScale + delta);
@@ -75,7 +75,7 @@ namespace DaburuTools
 
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					Vector3 finalScaleVec = CalcInverseAccumulatedScale();
 					finalScaleVec = Vector3.Scale(finalScaleVec, mvecDesiredScaleDelta + Vector3.one);
@@ -102,7 +102,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration += mfActionDuration;
+				mfElapsedDuration += mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

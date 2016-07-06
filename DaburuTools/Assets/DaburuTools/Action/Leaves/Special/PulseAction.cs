@@ -14,7 +14,7 @@ namespace DaburuTools
 			Graph mExpandGraph, mShrinkGraph;
 			float mfExpandDuration, mfShrinkDuration, mfCycleDuration;
 
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			int mnCurrentCycle;
 
 			public PulseAction(
@@ -61,7 +61,7 @@ namespace DaburuTools
 			}
 			private void SetupAction()
 			{
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 				mnCurrentCycle = 0;
 			}
 			protected override void OnActionBegin()
@@ -84,16 +84,16 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
-				float mfCycleElasped = mfElaspedDuration - mfCycleDuration * mnCurrentCycle;
-				if (mfCycleElasped < mfExpandDuration) // Expand
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				float mfCycleElapsed = mfElapsedDuration - mfCycleDuration * mnCurrentCycle;
+				if (mfCycleElapsed < mfExpandDuration) // Expand
 				{
-					float t = mExpandGraph.Read(mfCycleElasped / mfExpandDuration);
+					float t = mExpandGraph.Read(mfCycleElapsed / mfExpandDuration);
 					mTransform.localScale = Vector3.LerpUnclamped(mvecMinScale, mvecMaxScale, t);
 				}
-				else if (mfCycleElasped < mfCycleDuration) // Shrink
+				else if (mfCycleElapsed < mfCycleDuration) // Shrink
 				{
-					float t = mShrinkGraph.Read((mfCycleElasped - mfExpandDuration) / mfShrinkDuration);
+					float t = mShrinkGraph.Read((mfCycleElapsed - mfExpandDuration) / mfShrinkDuration);
 					mTransform.localScale = Vector3.LerpUnclamped(mvecMaxScale, mvecMinScale, t);
 				}
 				else
@@ -109,7 +109,7 @@ namespace DaburuTools
 					else
 					{
 						// Do the interpolation for the beginning of the next cycle.
-						float t = mExpandGraph.Read((mfCycleElasped - mfCycleDuration) / mfExpandDuration);
+						float t = mExpandGraph.Read((mfCycleElapsed - mfCycleDuration) / mfExpandDuration);
 						mTransform.localScale = Vector3.LerpUnclamped(mvecMinScale, mvecMaxScale, t);
 					}
 				}

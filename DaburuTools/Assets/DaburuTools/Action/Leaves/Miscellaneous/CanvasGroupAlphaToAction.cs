@@ -14,7 +14,7 @@ namespace DaburuTools
 			Graph mGraph;
 
 			float mfOriginalAlpha;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 
 			public CanvasGroupAlphaToAction(CanvasGroup _canvasGroup, Graph _graph, float _desiredAlpha, float _actionDuration)
 			{
@@ -47,7 +47,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mfOriginalAlpha = mCanvasGroup.alpha;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 			protected override void OnActionBegin()
 			{
@@ -62,13 +62,13 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				mCanvasGroup.alpha = mGraph.Read(Mathf.Lerp(mfOriginalAlpha, mfDesiredAlpha, t));
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					// Snap to desired alpha.
 					mCanvasGroup.alpha = mfDesiredAlpha;
@@ -94,7 +94,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration = mfActionDuration;
+				mfElapsedDuration = mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

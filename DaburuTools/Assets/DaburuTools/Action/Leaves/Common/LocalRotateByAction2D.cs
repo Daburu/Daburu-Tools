@@ -11,7 +11,7 @@ namespace DaburuTools
 			float mfAccumulatedZEulerAngle;
 			float mfDesiredTotalZEulerAngle;
 			float mfActionDuration;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			Graph mGraph;
 
 			public LocalRotateByAction2D(Transform _transform, Graph _graph, float _desiredZEulerAngle, float _actionDuration)
@@ -40,7 +40,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mfAccumulatedZEulerAngle = 0f;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 
 
@@ -56,10 +56,10 @@ namespace DaburuTools
 					return;
 				}
 
-				// It is less tricky to track the action by elasped time.
+				// It is less tricky to track the action by elapsed time.
 				// Otherwise, we need to check the sqrDist of both vec3s
 				// for when we need to terminate the action.
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				Vector3 previousDeltaRot = new Vector3(
 					0.0f,
@@ -67,7 +67,7 @@ namespace DaburuTools
 					mfAccumulatedZEulerAngle);
 				mTransform.Rotate(-previousDeltaRot, Space.Self);	// Reverse the previous frame's rotation.
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				mfAccumulatedZEulerAngle = Mathf.LerpUnclamped(0.0f, mfDesiredTotalZEulerAngle, t);
 
 				Vector3 newDeltaRot = new Vector3(
@@ -77,7 +77,7 @@ namespace DaburuTools
 				mTransform.Rotate(newDeltaRot, Space.Self);	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					Vector3 imperfection = Vector3.forward * (mfDesiredTotalZEulerAngle - mfAccumulatedZEulerAngle);
 					mTransform.Rotate(imperfection, Space.Self);	// Force to exact delta displacement.
@@ -103,7 +103,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration += mfActionDuration;
+				mfElapsedDuration += mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

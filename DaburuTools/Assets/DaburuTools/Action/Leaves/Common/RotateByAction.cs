@@ -11,7 +11,7 @@ namespace DaburuTools
 			Vector3 mvecAccumulatedDelta;
 			Vector3 mvecDesiredTotalDelta;
 			float mfActionDuration;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			Graph mGraph;
 
 			public RotateByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
@@ -40,7 +40,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mvecAccumulatedDelta = Vector3.zero;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 
 
@@ -56,20 +56,20 @@ namespace DaburuTools
 					return;
 				}
 
-				// It is less tricky to track the action by elasped time.
+				// It is less tricky to track the action by elapsed time.
 				// Otherwise, we need to check the sqrDist of both vec3s
 				// for when we need to terminate the action.
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				mTransform.Rotate(-mvecAccumulatedDelta);	// Reverse the previous frame's rotation.
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				mvecAccumulatedDelta = Vector3.LerpUnclamped(Vector3.zero, mvecDesiredTotalDelta, t);
 
 				mTransform.Rotate(mvecAccumulatedDelta);	// Apply the new delta rotation.
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					Vector3 imperfection = mvecDesiredTotalDelta - mvecAccumulatedDelta;
 					mTransform.Rotate(imperfection);	// Force to exact delta displacement.
@@ -95,7 +95,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration += mfActionDuration;
+				mfElapsedDuration += mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

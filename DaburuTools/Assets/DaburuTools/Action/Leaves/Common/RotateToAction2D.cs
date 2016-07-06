@@ -11,7 +11,7 @@ namespace DaburuTools
 			float mfInitialZEulerAngle;
 			float mfDesiredZEulerAngle;
 			float mfActionDuration;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			Graph mGraph;
 
 			public RotateToAction2D(Transform _transform, Graph _graph, float _desiredZEulerAngle, float _actionDuration)
@@ -40,7 +40,7 @@ namespace DaburuTools
 			private void SetupAction()
 			{
 				mfInitialZEulerAngle = mTransform.eulerAngles.z;
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 			}
 			protected override void OnActionBegin()
 			{
@@ -62,9 +62,9 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
-				float t = mGraph.Read(mfElaspedDuration / mfActionDuration);
+				float t = mGraph.Read(mfElapsedDuration / mfActionDuration);
 				mTransform.eulerAngles = new Vector3(
 					mTransform.eulerAngles.x,
 					mTransform.eulerAngles.y,
@@ -72,7 +72,7 @@ namespace DaburuTools
 				);
 
 				// Remove self after action is finished.
-				if (mfElaspedDuration >= mfActionDuration)
+				if (mfElapsedDuration >= mfActionDuration)
 				{
 					mTransform.eulerAngles = new Vector3(
 						mTransform.eulerAngles.x,
@@ -100,7 +100,7 @@ namespace DaburuTools
 				MakeResettable(false);
 
 				// Simulate the action has ended. Does not really matter by how much.
-				mfElaspedDuration += mfActionDuration;
+				mfElapsedDuration += mfActionDuration;
 
 				if (_bSnapToDesired)
 				{

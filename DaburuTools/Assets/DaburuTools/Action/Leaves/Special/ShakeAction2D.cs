@@ -14,7 +14,7 @@ namespace DaburuTools
 			Graph mAttenuationGraph;
 
 			Vector3 mVecDeltaPos;
-			float mfElaspedDuration;
+			float mfElapsedDuration;
 			int mnCurrentCycle;
 
 			public ShakeAction2D(Transform _transform, int _numShakes, float _shakeIntensity)
@@ -65,7 +65,7 @@ namespace DaburuTools
 			}
 			private void SetupAction()
 			{
-				mfElaspedDuration = 0f;
+				mfElapsedDuration = 0f;
 				mnCurrentCycle = 0;
 				mVecDeltaPos = Vector3.zero;
 			}
@@ -89,11 +89,11 @@ namespace DaburuTools
 					return;
 				}
 
-				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
-				float mfCycleElasped = mfElaspedDuration - mfShakePeriod * mnCurrentCycle;
-				if (mfCycleElasped > mfShakePeriod)
+				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				float mfCycleElapsed = mfElapsedDuration - mfShakePeriod * mnCurrentCycle;
+				if (mfCycleElapsed > mfShakePeriod)
 				{
-					mnCurrentCycle = (int) (mfElaspedDuration / mfShakePeriod);
+					mnCurrentCycle = (int) (mfElapsedDuration / mfShakePeriod);
 
 					// Remove self after action is finished.
 					if (mnCurrentCycle >= mnNumShakes)
@@ -109,7 +109,7 @@ namespace DaburuTools
 						// Set back to original position.
 						mTransform.position -= mVecDeltaPos;
 						// Set new shake pos.
-						float t = mAttenuationGraph.Read(mfElaspedDuration / (mfShakePeriod * mnNumShakes));
+						float t = mAttenuationGraph.Read(mfElapsedDuration / (mfShakePeriod * mnNumShakes));
 						mVecDeltaPos = Random.insideUnitCircle * mfShakeIntensity * t;
 						mTransform.position += mVecDeltaPos;
 					}
