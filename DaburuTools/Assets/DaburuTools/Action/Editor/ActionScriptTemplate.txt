@@ -7,32 +7,37 @@ namespace DaburuTools
 	{
 		public class #SCRIPTNAME# : Action
 		{
-			// 1: Declare your variables
-			private Graph exampleVarGraph;
+			// 1: Declare your other variables such as Transforms, Graphs, etc.
 
-			// Constructor.
-			// DO NOT FORGET YOUR PARAMETERS!
-			public #SCRIPTNAME#(Graph _graph)
+			// LEAVE THIS HERE: Variables to track time.
+			float mfActionDuration;
+			float mfElaspedDuration;
+
+			// 2: Constructor.
+			// DO NOT FORGET YOUR OTHER PARAMETERS!
+			public #SCRIPTNAME#(float _actionDuration)
 			{
-				SetVariable(exampleVarGraph);
+				SetActionDuration(_actionDuration);
 				SetupAction();
 			}
 
-			// DO NOT FORGET TO PUT YOUR PARAMETERS!
-			public void SetVariable(Graph _newExampleVarGraph)
-			{
-				// 2: Whatever you want to do to intialise your variables.
-				// Isolate these steps into a public function so that your users can easily reconfigure your Action after creation.
+			// 3: Whatever you want to do to intialise your variables.
+			// Isolate these steps into a public function so that your users can easily reconfigure your Action after creation.
 
-				// For standard Actions in DaburuTools, we used one function per parameter.
-				// E.g. SetGraph(Graph _graph) to change the graph after construction.
-				exampleVarGraph = _newExampleVarGraph;
+			// For standard Actions in DaburuTools, we used one function per parameter.
+			// E.g. SetGraph(Graph _graph) to change the graph after construction.
+			// Below, we are making a function to set the ActionDuration.
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{
-				// 3: Declare what you want to be dont just before the Action runs.
+				// 4: Declare what you want to be dont just before the Action runs.
 				// Commonly used to grab position or transform values at the start of the Action.
 				// This is to prevent errors when an Action is not immediately run the same frame of initialisation.
+				// Here, we always re-set the mfElaspedDuration to 0f;
+				mfElaspedDuration = 0f;
 			}
 			protected override void OnActionBegin()
 			{
@@ -47,11 +52,14 @@ namespace DaburuTools
 			{
 				base.RunAction();
 
-				// 4: Implementation of the Action's "update" function goes here.
+				mfElaspedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
+				// 5: Implementation of the Action's "update" function goes here.
 
 				// Remove self after action is finished.
-				if (true/*This true is temporary, replace it with... your Condition for ending Action*/)
+				if (mfElaspedDuration > mfActionDuration)
 				{
+					// 6: Snapping your action to end desired value.
+
 					OnActionEnd();
 					mParent.Remove(this);
 				}
@@ -72,7 +80,7 @@ namespace DaburuTools
 				// Prevent it from Resetting.
 				MakeResettable(false);
 
-				// 5: Implement how the action stops (Perhaps setting the Condition for ending Action in "RunAction" to true).
+				// 6: Implement how the action stops (Perhaps setting the Condition for ending Action in "RunAction" to true).
 				// Do not foget to implement how to snap to the desired end values should the parameter _bSnapToDesired be set true.
 
 				OnActionEnd();
