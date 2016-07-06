@@ -8,23 +8,25 @@ namespace DaburuTools
 		public class #SCRIPTNAME# : Action
 		{
 			// 1: Declare your variables
+			private Graph exampleVarGraph;
 
 			// Constructor.
 			// DO NOT FORGET YOUR PARAMETERS!
-			public #SCRIPTNAME#()
+			public #SCRIPTNAME#(Graph _graph)
 			{
-				SetAction();
+				SetVariable(exampleVarGraph);
 				SetupAction();
 			}
 
 			// DO NOT FORGET TO PUT YOUR PARAMETERS!
-			public void SetAction()
+			public void SetVariable(Graph _newExampleVarGraph)
 			{
 				// 2: Whatever you want to do to intialise your variables.
 				// Isolate these steps into a public function so that your users can easily reconfigure your Action after creation.
 
 				// For standard Actions in DaburuTools, we used one function per parameter.
 				// E.g. SetGraph(Graph _graph) to change the graph after construction.
+				exampleVarGraph = _newExampleVarGraph;
 			}
 			private void SetupAction()
 			{
