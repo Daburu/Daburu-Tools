@@ -22,6 +22,9 @@ namespace DaburuTools
 			{
 				// 2: Whatever you want to do to intialise your variables.
 				// Isolate these steps into a public function so that your users can easily reconfigure your Action after creation.
+
+				// For standard Actions in DaburuTools, we used one function per parameter.
+				// E.g. SetGraph(Graph _graph) to change the graph after construction.
 			}
 			private void SetupAction()
 			{
