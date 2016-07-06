@@ -80,8 +80,14 @@ namespace DaburuTools
 				// Prevent it from Resetting.
 				MakeResettable(false);
 
-				// 6: Implement how the action stops (Perhaps setting the Condition for ending Action in "RunAction" to true).
-				// Do not foget to implement how to snap to the desired end values should the parameter _bSnapToDesired be set true.
+				// Simulate the action has ended. Does not really matter by how much.
+				mfElaspedDuration = mfActionDuration;
+
+				if (_bSnapToDesired)
+				{
+					// 6: Implement how to snap to the desired end values should the parameter _bSnapToDesired be set true.
+
+				}
 
 				OnActionEnd();
 				mParent.Remove(this);
