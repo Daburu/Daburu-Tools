@@ -5,7 +5,7 @@ using DaburuTools.Action;
 public class DaburuToolsMenuItems_Action
 {
 	#region ActionHandler
-	[MenuItem("Assets/Create/DaburuTools/Action Handler")]
+	[MenuItem("Assets/Create/DaburuTools/Action Handler", false, 0)]
 	[MenuItem("DaburuTools/Action/Create ActionHandler", false, 1)]
 	private static void DT_Action_CreateActionHandler()
 	{
@@ -31,7 +31,7 @@ public class DaburuToolsMenuItems_Action
 			Debug.LogWarning("There is already an ActionHandler instance.\nPlease check your hierarchy to ensure that there is only ONE instance of the ActionHandler prefab.");
 		}
 	}
-
+		
 	[MenuItem("DaburuTools/Action/Delete All ActionHandler", false, 2)]
 	private static void DT_Action_DeleteAllActionHandler()
 	{
@@ -54,7 +54,10 @@ public class DaburuToolsMenuItems_Action
 	}
 	#endregion
 
+
+
 	#region ActionTemplate
+	[MenuItem("Assets/Create/DaburuTools/Action Script", false, 1)]
 	[MenuItem("DaburuTools/Action/Create New Action Script From Template", false, 21)]
 	private static void DT_Action_CreateNewActionScriptFromTemplate()
 	{
