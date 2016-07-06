@@ -18,9 +18,18 @@ namespace DaburuTools
 			public VolumeToAction(AudioSource _audioSource, float _desiredVolume, float _actionDuration)
 			{
 				mAudioSource = _audioSource;
+				SetGraph(Graph.Linear);
 				SetDesiredVolume(_desiredVolume);
 				SetActionDuration(_actionDuration);
-				SetGraph(Graph.Linear);
+				SetupAction();
+			}
+
+			public VolumeToAction(AudioSource _audioSource, Graph _graph, float _desiredVolume, float _actionDuration)
+			{
+				mAudioSource = _audioSource;
+				SetGraph(_graph);
+				SetDesiredVolume(_desiredVolume);
+				SetActionDuration(_actionDuration);
 				SetupAction();
 			}
 
