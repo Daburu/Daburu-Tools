@@ -10,6 +10,7 @@ public class UIActionTests : MonoBehaviour
 	private RawImage mRawImage;
 	private Text mText;
 	private CanvasGroup mCanvasGroup;
+	private SpriteRenderer mSpriteRen;
 
 	void Awake()
 	{
@@ -17,6 +18,7 @@ public class UIActionTests : MonoBehaviour
 		mRawImage = transform.FindChild("RawImageTest").GetComponent<RawImage>();
 		mText = transform.FindChild("TextTest").GetComponent<Text>();
 		mCanvasGroup = transform.FindChild("CanvasGroupTest").GetComponent<CanvasGroup>();
+		mSpriteRen = GameObject.Find("SpriteTest").GetComponent<SpriteRenderer>();
 
 		ImageAlphaToAction fadeImage = new ImageAlphaToAction(mImage, Graph.InverseExponential, 0.0f, 5.0f);
 		ActionHandler.RunAction(fadeImage);
@@ -29,5 +31,8 @@ public class UIActionTests : MonoBehaviour
 
 		CanvasGroupAlphaToAction canvasGroupTest = new CanvasGroupAlphaToAction(mCanvasGroup, 0.0f, 1.0f);
 		ActionHandler.RunAction(canvasGroupTest);
+
+		SpriteRendererAlphaToAction spriteRenTest = new SpriteRendererAlphaToAction(mSpriteRen, 0.0f, 2.0f);
+		ActionHandler.RunAction(spriteRenTest);
 	}
 }
