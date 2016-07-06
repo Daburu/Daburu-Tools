@@ -97,10 +97,16 @@ namespace DaburuTools
 				// Prevent it from Resetting.
 				MakeResettable(false);
 
-				// Snap to desired alpha.
-				Color finalCol = mText.color;
-				finalCol.a = mfDesiredAlpha;
-				mText.color = finalCol;
+				// Simulate the action has ended. Does not really matter by how much.
+				mfElaspedDuration = mfActionDuration;
+
+				if (_bSnapToDesired)
+				{
+					// Snap to desired alpha.
+					Color finalCol = mText.color;
+					finalCol.a = mfDesiredAlpha;
+					mText.color = finalCol;
+				}
 
 				OnActionEnd();
 				mParent.Remove(this);
