@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using System.IO;
 
 namespace DaburuTools
 {
@@ -28,6 +29,22 @@ namespace DaburuTools
 			// Finally Destroy itself.
 			GameObject.DestroyImmediate(_gameObject);
 			return;
+		}
+
+		public static string GetSelectedPathOrFallback()
+		{
+			string path = "Assets";
+
+			foreach (UnityEngine.Object obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets))
+			{
+				path = AssetDatabase.GetAssetPath(obj);
+				if ( !string.IsNullOrEmpty(path) && File.Exists(path) ) 
+				{
+					path = Path.GetDirectoryName(path);
+					break;
+				}
+			}
+			return path;
 		}
 	}
 }
