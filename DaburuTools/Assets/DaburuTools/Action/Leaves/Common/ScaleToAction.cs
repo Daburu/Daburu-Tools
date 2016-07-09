@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class ScaleToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialScale;
+			Graph mGraph;
 			Vector3 mvecDesiredScale;
 			float mfActionDuration;
+
+			Vector3 mvecInitialScale;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public ScaleToAction(Transform _transform, Graph _graph, Vector3 _desiredScale, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredScale(_desiredScale);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredScale, _actionDuration);
 			}
 			public ScaleToAction(Transform _transform, Vector3 _desiredScale, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredScale(_desiredScale);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredScale, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredScale, float _actionDuration)
-			{
-				mvecDesiredScale = _desiredScale;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredScale(Vector3 _newDesiredScale)
+			{
+				mvecDesiredScale = _newDesiredScale;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{

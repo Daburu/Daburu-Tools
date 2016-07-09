@@ -8,39 +8,53 @@ namespace DaburuTools
 		public class LocalRotateByAction2D : Action
 		{
 			Transform mTransform;
-			float mfAccumulatedZEulerAngle;
+			Graph mGraph;
 			float mfDesiredTotalZEulerAngle;
 			float mfActionDuration;
+
+			float mfAccumulatedZEulerAngle;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public LocalRotateByAction2D(Transform _transform, Graph _graph, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredZEulerAngle(_desiredZEulerAngle);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredZEulerAngle, _actionDuration);
 			}
 			public LocalRotateByAction2D(Transform _transform, float _desiredZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredZEulerAngle(_desiredZEulerAngle);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredZEulerAngle, _actionDuration);
-			}
-			public void SetAction(float _desiredZEulerAngle, float _actionDuration)
-			{
-				mfDesiredTotalZEulerAngle = _desiredZEulerAngle;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
 			}
+			public void SetDesiredZEulerAngle(float _newDesiredZEulerAngle)
+			{
+				mfDesiredTotalZEulerAngle = _newDesiredZEulerAngle;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
+			}
 			private void SetupAction()
 			{
 				mfAccumulatedZEulerAngle = 0f;
 				mfElapsedDuration = 0f;
+			}
+			protected override void OnActionBegin()
+			{
+				base.OnActionBegin();
+
+				SetupAction(); 
 			}
 
 
@@ -56,9 +70,6 @@ namespace DaburuTools
 					return;
 				}
 
-				// It is less tricky to track the action by elapsed time.
-				// Otherwise, we need to check the sqrDist of both vec3s
-				// for when we need to terminate the action.
 				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				Vector3 previousDeltaRot = new Vector3(

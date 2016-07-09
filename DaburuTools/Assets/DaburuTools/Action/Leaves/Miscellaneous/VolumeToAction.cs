@@ -21,6 +21,7 @@ namespace DaburuTools
 				SetGraph(_graph);
 				SetDesiredVolume(_desiredVolume);
 				SetActionDuration(_actionDuration);
+
 				SetupAction();
 			}
 			public VolumeToAction(AudioSource _audioSource, float _desiredVolume, float _actionDuration)
@@ -29,7 +30,12 @@ namespace DaburuTools
 				SetGraph(Graph.Linear);
 				SetDesiredVolume(_desiredVolume);
 				SetActionDuration(_actionDuration);
+
 				SetupAction();
+			}
+			public void SetGraph(Graph _newGraph)
+			{
+				mGraph = _newGraph;
 			}
 			public void SetDesiredVolume(float _newDesiredVolume)
 			{
@@ -38,10 +44,6 @@ namespace DaburuTools
 			public void SetActionDuration(float _newActionDuration)
 			{
 				mfActionDuration = _newActionDuration;
-			}
-			public void SetGraph(Graph _newGraph)
-			{
-				mGraph = _newGraph;
 			}
 			private void SetupAction()
 			{

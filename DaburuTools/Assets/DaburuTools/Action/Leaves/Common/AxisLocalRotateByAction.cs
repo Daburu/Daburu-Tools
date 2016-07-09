@@ -16,7 +16,6 @@ namespace DaburuTools
 			float mfAccumulatedAngleDelta;
 			float mfElapsedDuration;
 
-
 			public AxisLocalRotateByAction(Transform _transform, Graph _graph, Vector3 _axis, float _desiredAngleDelta, float _actionDuration)
 			{
 				mTransform = _transform;
@@ -24,6 +23,7 @@ namespace DaburuTools
 				SetAxis(_axis);
 				SetDesiredAngleDelta(_desiredAngleDelta);
 				SetActionDuration(_actionDuration);
+
 				SetupAction();
 			}
 			public AxisLocalRotateByAction(Transform _transform, Vector3 _axis, float _desiredAngleDelta, float _actionDuration)
@@ -33,7 +33,12 @@ namespace DaburuTools
 				SetAxis(_axis);
 				SetDesiredAngleDelta(_desiredAngleDelta);
 				SetActionDuration(_actionDuration);
+
 				SetupAction();
+			}
+			public void SetGraph(Graph _newGraph)
+			{
+				mGraph = _newGraph;
 			}
 			public void SetAxis(Vector3 _newAxis)
 			{
@@ -47,14 +52,16 @@ namespace DaburuTools
 			{
 				mfActionDuration = _newActionDuration;
 			}
-			public void SetGraph(Graph _newGraph)
-			{
-				mGraph = _newGraph;
-			}
 			private void SetupAction()
 			{
 				mfAccumulatedAngleDelta = 0;
 				mfElapsedDuration = 0f;
+			}
+			protected override void OnActionBegin()
+			{
+				base.OnActionBegin();
+
+				SetupAction(); 
 			}
 
 

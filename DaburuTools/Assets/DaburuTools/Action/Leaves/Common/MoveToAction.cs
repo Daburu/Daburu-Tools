@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class MoveToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialPos;
+			Graph mGraph;
 			Vector3 mvecDesiredPos;
 			float mfActionDuration;
+
+			Vector3 mvecInitialPos;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public MoveToAction(Transform _transform, Graph _graph, Vector3 _desiredPosition, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredPosition(_desiredPosition);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredPosition, _actionDuration);
 			}
 			public MoveToAction(Transform _transform, Vector3 _desiredPosition, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredPosition(_desiredPosition);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredPosition, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredPosition, float _actionDuration)
-			{
-				mvecDesiredPos = _desiredPosition;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredPosition(Vector3 _newDesiredPosition)
+			{
+				mvecDesiredPos = _newDesiredPosition;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{

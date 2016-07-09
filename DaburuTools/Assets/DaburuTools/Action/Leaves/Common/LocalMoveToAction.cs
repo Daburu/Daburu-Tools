@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class LocalMoveToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialLocalPos;
+			Graph mGraph;
 			Vector3 mvecDesiredLocalPos;
 			float mfActionDuration;
+
+			Vector3 mvecInitialLocalPos;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public LocalMoveToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredLocalPosition(_desiredLocalPosition);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredLocalPosition, _actionDuration);
 			}
 			public LocalMoveToAction(Transform _transform, Vector3 _desiredLocalPosition, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredLocalPosition(_desiredLocalPosition);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredLocalPosition, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredLocalPosition, float _actionDuration)
-			{
-				mvecDesiredLocalPos = _desiredLocalPosition;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredLocalPosition(Vector3 _newDesiredLocalPosition)
+			{
+				mvecDesiredLocalPos = _newDesiredLocalPosition;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{

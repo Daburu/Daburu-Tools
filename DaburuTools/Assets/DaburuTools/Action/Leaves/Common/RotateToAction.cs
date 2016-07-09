@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class RotateToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialRotation;
+			Graph mGraph;
 			Vector3 mvecDesiredRotation;
 			float mfActionDuration;
+
+			Vector3 mvecInitialRotation;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public RotateToAction(Transform _transform, Graph _graph, Vector3 _desiredRotation, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredRotation(_desiredRotation);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredRotation, _actionDuration);
 			}
 			public RotateToAction(Transform _transform, Vector3 _desiredRotation, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredRotation(_desiredRotation);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredRotation, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredRotationition, float _actionDuration)
-			{
-				mvecDesiredRotation = _desiredRotationition;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredRotation(Vector3 _newDesiredRotation)
+			{
+				mvecDesiredRotation = _newDesiredRotation;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{

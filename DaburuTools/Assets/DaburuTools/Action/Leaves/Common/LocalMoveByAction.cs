@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class LocalMoveByAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecAccumulatedDelta;
+			Graph mGraph;
 			Vector3 mvecDesiredTotalDelta;
 			float mfActionDuration;
+
+			Vector3 mvecAccumulatedDelta;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public LocalMoveByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredDelta(_desiredDelta);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredDelta, _actionDuration);
 			}
 			public LocalMoveByAction(Transform _transform, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredDelta(_desiredDelta);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredDelta, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredDelta, float _actionDuration)
-			{
-				mvecDesiredTotalDelta = _desiredDelta;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredDelta(Vector3 _newDesiredDelta)
+			{
+				mvecDesiredTotalDelta = _newDesiredDelta;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{
@@ -56,9 +64,6 @@ namespace DaburuTools
 					return;
 				}
 
-				// It is less tricky to track the action by elapsed time.
-				// Otherwise, we need to check the sqrDist of both vec3s
-				// for when we need to terminate the action.
 				mfElapsedDuration += ActionDeltaTime(mbIsUnscaledDeltaTime);
 
 				mTransform.localPosition -= mvecAccumulatedDelta;	// Reverse the previous frame's rotation.

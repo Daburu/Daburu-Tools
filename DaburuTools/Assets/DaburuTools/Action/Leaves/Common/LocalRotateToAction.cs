@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class LocalRotateToAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecInitialLocalRotation;
+			Graph mGraph;
 			Vector3 mvecDesiredLocalRotation;
 			float mfActionDuration;
+
+			Vector3 mvecInitialLocalRotation;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public LocalRotateToAction(Transform _transform, Graph _graph, Vector3 _desiredLocalRotation, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredLocalRotation(_desiredLocalRotation);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredLocalRotation, _actionDuration);
 			}
 			public LocalRotateToAction(Transform _transform, Vector3 _desiredLocalRotation, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredLocalRotation(_desiredLocalRotation);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredLocalRotation, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredLocalRotation, float _actionDuration)
-			{
-				mvecDesiredLocalRotation = _desiredLocalRotation;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredLocalRotation(Vector3 _newDesiredLocalRotation)
+			{
+				mvecDesiredLocalRotation = _newDesiredLocalRotation;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{

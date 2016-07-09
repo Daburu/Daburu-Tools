@@ -8,16 +8,19 @@ namespace DaburuTools
 		public class DelayAction : Action
 		{
 			float mfActionDuration;
+
 			float mfElapsedDuration;
 
 			public DelayAction()
 			{
 				SetAction(0f);
+
 				SetupAction();
 			}
 			public DelayAction(float _actionDuration)
 			{
 				SetAction(_actionDuration);
+
 				SetupAction();
 			}
 

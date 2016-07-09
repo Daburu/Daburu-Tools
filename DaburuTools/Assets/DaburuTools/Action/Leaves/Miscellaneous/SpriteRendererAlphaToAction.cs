@@ -21,6 +21,7 @@ namespace DaburuTools
 				SetGraph(_graph);
 				SetDesiredAlpha(_desiredAlpha);
 				SetActionDuration(_actionDuration);
+
 				SetupAction();
 			}
 			public SpriteRendererAlphaToAction(SpriteRenderer _spriteRenderer, float _desiredAlpha, float _actionDuration)
@@ -29,7 +30,12 @@ namespace DaburuTools
 				SetGraph(Graph.Linear);
 				SetDesiredAlpha(_desiredAlpha);
 				SetActionDuration(_actionDuration);
+
 				SetupAction();
+			}
+			public void SetGraph(Graph _newGraph)
+			{
+				mGraph = _newGraph;
 			}
 			public void SetDesiredAlpha(float _newDesiredAlpha)
 			{
@@ -38,10 +44,6 @@ namespace DaburuTools
 			public void SetActionDuration(float _newActionDuration)
 			{
 				mfActionDuration = _newActionDuration;
-			}
-			public void SetGraph(Graph _newGraph)
-			{
-				mGraph = _newGraph;
 			}
 			private void SetupAction()
 			{

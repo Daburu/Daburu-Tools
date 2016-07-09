@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class ScaleByAction : Action
 		{
 			Transform mTransform;
-			Vector3 mvecAccumulatedScale;
+			Graph mGraph;
 			Vector3 mvecDesiredScaleDelta;
 			float mfActionDuration;
+
+			Vector3 mvecAccumulatedScale;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public ScaleByAction(Transform _transform, Graph _graph, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredDelta(_desiredDelta);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredDelta, _actionDuration);
 			}
 			public ScaleByAction(Transform _transform, Vector3 _desiredDelta, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredDelta(_desiredDelta);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredDelta, _actionDuration);
-			}
-			public void SetAction(Vector3 _desiredDelta, float _actionDuration)
-			{
-				mvecDesiredScaleDelta = _desiredDelta - Vector3.one;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredDelta(Vector3 _newDesiredDelta)
+			{
+				mvecDesiredScaleDelta = _newDesiredDelta - Vector3.one;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{
@@ -50,6 +58,12 @@ namespace DaburuTools
 				inverseAccumulatedScale.z /= mvecAccumulatedScale.z;
 
 				return inverseAccumulatedScale;
+			}
+			protected override void OnActionBegin()
+			{
+				base.OnActionBegin();
+
+				SetupAction(); 
 			}
 
 

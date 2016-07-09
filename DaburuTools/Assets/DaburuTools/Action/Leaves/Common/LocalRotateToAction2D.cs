@@ -8,34 +8,42 @@ namespace DaburuTools
 		public class LocalRotateToAction2D : Action
 		{
 			Transform mTransform;
-			float mfInitialLocalZEulerAngle;
+			Graph mGraph;
 			float mfDesiredLocalZEulerAngle;
 			float mfActionDuration;
+
+			float mfInitialLocalZEulerAngle;
 			float mfElapsedDuration;
-			Graph mGraph;
 
 			public LocalRotateToAction2D(Transform _transform, Graph _graph, float _desiredLocalZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = _graph;
+				SetGraph(_graph);
+				SetDesiredLocalZEulerAngle(_desiredLocalZEulerAngle);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredLocalZEulerAngle, _actionDuration);
 			}
 			public LocalRotateToAction2D(Transform _transform, float _desiredLocalZEulerAngle, float _actionDuration)
 			{
 				mTransform = _transform;
-				mGraph = Graph.Linear;
+				SetGraph(Graph.Linear);
+				SetDesiredLocalZEulerAngle(_desiredLocalZEulerAngle);
+				SetActionDuration(_actionDuration);
+
 				SetupAction();
-				SetAction(_desiredLocalZEulerAngle, _actionDuration);
-			}
-			public void SetAction(float _desiredLocalZEulerAngle, float _actionDuration)
-			{
-				mfDesiredLocalZEulerAngle = _desiredLocalZEulerAngle;
-				mfActionDuration = _actionDuration;
 			}
 			public void SetGraph(Graph _newGraph)
 			{
 				mGraph = _newGraph;
+			}
+			public void SetDesiredLocalZEulerAngle(float _newDesiredLocalZEulerAngle)
+			{
+				mfDesiredLocalZEulerAngle = _newDesiredLocalZEulerAngle;
+			}
+			public void SetActionDuration(float _newActionDuration)
+			{
+				mfActionDuration = _newActionDuration;
 			}
 			private void SetupAction()
 			{
