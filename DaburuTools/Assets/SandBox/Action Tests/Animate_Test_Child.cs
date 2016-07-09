@@ -156,6 +156,11 @@ public class Animate_Test_Child : MonoBehaviour {
 
 //		RotateByAction rotateByAction = new RotateByAction(transform, new Vector3(0.0f, -360.0f, 0.0f), 3.0f);
 //		ActionHandler.RunAction(new ActionRepeatForever(rotateByAction));
+
+		AxisLocalRotateByAction axisRotateByUp = new AxisLocalRotateByAction(transform, Graph.Linear, Vector3.up, 360.0f, 3.0f);
+		AxisLocalRotateByAction axisRotateByRight = new AxisLocalRotateByAction(transform, Graph.Linear, Vector3.right, 360.0f, 3.0f);
+		AxisLocalRotateByAction axisRotateByForward = new AxisLocalRotateByAction(transform, Graph.Linear, Vector3.forward, 360.0f, 3.0f);
+		ActionHandler.RunAction(new ActionSequence(axisRotateByUp, axisRotateByRight, axisRotateByForward));
 	}
 
 	private OrbitAction orbit;
@@ -169,6 +174,6 @@ public class Animate_Test_Child : MonoBehaviour {
 	{
 //		transform.RotateAround(transform.parent.position, Vector3.up, 5.0f);
 		if (Input.GetKeyDown(KeyCode.Space))
-			orbit.StopActionRecursive(true);
+			orbit.StopActionRecursive();
 	}
 }

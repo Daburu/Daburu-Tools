@@ -33,10 +33,10 @@ public class Animate_Test : MonoBehaviour {
 //
 //		ActionSequence sequence = new ActionSequence(actions);
 //		ActionHandler.RunAction(sequence);
-		AxisRotateByAction axisRotateByUp = new AxisRotateByAction(transform, Graph.Linear, Vector3.up, 360.0f, 3.0f);
-		AxisRotateByAction axisRotateByRight = new AxisRotateByAction(transform, Graph.Linear, Vector3.right, 360.0f, 3.0f);
-		AxisRotateByAction axisRotateByForward = new AxisRotateByAction(transform, Graph.Linear, Vector3.forward, 360.0f, 3.0f);
-		ActionHandler.RunAction(new ActionSequence(axisRotateByUp, axisRotateByRight, axisRotateByForward));
+//		AxisRotateByAction axisRotateByUp = new AxisRotateByAction(transform, Graph.Linear, Vector3.up, 360.0f, 3.0f);
+//		AxisRotateByAction axisRotateByRight = new AxisRotateByAction(transform, Graph.Linear, Vector3.right, 360.0f, 3.0f);
+//		AxisRotateByAction axisRotateByForward = new AxisRotateByAction(transform, Graph.Linear, Vector3.forward, 360.0f, 3.0f);
+//		ActionHandler.RunAction(new ActionSequence(axisRotateByUp, axisRotateByRight, axisRotateByForward));
 
 
 
