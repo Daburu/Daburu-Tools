@@ -17,22 +17,26 @@ public class Animate_Test : MonoBehaviour {
 //		RotateToAction rotateToAction = new RotateToAction(this.transform, new Vector3(45.0f, 45.0f, 45.0f), 10.0f);
 //		ActionHandler.RunAction(rotateToAction);
 
-		ScaleToAction scaleAct = new ScaleToAction(this.transform, new Vector3(2.0f, 0.5f, 7.0f), 4.0f);
-		scaleAct.OnActionStart += () => {
-			Debug.Log("scaleAct Start");
-		};
-		scaleAct.OnActionUpdate += () => {
-			Debug.Log("scaleAct Update");
-		};
-		scaleAct.OnActionFinish += () => {
-			Debug.Log("scaleAct Finish");
-		};
-		RotateToAction rotateAct = new RotateToAction(this.transform, Graph.SmoothStep, new Vector3(45.0f, -45.0f, 180.0f), 3.5f);
-		MoveToAction moveAct = new MoveToAction(this.transform, new Vector3(-2.0f, 3.0f, 1.0f), 4.2f);
-		Action[] actions = { scaleAct, rotateAct, moveAct };
-
-		ActionSequence sequence = new ActionSequence(actions);
-		ActionHandler.RunAction(sequence);
+//		ScaleToAction scaleAct = new ScaleToAction(this.transform, new Vector3(2.0f, 0.5f, 7.0f), 4.0f);
+//		scaleAct.OnActionStart += () => {
+//			Debug.Log("scaleAct Start");
+//		};
+//		scaleAct.OnActionUpdate += () => {
+//			Debug.Log("scaleAct Update");
+//		};
+//		scaleAct.OnActionFinish += () => {
+//			Debug.Log("scaleAct Finish");
+//		};
+//		RotateToAction rotateAct = new RotateToAction(this.transform, Graph.SmoothStep, new Vector3(45.0f, -45.0f, 180.0f), 3.5f);
+//		MoveToAction moveAct = new MoveToAction(this.transform, new Vector3(-2.0f, 3.0f, 1.0f), 4.2f);
+//		Action[] actions = { scaleAct, rotateAct, moveAct };
+//
+//		ActionSequence sequence = new ActionSequence(actions);
+//		ActionHandler.RunAction(sequence);
+		AxisRotateByAction axisRotateByUp = new AxisRotateByAction(transform, Graph.Linear, Vector3.up, 360.0f, 3.0f);
+		AxisRotateByAction axisRotateByRight = new AxisRotateByAction(transform, Graph.Linear, Vector3.right, 360.0f, 3.0f);
+		AxisRotateByAction axisRotateByForward = new AxisRotateByAction(transform, Graph.Linear, Vector3.forward, 360.0f, 3.0f);
+		ActionHandler.RunAction(new ActionSequence(axisRotateByUp, axisRotateByRight, axisRotateByForward));
 
 
 
