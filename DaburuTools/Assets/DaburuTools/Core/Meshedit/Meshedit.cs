@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 [ExecuteInEditMode]
 // Meshedit.cs: Edit the mesh before going into play mode!
 public class Meshedit : MonoBehaviour 
 {
 	// Serialised Variables
-	public MesheditStep[] marr_mesheditStep = null;
+	[SerializeField] private List<MesheditStep> mList_mesheditStep = new List<MesheditStep>();
 
 	// Un-serialised Variables
 
