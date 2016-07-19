@@ -76,15 +76,16 @@ public class Meshedit : MonoBehaviour
 
 		Mesh meshOutput = new Mesh ();
 		meshOutput.vertices = new Vector3[m_mesh.vertexCount];
+		meshOutput.normals = new Vector3[m_mesh.normals.Length];
 		meshOutput.triangles = m_mesh.triangles;
-		meshOutput.normals = m_mesh.normals;
 		meshOutput.uv = m_mesh.uv;
 		meshOutput.uv2 = m_mesh.uv2;
 		meshOutput.uv3 = m_mesh.uv3;
 		meshOutput.uv4 = m_mesh.uv4;
 
 		// for: Every mesh-edit step...
-		Vector3[] arr_vec3vertices = m_mesh.vertices;
+		Vector3[] arr_vec3OutputVertices = m_mesh.vertices;
+		Vector3[] arr_vec3OutputNormals = m_mesh.normals;
 		for (int i = 0; i < mList_mesheditStep.Count; i++) 
 		{
 			// for: Every vertex in the existing mesh...
@@ -93,21 +94,23 @@ public class Meshedit : MonoBehaviour
 				switch (mList_mesheditStep [i].stepType) 
 				{
 				case MesheditStep.EnumMesheditStep.Position:
-					arr_vec3vertices [j] += mList_mesheditStep [i].vector3Value;
+					arr_vec3OutputVertices [j] += mList_mesheditStep [i].vector3Value;
 					break;
 				case MesheditStep.EnumMesheditStep.EulerRotation:
-					arr_vec3vertices [j] = Quaternion.Euler (mList_mesheditStep [i].vector3Value) * arr_vec3vertices [j];
+					arr_vec3OutputVertices [j] = Quaternion.Euler (mList_mesheditStep [i].vector3Value) * arr_vec3OutputVertices [j];
+					arr_vec3OutputNormals [j] = Quaternion.Euler (mList_mesheditStep [i].vector3Value) * arr_vec3OutputNormals [j];
 					break;
 				default:
-					arr_vec3vertices [j] = new Vector3(
-						arr_vec3vertices[j].x * mList_mesheditStep[i].vector3Value.x,
-						arr_vec3vertices[j].y * mList_mesheditStep[i].vector3Value.y,
-						arr_vec3vertices[j].z * mList_mesheditStep[i].vector3Value.z);
+					arr_vec3OutputVertices [j] = new Vector3(
+						arr_vec3OutputVertices[j].x * mList_mesheditStep[i].vector3Value.x,
+						arr_vec3OutputVertices[j].y * mList_mesheditStep[i].vector3Value.y,
+						arr_vec3OutputVertices[j].z * mList_mesheditStep[i].vector3Value.z);
 					break;
 				}
 			}
 		}
-		meshOutput.vertices = arr_vec3vertices;
+		meshOutput.vertices = arr_vec3OutputVertices;
+		meshOutput.normals = arr_vec3OutputNormals;
 
 		return meshOutput;
 	}
