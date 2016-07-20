@@ -159,7 +159,10 @@ public class Meshedit : MonoBehaviour
 
 //			if (m_strMeshPath == null)
 //			{
-				UnityEditor.AssetDatabase.CreateAsset (m_meshOutput, "Assets/" + m_strMeshName + ".obj");
+				Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
+				GetComponent <MeshFilter> ().mesh = m_meshOutput;
+				ObjExporter.MeshToFile (GetComponent <MeshFilter>(), m_strMeshName);
+				GetComponent <MeshFilter>().mesh = mesh;
 				Debug.Log (name + ".Meshedit.Export(): Exported mesh to Assets", this.gameObject);
 //			}
 //			else if (m_strMeshPath.Length == 0)
@@ -190,6 +193,8 @@ public class Meshedit : MonoBehaviour
 		DestroyImmediate (this);
 	}
 }
+
+
 
 [System.Serializable]
 // MesheditStep.cs: The data to show the steps to take 
